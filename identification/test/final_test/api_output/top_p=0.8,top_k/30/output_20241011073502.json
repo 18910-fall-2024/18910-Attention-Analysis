@@ -1,0 +1,15 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9092, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.2, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=30, top_p=0.8, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__] The dimension of the input embeddings in a Transformer model.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.test_block_parallel] Number of attention heads used for multi-head self-attention mechanism. It determines how many parallel attention processes will be run over the same data and concatenated at their output stage.",
+    "head_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality (i.e., size) of each head in a multi-headed Transformer model's self-attention layer, calculated as `embed_dim // num_heads`.",
+    "rotary_emb_dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel] Dimensionality for rotary positional embeddings used to enhance the attention mechanism in Transformers. It influences how much of each token's embedding is modified by its position relative to other tokens.",
+    "seqlen": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache] The sequence length or number of time steps for the input data in a Transformer model. It affects how many positions each token can attend to and is crucial for determining cache sizes.",
+    "batch_size": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache] The batch size used during training or inference of the transformer models which determines the number of sequences processed in parallel by a single model instance."
+}
+

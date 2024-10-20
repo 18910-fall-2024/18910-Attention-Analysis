@@ -1,0 +1,20 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9112, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.8, min_p=0.4
+prompt=prompt_api_2
+
+==================== Generated Output ====================
+{
+    "dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__] The dimension of the model's hidden states. It is used to determine various dimensions in Transformer layers such as QKV projection and MLP.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.test_block_parallel] Number of attention heads, which determines how many parallel self-attention mechanisms are applied within the model's architecture. It is used to calculate head dimensions in multi-head attention layers.",
+    "head_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality (size) of each individual attention head; it equals `embed_dim` divided by `num_heads`. This parameter helps define tensor shapes for Q, K, V matrices and output tensors during the forward pass in multi-head self-attention.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.MHA.__init__] The dimension of rotary embeddings used to modify query (Q) and key (K) vectors. It influences how positional information is encoded into attention calculations, affecting tensor shapes for QKV projections when using rotary embedding techniques.",
+    "seqlen": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Sequence length of the input sequence; it determines the size along the sequence dimension in tensors such as query (Q), key (K), and value (V) matrices.",
+    "softmax_scale": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Scaling factor applied to QK^T before applying softmax. It is used in the attention mechanism's computation, affecting how scores are normalized and can influence model performance.",
+    "causal": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Boolean indicating whether to apply a causal mask during self-attention. It affects tensor operations related to masking in the attention mechanism, ensuring that each position can only attend to previous positions.",
+    "window_size": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Tuple defining left and right window sizes for local (sliding) self-attention. It influences the attention mechanism's computation by limiting each position¡¯s ability to attend only within a sliding window of tokens.",
+    "rotary_interleaved": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Boolean indicating whether rotary embeddings are interleaved across dimensions. It affects how positional information is encoded into Q and K vectors, influencing tensor operations in the attention mechanism.",
+    "num_splits": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] Number of splits along sequence dimension for key/value tensors during computation; it influences performance optimizations by breaking down large sequences into smaller chunks."
+}
+

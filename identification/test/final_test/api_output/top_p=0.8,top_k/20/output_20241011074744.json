@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9092, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.2, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=20, top_p=0.8, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__] The dimension of the embedding or hidden size in Transformer models.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.test_block_parallel] Number of attention heads used for multi-head self-attention mechanism. It determines how many parallel attention processes will be run over a sequence input.",
+    "head_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality (i.e., size) of each head in the MultiHeadAttention layer, calculated as `embed_dim / num_heads`.",
+    "rotary_emb_dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.functools.partial] The dimensionality for rotary position embeddings used to modify queries and keys in the attention mechanism. It influences how positional information is incorporated into self-attention.",
+    "seqlen": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention] The sequence length of the input tensor. It determines how long each sequence is in a batch.",
+    "batch_size": "[tests.modules.test_block_parallel.test_block_parallel] Number of sequences or samples processed simultaneously during training/inference.",
+    "max_seqlen": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention] The maximum sequence length that the model can handle. It is used to pre-allocate memory for sequences of varying lengths.",
+    "softmax_scale": "[tests.modules.test_block_parallel.functools.partial, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Scaling factor applied before computing softmax in attention mechanism. This hyperparameter affects how the dot products between queries and keys are normalized."
+}
+

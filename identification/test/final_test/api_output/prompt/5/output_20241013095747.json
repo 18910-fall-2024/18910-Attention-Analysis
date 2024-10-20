@@ -1,0 +1,19 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9116, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.8, min_p=0.4
+prompt=prompt_api_5
+
+==================== Generated Output ====================
+{
+    "embed_dim": "[flash_attn.modules.mha.MHA.__init__] The dimension of the embedding, which is also referred to as hidden size in Transformers. It affects the model's architecture and behavior.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Number of attention heads used by MHA (Multi-head Attention). This parameter determines how many parallel self-attention mechanisms are applied to the input embeddings, impacting model behavior and prediction quality.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality for rotary position embedding. It is crucial in determining positional information within attention mechanism without increasing computational complexity significantly.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.forward] Scaling factor applied to the dot product of query and key before computing softmax for calculating attention scores. It affects how normalized the resulting distribution is over keys.",
+    "causal": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Whether or not causal masking should be applied to prevent future tokens from influencing past ones during self-attention. This parameter affects how the attention mechanism processes sequences of data.",
+    "window_size": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Defines a sliding window for local (non-causal) attention mechanisms to limit each token's context. It impacts model behavior by constraining the range of tokens that can attend to one another.",
+    "rotary_interleaved": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Determines whether rotary embeddings are interleaved or not (i.e., how dimensions in embedding vectors should be combined). This parameter affects the positional encoding mechanism.",
+    "alibi_slopes": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Slope values for ALiBi bias applied to attention scores. It influences how much each position in a sequence should be penalized based on its distance from the query token.",
+    "num_splits": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Number of splits for key and value tensors along their sequence dimension. This parameter can affect computational efficiency but also influences how attention is computed over sequences."
+}
+
