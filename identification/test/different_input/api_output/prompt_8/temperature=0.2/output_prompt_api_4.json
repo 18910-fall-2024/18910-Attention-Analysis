@@ -1,9 +1,0 @@
-{
-    "seqlen": "[benchmarks.benchmark_alibi.generate_cos_sin, benchmarks.benchmark_alibi.flash_rotary] The sequence length of the input tensor which determines its shape and influences attention score computation.",
-    "headdim": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface._flash_attn_forward] Head dimension size in multi-head self-attention mechanism. It affects the dimensions of Q (query), K (key), V (value) tensors and influences attention score computation.",
-    "nheads": "[benchmarks.benchmark_alibi.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnFunc.forward] Number of heads in multi-head self-attention mechanism. It affects the dimensions of Q (query), K (key), V (value) tensors and influences attention score computation.",
-    "causal": "[flash_attn.flash_attn_interface.flash_attn_func, flash_attn.flash_attn_interface.FlashAttnFunc.forward] Boolean parameter indicating whether to apply causal mask in self-attention mechanism. It affects the shape of QK^T matrix used for computing scores and influences attention score computation.",
-    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_func, flash_attn.flash_attn_interface.FlashAttnFunc.forward] Scaling factor applied to query-key dot products before softmax operation in self-attention mechanism. It affects the scale of computed attention scores and can influence numerical stability during training or inference.",
-    "alibi_slopes": "[flash_attn.flash_attn_interface.flash_attn_func, flash_attn.flash_attn_interface.FlashAttnFunc.forward] Slope values for ALiBi (Attention with Linear Biases) mechanism. It affects the shape of QK^T matrix used in computing scores and influences attention score computation."
-}
-

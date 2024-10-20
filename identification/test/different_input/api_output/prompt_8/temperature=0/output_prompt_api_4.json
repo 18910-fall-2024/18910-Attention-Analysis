@@ -1,8 +1,0 @@
-{
-    "dropout_p": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, benchmarks.benchmark_alibi.time_fwd_bwd] Dropout probability used during training to prevent over-reliance on certain paths in the network. It does not affect inference.",
-    "softmax_scale": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface._flash_attn_forward] Scaling factor applied before computing softmax for attention scores; it affects how normalized the resulting probabilities are and can influence model performance by scaling down or up the importance of different tokens.",
-    "causal": "[benchmarks.benchmark_alibi.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnFunc.forward] Boolean indicating whether to apply a causal mask during attention computation. This is crucial for autoregressive models where future information cannot be used in predictions.",
-    "window_size": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward] Tuple defining the left and right window size for local sliding-window attention, which restricts each query to attend only within a certain range of keys. This parameter influences how much context is considered by queries during computation.",
-    "alibi_slopes": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward] Slope values used in ALiBi (Attention with Linear Biases) mechanism, which adds biases to attention scores based on the relative position of tokens. This parameter helps control how positional information influences scoring."
-}
-

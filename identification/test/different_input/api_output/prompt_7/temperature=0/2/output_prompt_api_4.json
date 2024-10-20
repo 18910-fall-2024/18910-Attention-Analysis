@@ -1,9 +1,0 @@
-{
-    "dropout_p": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Dropout probability for the attention mechanism. It affects regularization and model stability during training.",
-    "softmax_scale": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Scaling factor applied to QK^T before applying softmax in the attention computation. Affects normalization of scores for better numerical precision or performance optimization.",
-    "causal": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Boolean indicating whether causal masking is applied to prevent future context influence on past tokens in the sequence during attention computation. Affects model architecture and behavior for autoregressive tasks.",
-    "window_size": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Tuple indicating left and right window size for local sliding-window attention mechanism. It restricts the keys that a query can attend to within its vicinity in sequence length dimension.",
-    "alibi_slopes": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Slope values used for ALiBi (Attention with Linear Biases) mechanism. It adds a bias to the attention scores based on relative position between queries and keys.",
-    "seqlen": "[benchmarks.benchmark_alibi.generate_cos_sin] Sequence length of input tokens, determining dimensions of tensors in rotary embedding computation affecting model behavior during training or inference."
-}
-
