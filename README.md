@@ -2,7 +2,6 @@
 
 The repo is code for analysis of FlashAttention-2 code base: https://github.com/Dao-AILab/flash-attention
 
-
 ## Dependencies
 
 The repo is developed under Python 3.9.19
