@@ -1,0 +1,16 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn_qkvpacked_func] The batch size of the input tensor, determining how many sequences are processed in parallel.",
+    "seqlen": "[time_fwd_bwd/flash_attn_qkvpacked_func] Sequence length of each sequence within a batch. This parameter determines the temporal or positional dimensionality of inputs to attention mechanisms.",
+    "headdim": "[flops/time_fwd_bwd/flash_attn_qkvpacked_func] The size (dimension) of individual heads in multi-head self-attention layers, influencing model capacity and computational cost per head.",
+    "nheads": "[time_fwd_bwd/FlashAttnQKVPackedFunc.forward/_flash_attn_forward] Number of attention heads. This hyperparameter affects the overall dimensionality of QKV tensors processed by flash-attn functions.",
+    "causal": "[flops/time_fwd_bwd/flash_attn_qkvpacked_func] Boolean indicating whether to use causal masking, which restricts each position in a sequence from attending to positions that come after it. This parameter is crucial for autoregressive models like language modeling but does not influence tensor sizes directly.",
+    "dropout_p": "[flops/time_fwd_bwd/flash_attn_qkvpacked_func] Dropout probability during training (set to 0.0 during evaluation). It controls the rate at which elements are dropped out from QKV tensors, affecting model regularization and overfitting prevention but not altering tensor dimensions directly.",
+    "softmax_scale": "[_flash_attn_forward] Scaling factor for attention scores before applying softmax function; if None, defaults to reciprocal of square root of head dimension. This hyperparameter influences the scale at which dot-product similarities are computed without changing input shapes."
+}
+

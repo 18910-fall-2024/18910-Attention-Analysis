@@ -1,0 +1,23 @@
+mirostat=2, mirostat_eta=1.0, mirostat_tau=2.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a dictionary of hyperparameters related to `flash_attn_2_cuda` with their descriptions:
+
+```json
+{
+    "batch_size": "The size of the batch in flash attention forward computation, used in _flash_attn_forward and FlashAttnQKVPackedFunc.",
+    "seq_len": "The length of the sequence in flash attention forward computation, not explicitly defined but implied from code snippets related to qkv tensor dimensions (3D: seq length * nheads).",
+    "nheads": "The number of attention heads used for parallelization and memory efficiency. Defined implicitly as dim / headdim.",
+    "headdim": "The dimension per head in flash attention forward computation, which is the reciprocal relationship with 'dim' (2048) to compute 'nheads'.",
+    "dropout_p": "Probability at dropping-out values during training phase for regularization and preventing overfitting. Defined as 0.0 or other float value.",
+    "softmax_scale": "A scaling factor applied before softmax function, which can be a fixed scale defaulting from headdim square root; otherwise it must be explicitly provided by user input.",
+    "causal": "Boolean parameter determines whether causal attention mask is needed for auto-regressive modeling. If True in flash_attn_qkvpacked_func (not defined here) or elsewhere possibly means skipping the masking process.",
+    "window_size": "(left, right) size of sliding window local attentions used if not infinite context (`-1,-1`). Defined as (-1,-1), implying no locality restriction but can be set differently in user calls to flash_attn_qkvpacked_func",
+    "alibi_slopes": "Bias (slope) applied based on row and column indices during soft attention computation. Defaults to None, meaning no slope is added.",
+    "deterministic": "Boolean flag decide whether use the deterministic variant of backward pass in _flash_attn_backward. If False implies otherwise True with a slightly slower speed",
+}
+```
+

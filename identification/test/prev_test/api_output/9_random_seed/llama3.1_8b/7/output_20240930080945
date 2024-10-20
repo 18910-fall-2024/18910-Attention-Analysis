@@ -1,0 +1,15 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=0.94, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input sequence, used as a hyperparameter for determining the sizes and shapes of tensors in flash_attn_2_cuda.", 
+"seqlen": "The length of input sequence, also used to determine tensor sizes and shapes in flash_attn_2_cuda.",
+"Headdim": "The dimension of attention head, which is one of the parameters that determines the shape of QKV tensors passed into flash_attn_2_cuda. It's a hyperparameter for determining the structure of attention model.", 
+"nheads": "Number of heads used in multi-head self-attention mechanism, another parameter to determine tensor sizes and shapes when passing through flash_attn_2_cuda.",
+"deterministic": "Whether or not use deterministic implementation of backward pass, which is irrelevant with the size dimension of tensors passed into flash_attn_2_cuda.", 
+"window_size": "The window size used in sliding window local attention mechanism. It's a parameter to determine tensor sizes and shapes when passing through flash_attn_2_cuda.",
+"alibi_slopes": "Bias added to attention score, which is irrelevant with the dimension of tensors passed into flash_attn_2_cuda.", 
+"dropout_p": "The dropout probability used in self-attention mechanism. It's a hyperparameter for training and inference process."}
+

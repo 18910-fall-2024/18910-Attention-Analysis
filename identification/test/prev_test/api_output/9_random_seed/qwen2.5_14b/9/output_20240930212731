@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.5, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] The number of sequences in a batch. It determines the first dimension size of input tensors q, k, v.",
+    "seqlen": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] Sequence length or context window length for each sequence in the batch. Together with nheads and headdim, it defines the shape (batch_size, seqlen, 3, nheads, head_dim) of input tensors q, k, v.",
+    "nheads": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] Number of attention heads. Together with headdim and batch_size/seqlen, it defines the shape (batch_size, seqlen, 3, nheads, head_dim) of input tensors q, k, v.",
+    "headdim": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] Dimension size for each attention head. Together with batch_size/seqlen and nheads, it defines the shape (batch_size, seqlen, 3, nheads, headdim) of input tensors q, k, v.",
+    "dropout_p": "[flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.apply] Dropout probability for attention mechanism. It is used during training to randomly drop some values in the output tensor and helps prevent overfitting.",
+    "softmax_scale": "[_flash_attn_forward/flash_attn.flash_attn_interface._flash_attn_forward] Scaling factor applied before computing softmax of QK^T matrix, which can improve numerical stability. If None is passed, it defaults to 1 / sqrt(headdim).",
+    "causal": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func and _flash_attn_forward/flash_attn.flash_attn_interface._flash_attn_forward] Boolean indicating whether the attention mechanism is causal (e.g., for auto-regressive modeling), meaning that each position can only attend to previous positions.",
+    "window_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func and _flash_attn_forward/flash_attn.flash_attn_interface._flash_attn_forward] Tuple (left, right) defining the window size for sliding-window local attention. If not (-1,-1), it restricts each query to attend only within a certain range of keys.",
+    "alibi_slopes": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func and _flash_attn_forward/flash_attn.flash_attn_interface._flash_attn_forward] Slope values for ALiBi (Attention with Linear Biases) mechanism, which adds a bias to the attention scores based on distance between positions. It can help in long-range dependencies."
+}
+

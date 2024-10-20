@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.5, seed=40, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+```json
+{
+    "dropout_p": "A hyperparameter used in FlashAttnQKVPackedFunc.forward() and _flash_attn_forward(). It represents the probability of an element being zeroed (dropped out) during training, which is used to regularize the model and prevent overfitting.",
+    "softmax_scale": "A hyperparameter used in FlashAttnQKVPackedFunc.forward() and _flash_attn_forward(). If None, it defaults to 1/sqrt(d_k), where d_k is the key dimension. This parameter scales the logits before applying the softmax function, which can improve numerical stability.",
+    "causal": "A boolean hyperparameter used in FlashAttnQKVPackedFunc.forward() and _flash_attn_forward(). It indicates whether to enforce a causal (autoregressive) mask on the attention mechanism, meaning that each position can only attend to previous positions.",
+    "window_size": "A tuple of integers used in FlashAttnQKVPackedFunc.forward() and _flash_attn_forward(). It specifies the window size for local attention. The first element is the vertical (sequence length) dimension and the second element is the horizontal (number of heads) dimension.",
+    "alibi_slopes": "A list or tensor used in FlashAttnQKVPackedFunc.forward() and _flash_attn_forward(). It contains slopes to be applied to attention logits for each head, which can help with modeling long-range dependencies. This is often used in models like Reformer.",
+    "deterministic": "A boolean hyperparameter used in FlashAttnQKVPackedFunc.forward(). If True, it ensures deterministic behavior by setting the random number generator state before calling the CUDA kernel. This is useful for testing and debugging.",
+    "return_softmax": "A boolean hyperparameter used in FlashAttnQKVPackedFunc.forward() and _flash_attn_forward(). It indicates whether to return the softmax probabilities alongside the output tensor, which can be useful for analysis or visualization."
+}
+```
+

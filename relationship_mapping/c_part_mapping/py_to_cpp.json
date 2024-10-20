@@ -1,0 +1,7 @@
+{
+    "fwd": "mha_fwd",
+    "varlen_fwd": "mha_varlen_fwd",
+    "bwd": "mha_bwd",
+    "varlen_bwd": "mha_varlen_bwd",
+    "fwd_kvcache": "mha_fwd_kvcache"
+}

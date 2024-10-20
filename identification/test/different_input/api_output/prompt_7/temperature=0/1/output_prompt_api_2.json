@@ -1,0 +1,12 @@
+{
+    "embed_dim": "[tests.modules.test_mha_parallel, flash_attn.modules.mha.ParallelMHA.__init__] The dimension of the embedding space.",
+    "num_heads": "[flash_attn.modules.mha.ParallelMHA.__init__, tests.modules.test_mha_parallel] Number of attention heads in multi-head self-attention mechanism.",
+    "head_dim": "[tests.modules.test_mha_parallel, flash_attn.modules.mha.ParallelMHA.__init__] Dimensionality (or depth) of each head within the multi-headed attention layer. It is calculated as embed_dim divided by num_heads.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.ParallelMHA.__init__, tests.modules.test_mha_parallel] The dimension used for rotary position embeddings, typically half or a quarter of the embedding dimensions per head depending on interleaved mode.",
+    "softmax_scale": "[tests.modules.test_mha_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Scaling factor applied to QK^T before applying softmax. Default is 1 / sqrt(headdim).",
+    "causal": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] Whether the attention mechanism should be causal (i.e., only attend to previous positions in sequence) or not.",
+    "window_size": "[tests.modules.test_mha_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Tuple indicating left and right window size for local sliding-window self-attention. Default is (-1,-1), meaning no restriction on the context length.",
+    "rotary_interleaved": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA.__init__] Whether to apply rotary embeddings in interleaved mode (combining dimensions 0 & 1, 2 & 3) or not.",
+    "alibi_slopes": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA.__init__] Slope values for ALiBi bias applied to the attention scores. Used in conjunction with causal=True."
+}
+

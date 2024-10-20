@@ -1,0 +1,22 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "batch_size": "The batch size of input tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward",
+  "seqlen": "Sequence length of input tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward. It determines the output shape of out (or output) from FlashAttnQKVPackedFunc.apply.",
+  "nheads": "Number of attention heads in Transformer architecture, used to determine the size and dimensionality of qkv tensor input to flash_attn_2_cuda",
+  "headdim": "Dimension of each head in Transformer architecture. This hyperparameter determines the last dimention of out_padded from _flash_attn_forward",
+  "dropout_p": "Dropout probability for attention weights, used to scale output from flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "softmax_scale": "Scaling factor for softmax operation in flash_attn_cuda.fwd. This hyperparameter determines the size of out_padded returned by flash_attn_2_cuda",
+  "causal": "Whether causal attention mask should be applied, used to determine which regions are masked and unavailable during forward pass in FlashAttnQKVPackedFunc.apply()",
+  "window_size": "(left,right) Tuple. This hyperparameter determines the size of out (or output) returned by flash_attn_2_cuda",
+  "alibi_slopes": "A bias to be added to attention scores, used in _flash_attn_forward and is an input argument for `flash_attn_2_cuda`"
+}
+```
+

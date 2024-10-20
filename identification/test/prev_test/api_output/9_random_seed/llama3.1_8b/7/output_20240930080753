@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=0.94, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input tensor qkv, which determines the number of sequences processed simultaneously.", 
+"seqlen": "The sequence length of input tensor qkv, which determines the maximum context window for attention computation.",
+"Headdim": "The dimensionality of each head in multi-head self-attention mechanism, which affects the capacity to capture complex patterns in data.",
+"deterministic": "A boolean flag indicating whether to use a deterministic implementation of backward pass in FlashAttnQKVPackedFunc, affecting stability and reproducibility during training.", 
+"return_attn_probs": "A boolean flag specifying whether to return attention probabilities along with output tensor out in flash_attn_qkvpacked_func.",
+"deterministic": "A boolean flag indicating whether to use a deterministic implementation of backward pass in FlashAttnQKVPackedFunc, affecting stability and reproducibility during training.", 
+"window_size": "The size of sliding window for local attention computation in _flash_attn_forward, which determines the context range considered by each query.",
+"alibi_slopes": "A list or tensor containing slopes used to compute alibi biases in _flash_attn_forward and flash_attn_cuda.fwd, affecting how much weight is given to different positions within a sequence.", 
+"deterministic": "A boolean flag indicating whether to use a deterministic implementation of backward pass in FlashAttnQKVPackedFunc, affecting stability and reproducibility during training.",
+"dropout_p": "The dropout probability used for attention mechanism in _flash_attn_forward and flash_attn_cuda.fwd, which determines how much noise is injected into the output.", 
+"deterministic": "A boolean flag indicating whether to use a deterministic implementation of backward pass in FlashAttnQKVPackedFunc, affecting stability and reproducibility during training."}
+

@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=128
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters within the starting point scope that determine or influence the arguments passed and inputs to `flash_attn_2_cuda`:
+
+```json
+{
+    "dropout_p": "Controls the amount of dropout applied during attention calculation",
+    "softmax_scale": "Scaling factor for softmax function; if None, uses qkv.shape[-1] ** (-0.5)",
+    "causal": "Whether to apply causal masking in attention calculation",
+    "window_size": "Size of window used in attention calculation (only applicable when causal=True)",
+    "alibi_slopes": "Slopes for alibi regularization (only applicable when return_softmax=True)",
+    "deterministic": "Whether to use deterministic dropout or not"
+}
+```
+
+Note that `rng_state` is not a hyperparameter but rather an internal state used by the autograd system. I've excluded it from the list.
+
+Also, keep in mind that these descriptions are my own interpretation of the code and may not be exact quotes from any documentation.
+

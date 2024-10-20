@@ -1,0 +1,37 @@
+mirostat=2, mirostat_eta=0.2, mirostat_tau=2.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a list of **all** hyperparameters related to `flash_attn_2_cuda`, especially for those determining the input tensors' sizes, dimensions and shapes or attention model structure in JSON format:
+
+```json
+{
+  "qkv_shape": "(batch_size, seqlen, nheads * headdim)",
+  "window_size": "-1",
+  "alibi_slopes": null,
+  "dropout_p": 0.0,
+  "softmax_scale": null,
+  "causal": false,
+  batch_size: ¡°32¡± , 
+  seq_len:¡°512¡±, 
+    nheads: ¡°2048¡±, headdim:"64"
+}
+```
+
+Please note that not all parameters have specific values in the provided code snippet. Some are set to default or none.
+
+Here is a brief description of each parameter:
+
+- **qkv_shape**: This represents the shape (a tuple) containing the batch size (`batch_size`), sequence length (`seqlen`) and feature dimensions for queries, keys, and values combined into one tensor. In other words, this defines how `flash_attn_2_cuda` expects its input to be shaped.
+- **window_size**: This represents how many preceding or subsequent positions the model will consider when performing local attention (if causal is true). It defaults to (-1,-1) which means infinite context window and it can also take other values like a tuple of two integers.
+
+The others are described in detail below as per your request 
+- **window_size**: The size of sliding window for semi-causal or local self-attention. These parameters are used only when `causal=True` and they determine the range over which attention should be performed.
+  - This is a tuple containing two integers (left, right), where left indicates how many positions before an input element to consider as valid keys in that region of tokens for that specific query position, while right refers to the number of positions after it. A value of (-1,-1) means no clipping at all.
+- **alibi_slopes**: These are slopes used when computing attention biases (which can be seen as reweighting different regions based on importance) during backward pass. Unlike other parameters that might be changed frequently while training, these should remain constant and might relate to larger architectural choices like how nodes in a graph structure interact.
+- **dropout_p** : This is the probability of dropout used by attention layers (in this case `flash_attn_2_cuda`). It will randomly zero out some activations to prevent overfitting. Unlike other parameters that could be tuned for optimal performance, it should typically remain small and might set during early stage of training before being frozen.
+- **softmax_scale**: The scaling factor to apply on input queries (Q) or keys(K). This is an important parameter because when QK^T is computed, this will affect the magnitude overall ¨C like a nonlinearity in neural networks. When you want attention weights that can vary smoothly across range of values, having larger/scaling soft-max scale would be more suitable; whereas smaller scales mean steeper gradients form quicker.
+- **causal**: A boolean indicating whether causal mask should apply during computations within `flash_attn_2_cuda`. This is useful when doing auto-regressive text generation where each prediction depends solely on what has been generated so far and all subsequent tokens have not yet appeared ¨C an effect best captured using attention mechanisms which take into account ¡®history¡¯ up until then.
+

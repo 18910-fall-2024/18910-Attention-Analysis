@@ -1,0 +1,22 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=200, top_p=0.7000000000000001, min_p=0.0
+
+==================== Generated Output ====================
+Here are the **hyperparameters** related to `flash_attn_2_cuda` along with their descriptions:
+
+```json
+{
+  "qkv": "Input tensor shape: (batch_size, seqlen, 3, nheads, headdim). QKV is a packed input of query, key and value tensors.",
+  "dropout_p": "Dropout probability for attention output. It should be set to 0.0 during evaluation.",
+  "softmax_scale": "Scaling factor for softmax normalization in the forward pass.",
+  "causal": "Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+  "window_size": "Sliding window size left and right from each position i, where query at position i will only attend to keys between [i - window_size[0], i + window_size[1]] inclusive.",
+  "alibi_slopes": "Bias slopes added to attention scores for alibi regularization. It can be (nheads,) or (batch_size, nheads) in shape and fp32 data type.",
+  "deterministic": "Whether to use the deterministic implementation of the backward pass, which is slightly slower and uses more return_softmax: Whether to return attention probabilities during forward computation."
+}
+```
+
+Note that I've included `qkv` as a hyperparameter since it determines the input tensor shape for `flash_attn_2_cuda`.
+

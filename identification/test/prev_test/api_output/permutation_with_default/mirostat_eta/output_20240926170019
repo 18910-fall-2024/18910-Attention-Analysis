@@ -1,0 +1,27 @@
+mirostat=1, mirostat_eta=0.6000000000000001, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the identified hyperparameters:
+
+```json
+{
+    "qkv_shape": "(batch_size, seqlen, 3, nheads, headdim)",
+    "causal": "bool. Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+    "window_size": "(left, right). If not (-1, -1), implements sliding window local attention.",
+    "alibi_slopes": "(nheads,) or (batch_size, nheads), fp32. A bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j.",
+    "dropout_p": "float. Dropout probability.",
+    "softmax_scale": "float. The scaling of QK^T before applying softmax. Default to 1 / sqrt(headdim).",
+    "batch_size": "int. Number of batches.",
+    "seqlen": "int. Sequence length.",
+    "nheads": "int. Number of attention heads.",
+    "headdim": "int. Dimension of each attention head."
+}
+```
+
+In this JSON output, I have listed all the hyperparameters that are related to `flash_attn_2_cuda`. These hyperparameters determine the sizes, dimensions, or shapes of tensors input to `flash_attn_2_cuda`, or those that determine the attention model structure in `flash_attn_2_cuda`.
+
+Note: The value of each key is a string describing the corresponding hyperparameter.
+

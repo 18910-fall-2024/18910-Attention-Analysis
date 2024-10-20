@@ -1,0 +1,11 @@
+# Using Python 3.9.19
+# run with `pip install -r requirements.txt`
+numpy==1.26.4
+libclang==18.1.1
+ollama==0.3.3
+pydantic==2.9.0
+torch==2.4.0
+transformers==4.44.2
+langchain==0.3.2
+langchain-community==0.3.1
+pygraphviz==1.11

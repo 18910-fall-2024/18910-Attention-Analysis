@@ -1,0 +1,26 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output of the identified hyperparameters:
+
+```json
+{
+    "batch_size": "The batch size of input sequences in FlashAttnQKVPackedFunc and attention_pytorch.",
+    "seqlen": "The sequence length of input sequences in FlashAttnQKVPackedFunc and attention_pytorch.",
+    "nheads": "The number of heads for multi-head attention in Transformer models, used in FlashAttnQKVPackedFunc and _flash_attn_forward.",
+    "headdim": "The dimension of each head in the multi-head attention mechanism of Transformer models, used in FlashAttnQKVPackedFunc.",
+    "softmax_scale": "A scaling factor for the softmax operation in FlashAttnQKVPackedFunc and flash_attn_2_cuda.",
+    "dropout_p": "The dropout probability in FlashAttnQKVPackedFunc and attention_pytorch.",
+    "causal": "A boolean flag indicating whether to apply causal attention mask in FlashAttnQKVPackedFunc and attention_pytorch.",
+    "window_size": "A tuple of window sizes for sliding window local attention in FlashAttnQKVPackedFunc.",
+    "alibi_slopes": "The slopes for bias terms in alibi attention weights, used in _flash_attn_forward.",
+    "return_softmax": "A boolean flag indicating whether to return the softmax probabilities in FlashAttnQKVPackedFunc.",
+    "out": "The output tensor shape of flash_attn_2_cuda and its related functions."
+}
+```
+
+Note that I only listed hyperparameters used for training or inference with attention mechanism, especially for Transformers.
+

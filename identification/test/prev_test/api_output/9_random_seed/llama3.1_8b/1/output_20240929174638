@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a **JSON** containing the extracted hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+    "batch_size": "The batch size of input tensors in flash attention, used as an argument for forward and backward passes.",
+    "seqlen": "The sequence length (or number of tokens) in each tensor passed into the forward pass of FlashAttnQKVPackedFunc",
+    "headdim": "The dimensionality of individual heads within a multi-head self-attention layer, used to calculate scaling factors and attention scores.",
+    "nheads": "The total number of parallel attention heads (or sub-tasks) in flash_attn_qkvpacked_func. It's calculated as dim // headdim",
+    "dropout_p": "A probability value between 0 and 1 that determines the dropout rate for each head during forward passes.",
+    "softmax_scale": "The scaling factor applied to QK^T before applying softmax, used in _flash_attn_forward function. It's calculated as qkv.shape[-1] ** (-0.5) by default",
+    "causal": "A boolean flag that determines whether causal attention masks are applied during forward passes.",
+    "window_size": "The size of the sliding window for local self-attention, used in _flash_attn_forward function to implement local self-attention."
+}
+```
+
+Note: I have ignored `deterministic` and `return_softmax`, as they do not affect the attention mechanism itself.
+

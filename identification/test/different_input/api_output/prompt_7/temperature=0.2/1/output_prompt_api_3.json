@@ -1,0 +1,12 @@
+{
+    "batch_size": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] The number of sequences in a batch.",
+    "seqlen": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Maximum sequence length for the input sequences.",
+    "nheads": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Number of attention heads in the model.",
+    "headdim": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Dimensionality (hidden size) of each head's key/query/value vectors.",
+    "dropout_p": "[flash_attn.flash_attn_interface.flash_attn_varlen_qkvpacked_func, benchmarks.benchmark_causal.time_fwd_bwd] Dropout probability applied to the attention scores during training. It does not affect inference.",
+    "softmax_scale": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Scaling factor for QK^T before applying softmax in attention computation.",
+    "causal": "[flash_attn.flash_attn_interface.flash_attn_varlen_qkvpacked_func, benchmarks.benchmark_causal.time_fwd_bwd] Boolean indicating whether to apply causal masking (for autoregressive models).",
+    "window_size": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Tuple of integers defining the left and right window sizes for local attention.",
+    "alibi_slopes": "[flash_attn.flash_attn_interface.flash_attn_varlen_qkvpacked_func, benchmarks.benchmark_causal.time_fwd_bwd] Slope values used in ALiBi (Attention with Linear Biases) to add bias terms based on the distance between tokens."
+}
+

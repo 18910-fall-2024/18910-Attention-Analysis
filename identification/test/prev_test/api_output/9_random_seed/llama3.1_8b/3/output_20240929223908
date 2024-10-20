@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=30, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+  "batch_size": "The batch size of input sequences for attention mechanism, used to determine tensor shape.",
+  "seqlen": "The sequence length (number of tokens) in each input sequence for attention mechanism, also determines the output dimension.",
+  "headdim": "The head dimension or hidden dimension per attention head, which is a key hyperparameter determining model structure and capacity. It affects both forward and backward passes.",
+  "nheads": "Number of attention heads (or parallel processing units), used to determine tensor shape and affect computation efficiency.",
+  "causal": "A boolean flag indicating whether causal masking should be applied during the self-attention mechanism, affecting how keys are weighted in the output. It determines if a model is autoregressive or not.",
+  "dropout_p": "The dropout probability for attention weights to prevent overfitting and improve robustness against adversarial attacks, used for regularization purposes.",
+  "softmax_scale": "A scaling factor applied before softmax normalization of attention scores, which affects the output distribution. It can be set manually as a hyperparameter or calculated internally based on model parameters (e.g., sqrt(head_dim)).",
+  "window_size": "(left, right) tuple specifying sliding window size for local attention mechanism when causal=False; otherwise, (-1,-1). This parameter determines how far context is considered during the computation of attention weights.",
+  "alibi_slopes": "Bias slopes added to attention scores based on absolute position differences between query and key tokens. It can be used as a hyperparameter in some models for specific applications or set internally depending on model architecture."
+}
+

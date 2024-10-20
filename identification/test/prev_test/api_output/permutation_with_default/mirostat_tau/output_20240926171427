@@ -1,0 +1,24 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=3.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the identified hyperparameters:
+
+```json
+{
+    "causal": "Whether to apply causal attention mask for Transformer autoregressive modeling. Used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "window_size": "The size of sliding window local attention, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "nheads": "Number of attention heads in Transformer model, calculated as dim // headdim. Used in flash_attn_qkvpacked_func and time_f_bwd.",
+    "batch_size": "Batch size of input data, used in time_f_bwd.",
+    "seqlen": "Sequence length of input data, used in time_f_bwd.",
+    "headdim": "Dimension of attention head, used in flash_attn_qkvpacked_func and time_f_bwd.",
+    "dropout_p": "Dropout probability for attention mechanism, used in flash_attn_qkvpacked_func and attention_pytorch.",
+    "softmax_scale": "Scaling factor for softmax attention normalization, calculated as 1 / sqrt(headdim) if not specified. Used in flash_attn_interface.FlashAttnQKVPackedFunc.apply and _flash_attn_forward.",
+    "qkv_shape": "Shape of input QKV tensor to flash_attn_2_cuda, which should be (batch_size, seqlen, 3, nheads, headdim).",
+    "deterministic": "Whether to use deterministic implementation of backward pass for attention mechanism, used in FlashAttnQKVPackedFunc.apply and _flash_attn_backward.",
+    "return_softmax": "Whether to return softmax attention probabilities alongside output. Used in flash_attn_qkvpacked_func."
+}
+```
+

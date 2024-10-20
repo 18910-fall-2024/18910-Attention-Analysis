@@ -1,0 +1,22 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=0, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here are the **hyperparameters** related to `flash_attn_2_cuda`:
+
+```json
+{
+    "batch_size": "The batch size of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "seqlen": "The sequence length of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "nheads": "The number of attention heads, calculated as dim // headdim in benchmarks.benchmark_flash_attention/time_f_b",
+    "headdim": "The dimension of each head, used to calculate nheads in benchmarks.benchmarks.benchmark_flash_attention.time_f_b and _flash_attn_forward.",
+    "softmax_scale": "A scaling factor for the softmax function, calculated as 1 / sqrt(headdim) or set manually in flash_attn_qkvpacked_func",
+    "dropout_p": "The dropout probability used to randomly drop out some attention scores during training, set manually in various places including benchmarks.benchmark_flash_attention/time_f_b and _flash_attn_forward.",
+    "causal": "A boolean flag indicating whether causal attention mask should be applied or not, set manually in flash_attn_qkvpacked_func",
+    "window_size": "The size of the sliding window for local attention, used to implement sliding window local attention in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "alibi_slopes": "A list of slopes added as bias terms to the attention scores, set manually in various places including benchmarks.benchmark_flash_attention/time_f_b",
+}
+```
+

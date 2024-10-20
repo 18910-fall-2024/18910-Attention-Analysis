@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.5, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain, config loop initialization] The number of sequences processed in parallel during training or inference.",
+    "seqlen": "[time_fwd_bwd function call chain, config loop initialization] Length (number of tokens) of each sequence being attended to by the Transformer model's attention mechanism.",
+    "headdim": "[time_fwd_bwd function call chain, config loop initialization] Dimensionality of individual heads in multi-head self-attention layers within a transformer block. It is crucial for defining how much information can be processed per head during training or inference with Transformers.",
+    "causal": "[flash_attn_qkvpacked_func function definition and _flash_attn_forward function call] A boolean flag indicating whether the attention mechanism should enforce causal masking, meaning that each position in a sequence cannot attend to positions after itself. This is critical for autoregressive models like language generation tasks during training or inference.",
+    "dropout_p": "[time_fwd_bwd function call chain and flash_attn_qkvpacked_func function definition] The probability of setting an element to zero during the dropout process, which helps prevent overfitting by randomly dropping elements from input tensors. This hyperparameter is used for regularization in Transformer models' training phase.",
+    "softmax_scale": "[flash_attn_qkvpacked_func function definition and _flash_attn_forward function call] The scaling factor applied before computing softmax on attention scores to stabilize numerical computations, especially when dealing with large values of QK^T. This hyperparameter is crucial for ensuring the stability of floating-point operations in Transformer models' training or inference.",
+    "window_size": "[_flash_attn_forward function definition and flash_attn_cuda.fwd call] A tuple defining a sliding window mechanism where each query position can only attend to keys within its local context defined by this size. This hyperparameter is used for implementing locality constraints on attention mechanisms in Transformers, which may be relevant during training or inference.",
+    "alibi_slopes": "[flash_attn_qkvpacked_func function definition and _flash_attn_forward call] A tensor containing slopes to apply a bias (ALiBi) that scales with the distance between tokens. This hyperparameter is used for positional encoding without additional parameters, which can be important during training or inference in Transformers."
+}
+

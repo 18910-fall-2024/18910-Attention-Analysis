@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9116, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.8, min_p=0.4
+prompt=prompt_api_5
+
+==================== Generated Output ====================
+{
+    "embed_dim": "[flash_attn.modules.mha.MHA.__init__] The dimension of the embedding, which is also equal to num_heads * head_dim.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Number of attention heads in multi-head self-attention mechanism. It affects how input data are split and processed for parallel computation, impacting the model's architecture and behavior.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Dimension of rotary positional embeddings used in attention mechanism. It influences how position information is incorporated into queries and keys during computation, affecting the model's performance quality.",
+    "softmax_scale": "[flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Scaling factor applied to QK^T before applying softmax in attention mechanism. It affects how scores are normalized and can influence the stability of training.",
+    "causal": "[flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Boolean indicating whether to apply causal mask for auto-regressive modeling. It determines if attention is restricted based on sequence order during training or inference.",
+    "window_size": "[flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Tuple indicating the left and right window size for sliding window local attention. It defines how far back in sequence a query can attend to keys during computation.",
+    "rotary_interleaved": "[flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Boolean indicating whether rotary embeddings are interleaved. It affects how positional information is combined with queries and keys during computation.",
+    "alibi_slopes": "[flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Slope values for ALiBi bias. It influences how positional biases are applied to attention scores."
+}
+

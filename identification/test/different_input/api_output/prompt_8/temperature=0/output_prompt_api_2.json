@@ -1,0 +1,9 @@
+{
+    "embed_dim": "[tests.modules.test_mha_parallel, flash_attn.modules.mha.ParallelMHA.__init__] The dimension of the model's embedding layer. It determines the size and shape of tensors input to `flash_attn_2_cuda`.",
+    "num_heads": "[tests.modules.test_mha_parallel, flash_attn.modules.mha.ParallelMHA.__init__] Number of attention heads in multi-head self-attention mechanism. This parameter affects the model's architecture by determining how many parallel attention mechanisms are used and influences the shape of tensors input to `flash_attn_2_cuda`.",
+    "head_dim": "[tests.modules.test_mha_parallel, flash_attn.modules.mha.ParallelMHA.__init__] The dimensionality (size) of each head in multi-head self-attention mechanism. It affects tensor shapes and sizes passed into the attention computation function `flash_attn_2_cuda`.",
+    "rotary_emb_dim": "[tests.modules.test_mha_parallel, flash_attn.modules.mha.ParallelMHA.__init__] The dimensionality for rotary position embeddings used in multi-head self-attention mechanism. It influences tensor shapes and sizes related to positional encoding input into `flash_attn_2_cuda`.",
+    "softmax_scale": "[tests.modules.test_mha_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache] The scaling factor applied before computing the softmax in attention score computation. This hyperparameter affects how scores are computed and can influence model performance by adjusting the scale of QK^T values.",
+    "causal": "[tests.modules.test_mha_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache] A boolean indicating whether to apply a causal mask in attention computation. This parameter influences which tokens attend to each other and is crucial for autoregressive models like language modeling tasks."
+}
+

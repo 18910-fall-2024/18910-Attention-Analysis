@@ -1,0 +1,23 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the identified hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "batch_size": "The batch size of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "seqlen": "The sequence length of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "nheads": "The number of attention heads, used in flash_attn_qkvpacked_func and _flash_attn_forward. This hyperparameter determines the size of the output tensor",
+  "headdim": "The dimension of each attention head, used in flash_attn_qkvpacked_func and _flash_attn_forward. This hyperparameter determines the shape of the input tensor to flash_attn_2_cuda.",
+  "dropout_p": "The probability of dropout for attention mechanism, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "softmax_scale": "The scaling factor for softmax operation in attention mechanism, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "causal": "A boolean indicating whether to apply causal attention mask, used in flash_attn_qkvpacked_func and _flash_attn_forward. This hyperparameter determines the attention model structure",
+  "window_size": "The size of sliding window for local attention, used in flash_attn_qkvpacked_func and _flash_attn_forward. This hyperparameter determines the attention model structure",
+  "alibi_slopes": "The slopes of alibi bias for attention mechanism, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "return_softmax": "A boolean indicating whether to return softmax output, used in flash_attn_qkvpacked_func. This hyperparameter determines the output format of flash_attn_2_cuda function"
+}
+```
+

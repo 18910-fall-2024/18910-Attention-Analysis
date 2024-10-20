@@ -1,0 +1,15 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] The batch size of input tensors in Transformer models.",
+    "seqlen": "[time_fwd_bwd function call chain] Sequence length, the number of tokens or elements in a sequence processed by Transformers during training and inference.",
+    "headdim": "[time_fwd_bwd function call chain] Dimensionality (size) of each attention head. This is crucial for defining how much information can be captured per attention mechanism within Transformer layers.",
+    "nheads": "[function flash_attn_qkvpacked_func -> FlashAttnQKVPackedFunc.forward -> _flash_attn_forward] Number of heads in the multi-head self-attention layer, which determines parallelism and capacity to capture different aspects or representations from input data during attention computation.",
+    "dropout_p": "[time_fwd_bwd function call chain] Dropout probability used for regularization. It is a hyperparameter controlling how much information should be dropped out (set to zero) randomly in the network's training phase, specifically impacting dropout operations within flash_attn_2_cuda forward and backward passes.",
+    "softmax_scale": "[flash_attn_qkvpacked_func -> FlashAttnQKVPackedFunc.forward] Scaling factor applied before computing softmax over attention scores. This parameter can influence numerical stability during computation of the dot product between query, key, value vectors in multi-head self-attention mechanisms within Transformers."
+}
+

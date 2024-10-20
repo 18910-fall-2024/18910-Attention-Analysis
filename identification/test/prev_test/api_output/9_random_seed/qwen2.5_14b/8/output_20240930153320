@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] The batch size determines the number of sequences processed in parallel during training or inference.",
+    "seqlen": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] Sequence length specifies how long each sequence is, impacting memory and computation requirements for attention mechanisms.",
+    "headdim": "[flops/time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] Head dimension size defines the dimensions of individual heads in multi-head self-attention layers within transformers.",
+    "nheads": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] Number of attention heads used to determine parallelism and model capacity for transformer architectures.",
+    "dropout_p": "[_flash_attn_forward/time_fwd_bwd/flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward] Dropout probability controls the randomness during training, preventing overfitting by randomly dropping units from a layer with a certain probability.",
+    "softmax_scale": "_[_flash_attn_forward/time_fwd_bwd/flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward] Softmax scale adjusts the scaling factor for Q*K^T before applying softmax, influencing attention scores and stability of computations.",
+    "causal": "[_flash_attn_forward/time_fwd_brdw/flash_attn.flash_attn_interface._flash_attn_forward] Causal flag determines if causal (or masked) self-attention is used in transformers to ensure that each position's predictions depend only on earlier positions, commonly seen during autoregressive language modeling tasks.",
+    "window_size": "[_flash_attn_forward/time_fwd_bwd/flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward] Window size defines the local attention window for sliding-window self-attention mechanisms in transformers to limit computational complexity and memory usage by focusing on a smaller context."
+}
+

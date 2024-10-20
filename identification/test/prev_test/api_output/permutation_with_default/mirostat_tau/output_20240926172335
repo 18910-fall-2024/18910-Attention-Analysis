@@ -1,0 +1,22 @@
+mirostat=2, mirostat_eta=0.1, mirostat_tau=4.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the hyperparameters related to `flash_attn_2_cuda` and their descriptions:
+
+```json
+{
+  "batch_size": "The batch size of input sequences, used in flash_attn_qkvpacked_func as an argument for generating qkv tensors.",
+  "seqlen": "The sequence length of input sequences, used in flash_attn_qkvpacked_func as an argument for generating qkv tensors.",
+  "nheads": "The number of attention heads in the Transformer model, calculated from headdim and dim variables in the caller scope.",
+  "headdim": "The dimension of each attention head in the Transformer model, used in flash_attn_qkvpacked_func as an argument for generating qkv tensors.",
+  "window_size": "The sliding window size for local attention, used in _flash_attn_forward to determine the attention mask for Q and K.",
+  "alibi_slopes": "The bias slopes for alibi-based attention calculation, used in _flash_attn_forward as an argument to calculate S_dmask.",
+  "dropout_p": "The dropout probability for attention mechanism in flash_attn_qkvpacked_func.",
+  "softmax_scale": "The scaling factor of QK^T before applying softmax, calculated from headdim variable in the caller scope or set directly by user in flash_attn_qkvpacked_func.",
+  "causal": "A boolean flag indicating whether to apply causal attention mask for auto-regressive modeling, used in _flash_attn_forward to determine the attention mask for Q and K."
+}
+```
+

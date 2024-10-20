@@ -1,0 +1,33 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a **JSON** containing the extracted hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+    "qkv": "Input tensor of shape (batch_size, seqlen, 3, nheads, headdim) for flash attention",
+    "dropout_p": "Dropout probability used in flash attention forward and backward passes",
+    "softmax_scale": "Scaling factor applied to QK^T before softmax operation in flash attention",
+    "causal": "Boolean flag indicating whether causal attention mask should be applied in flash attention",
+    "window_size": "(left, right) tuple specifying the sliding window size for local attention in flash attention",
+    "alibi_slopes": "Bias slopes used to compute alibi scores in flash attention forward pass",
+    "deterministic": "Boolean flag indicating whether deterministic implementation of backward pass should be used in flash attention",
+    "return_softmax": "Boolean flag indicating whether softmax probabilities and other outputs should be returned by flash_attn_qkvpacked_func"
+}
+```
+
+Note that I have only extracted the hyperparameters related to `flash_attn_2_cuda`, which are:
+
+- **qkv**: The input tensor shape for flash attention.
+- **dropout_p**: Dropout probability used in forward and backward passes of flash attention.
+- **softmax_scale**: Scaling factor applied before softmax operation in flash attention.
+- **causal**: Boolean flag indicating whether causal mask should be applied during flash attention computation.
+- **window_size**: Tuple specifying the sliding window size for local attention computations (if applicable).
+- **alibi_slopes**: Bias slopes used to compute alibi scores during forward pass of flash attention.
+- **deterministic**: Boolean flag controlling deterministic implementation of backward pass in flash attention.
+
+These hyperparameters determine either input tensor shapes or sizes, dimensions, and structures that are fed into `flash_attn_2_cuda`, which is the final function call chain.
+

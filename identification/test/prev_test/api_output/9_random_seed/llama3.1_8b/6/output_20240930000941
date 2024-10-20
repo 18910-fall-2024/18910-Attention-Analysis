@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.8, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "qkv": "Input tensor shape for flash_attn_2_cuda, which is a 5D tensor with batch_size as the first dimension.",
+    "dropout_p": "Dropout probability used in attention mechanism during training.",
+    "softmax_scale": "Scaling factor of QK^T before applying softmax. Default to sqrt(headdim) if not provided.",
+    "causal": "Whether to apply causal attention mask for auto-regressive modeling.",
+    "window_size": "Sliding window size for local attention, which is a tuple (left_context, right_context).",
+    "alibi_slopes": "Bias of (-alibi_slope * |i - j|) added to the attention score. Can be an array or tensor with shape (nheads,) or (batch_size, nheads)",
+    "deterministic": "Whether to use deterministic implementation for backward pass.",
+    "return_softmax": "Return softmax probabilities in addition to output of flash_attn_2_cuda."
+}
+

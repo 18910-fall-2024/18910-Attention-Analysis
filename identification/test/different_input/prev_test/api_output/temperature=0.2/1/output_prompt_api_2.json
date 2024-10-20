@@ -1,0 +1,14 @@
+{
+    "embed_dim": "[flash_attn.modules.mha.ParallelMHA.__init__] The embedding dimension of the Transformer model, which is also the hidden size.",
+    "num_heads": "[flash_attn.modules.mha.ParallelMHA.__init__] Number of attention heads in each multi-head self-attention layer.",
+    "head_dim": "[flash_attn.modules.mha.ParallelMHA.__init__] The dimensionality (i.e., number of features) for each head. It is calculated as `embed_dim // num_heads`.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.ParallelMHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Dimension used in rotary position embedding, which can be a subset of the hidden dimension. It must be divisible by 16 if using interleaved.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] Scaling factor for QK^T before applying softmax; defaults to `q.shape[-1]**(-0.5)` where q is the query tensor.",
+    "causal": "[flash_attn.modules.mha.ParallelMHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Boolean indicating whether causal attention mask should be applied (e.g., for auto-regressive modeling).",
+    "window_size": "[flash_attn.modules.mha.ParallelMHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Tuple specifying the left and right window size for sliding local attention. If set to (-1, -1), it indicates infinite context.",
+    "rotary_interleaved": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] Boolean indicating whether rotary embedding should combine dimensions 0 & 1, 2 & 3, etc., or dimensions 0 & `rotary_dim / 2`, 1 & `rotary_dim / 2 + 1`.",
+    "alibi_slopes": "[flash_attn.modules.mha.ParallelMHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Slope values used in ALiBi bias, which can be a tensor of shape (nheads,) or (batch_size, nheads).",
+    "seqlen": "[flash_attn.modules.mha.ParallelMHA.forward] Sequence length for the input sequence.",
+    "cache_seqlens": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] Tensor indicating the current lengths of sequences in the batch that are stored in cache. Used to update KV caches with new values from k and v."
+}
+

@@ -1,0 +1,24 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.8, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input data.", 
+"seqlen": "The sequence length of input data, which is also the number of tokens in a single sample.",
+"Headdim": "The dimensionality (or width) of each attention head. This parameter determines how much information will be processed by each individual attention mechanism within a multi-head self-attention layer.", 
+"nheads": "The total number of attention heads used in the model, which is also equal to the number of parallel computations performed simultaneously.",
+"deterministic": "Whether to use the deterministic implementation of the backward pass. This parameter determines whether gradient computation will be done using an optimized but slightly slower path or a standard approach.", 
+"return_attn_probs": "A flag indicating if attention probabilities should be returned in addition to the output tensor. This parameter is used for testing purposes only and may not provide accurate results due to potential scaling issues.",
+"deterministic": "Whether to use the deterministic implementation of the backward pass. This parameter determines whether gradient computation will be done using an optimized but slightly slower path or a standard approach.", 
+"dropout_p": "The dropout probability, which is used during training for regularization purposes and set to 0 when evaluating models.", 
+"deterministic": "Whether to use the deterministic implementation of the backward pass. This parameter determines whether gradient computation will be done using an optimized but slightly slower path or a standard approach.",
+"softmax_scale": "A scaling factor applied before softmax normalization in attention mechanisms, which helps control how much information is retained and propagated through layers.", 
+"deterministic": "Whether to use the deterministic implementation of the backward pass. This parameter determines whether gradient computation will be done using an optimized but slightly slower path or a standard approach.",
+"causal": "A flag indicating if causal masking should be applied in attention mechanisms, which helps prevent future information from influencing current predictions.", 
+"deterministic": "Whether to use the deterministic implementation of the backward pass. This parameter determines whether gradient computation will be done using an optimized but slightly slower path or a standard approach.",
+"window_size": "The size (left and right) of sliding window local attention, which helps focus on specific regions within input sequences.", 
+"deterministic": "Whether to use the deterministic implementation of the backward pass. This parameter determines whether gradient computation will be done using an optimized but slightly slower path or a standard approach.",
+"alibi_slopes": "A list (or tensor) containing slopes for alibi bias in attention mechanisms, which helps adjust how much information is propagated through layers based on relative positions.", 
+"deterministic": "Whether to use the deterministic implementation of the backward pass. This parameter determines whether gradient computation will be done using an optimized but slightly slower path or a standard approach."}
+

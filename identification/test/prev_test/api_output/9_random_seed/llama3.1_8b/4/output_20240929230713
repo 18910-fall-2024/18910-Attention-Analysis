@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.85, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "qkv": "Input tensor with shape (batch_size, seqlen, 3, nheads, headdim), where qkv is a stacked tensor of query Q, key K and value V",
+    "dropout_p": "Dropout probability for attention mechanism in training phase. Default to 0.0 during evaluation.",
+    "softmax_scale": "Scaling factor for softmax function applied on the dot product of Q and K. If not provided, it defaults to sqrt(headdim)",
+    "causal": "Boolean flag indicating whether causal attention mask should be used (e.g., for auto-regressive modeling). Default is False",
+    "window_size": "(left, right) tuple specifying sliding window local attention size if applied.",
+    "alibi_slopes": "Bias of (-alibi_slope * |i - j|) added to the attention score between query i and key j. Can be a (nheads,) or (batch_size, nheads) tensor",
+    "deterministic": "Boolean flag indicating whether deterministic implementation should be used for backward pass in flash_attn_2_cuda function.",
+    "return_softmax": "Optional boolean return format of the output from _flash_attn_forward function. If True, returns softmax probabilities and S_dmask along with out."
+}
+

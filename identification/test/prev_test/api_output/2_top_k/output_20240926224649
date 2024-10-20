@@ -1,0 +1,20 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=200, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+    "batch_size": "The batch size of input data. Used in flash_attn_qkvpacked_func, _flash_attn_forward",
+    "seqlen": "Sequence length. Used in time_fwd_bwd function call chain and in  _flash_attn_forward",
+    "nheads": "Number of attention heads in a Transformer model. Not explicitly defined but calculated as dim // headdim where dim is the total dimension, used in benchmark_combined, benchmarks.benchmark_flash_attention.time_f_b -> .../time_fwd_bwd function call chain and in  _flash_attn_forward",
+    "headdim": "Dimension of each attention head. Used in time_fwd_bwd function call chain and in flash_attn_qkvpacked_func",
+    "dim": "Total dimension, used to calculate nheads which is also the input size for flash_attn_2_cuda ",
+    "window_size" : "Sliding window local attention. If not (-1,-1), implements sliding window local attention.",
+    "alibi_slopes": "Bias of (-alibi_slope * |i - j|) added to attention score."
+}
+```
+

@@ -1,0 +1,16 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "qkv": "Input tensor of shape (batch_size, seqlen, 3, nheads, headdim) for attention mechanism",
+    "dropout_p": "Dropout probability used in the attention mechanism during training or inference with Transformers",
+    "softmax_scale": "Scaling factor for QK^T before applying softmax in attention mechanism",
+    "causal": "Whether to apply causal attention mask (e.g., for auto-regressive modeling) in attention mechanism",
+    "window_size": "Size of sliding window local attention, which is used to implement attention on a subset of the input sequence",
+    "alibi_slopes": "Bias added to the attention score based on the absolute difference between query and key indices",
+    "nheads": "Number of heads in multi-head self-attention mechanism for Transformers"
+}
+

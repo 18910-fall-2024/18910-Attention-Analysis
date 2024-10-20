@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] The batch size of input sequences in Transformer models.",
+    "seqlen": "[time_fwd_bwd function call chain] The sequence length or number of tokens per sample in the transformer model's attention mechanism.",
+    "headdim": "[time_fwd_bwd function call chain] Dimensionality (width) of each head within multi-head self-attention mechanisms, directly affecting memory and computation requirements for processing sequences.",
+    "nheads": "[time_fwd_bwd function call chain] Number of heads in the MultiHeadAttention mechanism. This parameter is derived from 'dim' and 'headdim'.",
+    "dropout_p": "[flash_attn_qkvpacked_func] Dropout probability used during training to prevent overfitting by randomly setting some activations to zero.",
+    "softmax_scale": "_[FlashAttnQKVPackedFunc.forward, _flash_attn_forward functions] Scaling factor applied before computing the softmax operation in attention mechanisms. If not provided explicitly, it defaults to 1/sqrt(headdim).",
+    "causal": "[_flash_attn_forward function] Boolean flag indicating whether causal (masked) self-attention is used; this parameter restricts each position's access only to previous positions.",
+    "window_size": "_[FlashAttnQKVPackedFunc.forward, _flash_attn_forward functions] A tuple of integers specifying the left and right context window sizes for local attention. Default values (-1,-1) imply global (non-local) attention."
+}
+

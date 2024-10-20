@@ -1,0 +1,21 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=0, tfs_z=0.98, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here are the **hyperparameters** related to `flash_attn_2_cuda`:
+
+```json
+{
+    "batch_size": "The batch size of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "seqlen": "The sequence length of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "nheads": "The number of attention heads, calculated as dim // headdim in benchmarks.benchmark_flash_attention/time_f_b",
+    "headdim": "The dimension per head for the query key value matrix, used to calculate nheads in benchmarks.benchmark_flash_attention/time_f_b and _flash_attn_forward.",
+    "causal": "A boolean indicating whether to apply causal attention mask or not, used in flash_attn_qkvpacked_func and _flash_attn_forward",
+    "window_size": "The size of the sliding window for local attention, default is (-1,-1), used in flash_attn_qkvpacked_func.",
+    "alibi_slopes": "A bias added to the attention score based on |i-j|, optional argument in flash_attn_qkvpacked_func",
+    "dropout_p": "The dropout probability of output tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward."
+}
+```
+

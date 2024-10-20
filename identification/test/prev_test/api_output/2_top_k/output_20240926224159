@@ -1,0 +1,20 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=50, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+    "batch_size": "The batch size of input data. Used in flash_attn_qkvpacked_func, _flash_attn_forward",
+    "seqlen": "Sequence length. Used in time_fwd_bwd function call chain and in functions using torch.randn() to generate tensor inputs.",
+    "headdim": "Dimension for each head in attention mechanism. Used in flops(), efficiency(), benchmark_all(), and flash_attn_qkvpacked_func",
+    "nheads": "Number of heads used in multi-head self-attention. Derived from headdim (dim / headdim) ",
+    "causal": "Whether to apply causal attention mask, typically for auto-regressive modeling.",
+    "window_size" : "Size of the sliding window if applying local attention mechanism",
+    "dropout_p": "Dropout probability used in flash_attn_qkvpacked_func and benchmark_combined function call chain."
+}
+```
+

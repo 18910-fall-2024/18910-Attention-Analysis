@@ -1,0 +1,15 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=0.94, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"qkv": "Input tensor of shape (batch_size, seqlen, 3, nheads, headdim) containing query, key and value vectors.", 
+"dropout_p": "Dropout probability for attention mechanism during training. Default to 0.0 for evaluation.",
+"softmax_scale": "Scaling factor for softmax normalization in attention mechanism. Defaults to 1 / sqrt(headdim).",
+"causal": "Boolean indicating whether to apply causal attention mask (e.g., for auto-regressive modeling)",
+"window_size": "(left, right) tuple specifying the size of sliding window local attention.",
+"alibi_slopes": "Bias slopes for alibi attention mechanism. Can be either a single value or an array with length equal to number of heads.",
+"deterministic": "Boolean indicating whether to use deterministic implementation of backward pass in FlashAttnQKVPackedFunc",
+"return_attn_probs": "Boolean indicating whether to return attention probabilities during testing."}
+

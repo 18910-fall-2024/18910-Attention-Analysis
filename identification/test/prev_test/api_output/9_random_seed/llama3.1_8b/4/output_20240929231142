@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.85, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input sequence.", 
+"seqlen": "The length of each sequence in a mini-batch. Used to determine the shape and size of tensors passed into flash_attn_2_cuda.",
+"HeadDim": "The dimensionality of attention heads, used for calculating softmax scale and determining tensor sizes in flash_attn_qkvpacked_func.", 
+"nheads": "Number of attention heads, determines the number of output features in each head. Used to calculate flops and determine tensor shapes passed into flash_attn_2_cuda.",
+"deterministic": "Whether to use deterministic implementation for backward pass (slower but more memory-efficient), used as a hyperparameter in FlashAttnQKVPackedFunc.apply.", 
+"return_softmax": "Whether return softmax probabilities, used as a boolean flag in _flash_atnn_forward and flash_attn_qkvpacked_func.",
+"deterministic": "Whether to use deterministic implementation for backward pass (slower but more memory-efficient), used as a hyperparameter in FlashAttnQKVPackedFunc.apply.", 
+"window_size": "The size of sliding window local attention, determines the context window sizes and shapes passed into flash_atnn_2_cuda.",
+"alibi_slopes": "Bias added to attention scores based on absolute difference between query and key indices. Used in _flash_attn_forward as a hyperparameter for calculating softmax scale.", 
+"deterministic": "Whether to use deterministic implementation for backward pass (slower but more memory-efficient), used as a hyperparameter in FlashAttnQKVPackedFunc.apply."}
+

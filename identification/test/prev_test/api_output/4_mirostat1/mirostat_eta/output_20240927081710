@@ -1,0 +1,62 @@
+mirostat=1, mirostat_eta=0.5, mirostat_tau=3.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a JSON object containing the **hyperparameters** related to `flash_attn_2_cuda`:
+
+```
+{
+  "qkv_shape": "(batch_size, seqlen, 3, nheads, headdim)",
+  "softmax_scale": "",
+  "causal": "",
+  "window_size": "(left, right). If not (-1, -1), implements sliding window local attention",
+  "alibi_slopes": "",
+  "dropout_p": "float. Dropout probability.",
+  "batch_size": "32/16/8/4/2/1 (depending on the config)",
+  "seqlen": "512/1024/2048/4096/8192/16384 (depending on the config)"
+}
+```
+
+Here are brief descriptions for each of these hyperparameters:
+
+- **qkv_shape**: This is a tuple representing the shape of input tensor qkv. It describes how many batches, sequences, attention heads and feature dimensions are in this tensor.
+
+    * Function: `_flash_attn_forward`, `FlashAttnQKVPackedFunc.apply`
+
+- **softmax_scale**: The scaling factor for Q*K^T before softmax calculation (only used if `qkv` is not provided as a pre-padded tensor).
+
+    * Function: `FlashAttnQKVPackedFunc.forward`,
+                          `_flash_attn_forward`
+                          
+  - **causal**:
+     Whether to apply causal attention mask, which can be useful for autoregressive modeling (only used if `window_size` is (-1,-1)).
+
+      *Function:* `FlashAttnQKVPackedFunc.apply`, 
+                           `_flash_atnn_forward`
+
+-   **alibi_slopes**: Bias of (`|i - j|`) to the attention score for each pair `(query i, key j)` (optional). 
+
+     * Function: `flash_attn_qkvpacked_func`,
+                          FlashAttnQKVPackedFunc.apply`
+                    
+  - **dropout_p**:
+   Probability of dropout on output tensor.
+
+    *Function:* `_flash_atnn_forward`,
+                ```FlashAttnQKVPackedFun.forward```
+
+- **batch_size**: 
+ Number of batches in input tensors, which is an important dimension and size for `flash_attn_cuda`.
+
+      * Function: All the functions involving `flash_attn_2_cuda` as function or argument 
+
+- **seqlen**:
+ How long each sequence can be in this program. This length can affect how many queries (Q), keys(K) and values(V) there are.
+
+    *Function:* As for batch_size.
+
+
+Note that some of these parameters might look redundant, but they reflect the differences between different usage scenarios.
+

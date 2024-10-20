@@ -1,0 +1,13 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=30, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input tensor qkv, which is used to determine the shape and dimensionality of the output.", 
+"seqlen": "The sequence length of input tensor qkv, which determines the number of rows in the attention matrix.",
+"Headdim": "The head dimension of input tensor qkv, which defines the size of each attention head.",
+"nheads": "The number of attention heads in flash_attn_2_cuda function, used to split the query and key into multiple parallel sub-attention mechanisms.", 
+"causal": "A boolean indicating whether causal masking should be applied during attention computation. If True, it masks out future tokens from attending to current token.",
+"deterministic": "A boolean that determines whether flash_attn_2_cuda function uses a deterministic or non-deterministic implementation of the backward pass."}
+

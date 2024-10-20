@@ -1,0 +1,19 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=30, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input tensors, which is used for attention mechanism.", 
+"seqlen": "The sequence length of input tensor, which determines the shape and dimension of input to flash_attn_2_cuda.",
+"Headdim": "The head dimension of input tensor, determining the output shape in each attention head",
+"nheads": "Number of heads in multi-head self-attention mechanism, affecting both forward pass and backward computation. ",
+"deterministic": "Whether to use deterministic implementation for backward pass, which affects memory usage but not performance.",
+"dropout_p": "The dropout probability used during training phase.", 
+"softmax_scale": "Scaling factor applied before softmax operation, influencing the output shape of attention scores",
+"causal": "Flag indicating whether causal mask should be applied in self-attention mechanism", 
+"window_size": "Window size for local sliding window attention mechanism"}
+ 
+
+ 
+

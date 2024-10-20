@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.30000000000000004
+
+==================== Generated Output ====================
+Here are the identified hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+    "qkv": "Input tensor of shape (batch_size, seqlen, 3, nheads, headdim) for attention mechanism in Transformers",
+    "dropout_p": "Dropout probability used during training or inference with attention mechanism in Transformers",
+    "softmax_scale": "Scaling factor used for softmax function in attention mechanism of Transformers",
+    "causal": "Boolean flag indicating whether to apply causal attention mask in Transformers",
+    "window_size": "Tuple of integers representing the left and right context window sizes for sliding window local attention in Transformers",
+    "alibi_slopes": "List of slopes used as biases for attention scores in alibi attention mechanism of Transformers",
+    "deterministic": "Boolean flag indicating whether to use deterministic implementation of backward pass in attention mechanism of Transformers",
+    "return_attn_probs": "Boolean flag indicating whether to return attention probabilities during testing in attention mechanism of Transformers"
+}
+```
+
+Note that some of these hyperparameters are used in the code snippets provided, while others are mentioned as part of the function signatures or class definitions.
+

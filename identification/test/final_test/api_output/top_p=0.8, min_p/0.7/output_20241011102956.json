@@ -1,0 +1,16 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9092, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.2, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.8, min_p=0.7
+
+==================== Generated Output ====================
+{
+    "dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__] The dimension of the input embeddings or hidden states in a Transformer model.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.test_block_parallel] Number of attention heads used for multi-head self-attention mechanism. This hyperparameter determines how many parallel attention processes will be run and combined to form the final output.",
+    "head_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality (i.e., size) of each head in a multi-headed Transformer model's hidden state space, calculated as `embed_dim // num_heads`",
+    "rotary_emb_dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel] Dimensionality for rotary position embeddings. This hyperparameter is used to apply sinusoidal positional encodings in a rotated manner.",
+    "seqlen": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention] The sequence length of the input data. This parameter determines how long each sequence is and affects attention calculations over time steps or positions.",
+    "batch_size": "[tests.modules.test_block_parallel.test_block_parallel] Number of sequences in a batch during training/inference, which impacts parallelism efficiency when processing multiple samples simultaneously.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Scaling factor applied to the dot product between query and key vectors before computing softmax. This hyperparameter can affect stability of attention scores during training/inference."
+}
+

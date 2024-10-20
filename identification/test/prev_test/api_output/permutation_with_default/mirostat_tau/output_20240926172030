@@ -1,0 +1,21 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=10.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the list of **hyperparameters** related to `flash_attn_2_cuda` in a JSON format:
+
+```json
+{
+    "batch_size": "Input batch size to flash_attn_qkvpacked_func, determining the sizes of tensors input to flash_attn_2_cuda",
+    "seqlen": "Input sequence length to flash_attn_qkvpacked_func, determining the sizes of tensors input to flash_attn_2_cuda",
+    "headdim": "Input head dimension to flash_attn_qkvpacked_func, determining the sizes and dimensions of tensors input to flash_attn_2_cuda",
+    "nheads": "Number of attention heads in flash_attn_qkvpacked_func, determining the shape of output tensors from flash_attn_2_cuda",
+    "causal": "Boolean indicating whether to apply causal attention mask in flash_attn_qkvpacked_func, determining the structure of attention model used in flash_attn_2_cuda",
+    "window_size": "Window size for sliding window local attention in flash_attn_qkvpacked_func, determining the structure and sizes of input tensors for flash_attn_2_cuda",
+    "alibi_slopes": "Bias slopes for alibi scores in flash_attn_qkvpacked_func, determining the structure and values of output tensors from flash_attn_2_cuda",
+    "dropout_p": "Dropout probability in flash_attn_qkvpacked_func, determining the values and shape of output tensors from flash_attn_2_cuda"
+}
+```
+

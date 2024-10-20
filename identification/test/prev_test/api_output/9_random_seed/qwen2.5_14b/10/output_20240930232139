@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.1, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] The batch size of input tensors, determining how many sequences are processed in parallel.",
+    "seqlen": "[time_fwd_bwd function call chain] Sequence length or the number of tokens per sequence. It determines the dimensionality along which attention is computed for each token.",
+    "headdim": "[time_fwd_bwd function call chain] The size (dimension) of individual heads in multi-head self-attention mechanism, influencing model capacity and computational cost.",
+    "nheads": "[time_fwd_bwd function call chain] Number of parallel attention heads. It is derived from the total dimension divided by head dimensions (`dim // headdim`).",
+    "causal": "[flash_attn_qkvpacked_func function definition in flash_attn.flash_attn_interface module] A boolean indicating whether to apply causal masking, which restricts each token's context only up to itself.",
+    "dropout_p": "[time_fwd_bwd function call chain and _flash_attn_forward function definition] Dropout probability for the attention mechanism during training. It is used in dropout layers applied after computing softmax scores over QK^T matrix.",
+    "softmax_scale": "_[FlashAttnQKVPackedFunc.forward method] Scaling factor to be multiplied with query-key dot products before applying softmax, typically set as 1/sqrt(headdim).",
+    "window_size": "[_flash_attn_forward function definition in flash_attn.flash_attn_interface module] A tuple indicating the left and right context window sizes for local attention. If both values are -1 (default), global full-context is used.",
+    "alibi_slopes": "_[FlashAttnQKVPackedFunc.forward method] Slope coefficients applied to positional bias in ALiBi mechanism, which helps with long-range dependencies."
+}
+

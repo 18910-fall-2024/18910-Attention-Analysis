@@ -1,0 +1,20 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=70, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "batch_size": "The batch size of input tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward",
+  "seqlen": "Sequence length of input tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward. It determines the output shape of out (or output) from FlashAttnQKVPackedFunc.apply.",
+  "nheads": "Number of attention heads in Transformer architecture, used to determine the size and dimensionality of qkv tensor input to flash_attn_2_cuda",
+  "headdim": "Dimension of each head in Transformer architecture. This hyperparameter determines the number of columns (or depth) for out from FlashAttnQKVPackedFunc.apply.",
+  "window_size": "The window size is used as an optional input parameter when implementing sliding window local attention, which affects how attention will be applied on sequence length",
+  "alibi_slopes": "Alibi slopes are bias terms that add to the QK^T calculation in flash_attn_qkvpacked_func and _flash_attn_forward. This hyperparameter can affect attention scores.",
+  "dropout_p": "Dropout probability, affecting output of softmax operation"
+}
+```
+

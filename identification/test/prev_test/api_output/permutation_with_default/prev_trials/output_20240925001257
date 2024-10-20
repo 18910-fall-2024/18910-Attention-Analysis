@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.5, seed=10, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+```json
+{
+    "dropout_p": "A hyperparameter used in FlashAttnQKVPackedFunc.forward that determines the dropout probability for the attention mechanism. It is passed to _flash_attn_forward where it influences the random mask applied during training.",
+    "softmax_scale": "A hyperparameter used in FlashAttnQKVPackedFunc.forward and _flash_attn_forward that scales the query-key dot products before applying softmax. This can be None, in which case it defaults to qkv.shape[-1] ** (-0.5), a common scaling factor for attention scores.",
+    "causal": "A boolean hyperparameter used in FlashAttnQKVPackedFunc.forward and _flash_attn_forward that indicates whether the attention mechanism should enforce causal masking (i.e., future tokens cannot influence past tokens).",
+    "window_size": "An integer tuple hyperparameter used in FlashAttnQKVPackedFunc.forward and _flash_attn_forward to specify a local window size for computing attention scores. This can be useful for reducing computational complexity by limiting the number of tokens considered.",
+    "alibi_slopes": "A list or tensor hyperparameter used in FlashAttnQKVPackedFunc.forward and _flash_attn_forward that provides slopes for ALiBi (Attention with Linear Biases) to adjust attention scores based on distance. This can be None if not using ALiBi.",
+    "return_softmax": "A boolean hyperparameter used in FlashAttnQKVPackedFunc.forward and _flash_attn_forward indicating whether to return the softmax probabilities along with the output tensor."
+}
+```
+

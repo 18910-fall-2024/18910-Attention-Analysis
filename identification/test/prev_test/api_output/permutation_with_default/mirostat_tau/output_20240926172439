@@ -1,0 +1,22 @@
+mirostat=2, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "batch_size": "The batch size of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward. Determines the size of the input tensor for flash_attn_2_cuda.",
+  "seqlen": "The sequence length of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward. Determines the size of the input tensor for flash_attn_2_cuda.",
+  "nheads": "The number of attention heads, used in flash_attn_qkvpacked_func and _flash_attn_forward. Determines the shape of the input tensor Q/K/V for flash_attn_2_cuda.",
+  "headdim": "The dimension of each attention head, used in flash_attn_qkvpacked_func and _flash_attn_forward. Determines the shape of the input tensor Q/K/V for flash_attn_2_cuda.",
+  "causal": "A boolean hyperparameter indicating whether to apply causal attention mask in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "window_size": "The window size for sliding window local attention, used in flash_attn_qkvpacked_func and _flash_attn_forward. Determines the shape of the input tensor Q/K/V for flash_attn_2_cuda.",
+  "alibi_slopes": "The slopes for alibi attention bias, used in flash_attn_qkvpacked_func and _flash_attn_forward. Not directly related to size/dimension of input tensor but affects attention model structure in flash_attn_2_cuda.",
+  "dropout_p": "The dropout probability, used in flash_attn_qkvpacked_func and _flash_attn_forward. Determines the shape/size of output tensor for flash_attn_2_cuda.",
+  "softmax_scale": "The scaling factor for softmax normalization in flash_attn_qkvpacked_func and _flash_attn_forward."
+}
+```
+

@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.85, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+  "batch_size": "The batch size of input tensors, which determines the number of sequences processed together.",
+  "seqlen": "The sequence length (number of tokens) in each tensor passed to flash_attn_2_cuda",
+  "nheads": "Number of attention heads used for parallel computation and feature extraction. Determines how many independent sub-attention mechanisms are applied simultaneously, which affects the overall model capacity and computational complexity.",
+  "headdim": "The dimensionality (number of features) in each head. Controls the number of distinct features learned by each attention mechanism within a multi-head setup",
+  "causal": "A boolean flag indicating whether to apply causal masking for autoregressive modeling or not, which affects how self-attention is computed and can impact model performance.",
+  "window_size": "The size (left and right context) of the sliding window used in local attention. Controls what part of the input sequence each query attends to",
+  "alibi_slopes": "A bias added to the attention score based on absolute difference between query and key indices, which can be useful for improving model performance or stability.",
+  "deterministic": "Whether to use a deterministic implementation in flash_attn_2_cuda's backward pass. Controls how gradients are computed during backpropagation",
+  "dropout_p": "The dropout probability used during training, affecting the proportion of units randomly dropped and contributing to regularization"
+}
+

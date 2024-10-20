@@ -1,0 +1,46 @@
+mirostat=2, mirostat_eta=0.5, mirostat_tau=2.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a JSON output with all the **hyperparameters** related to `flash_attn_2_cuda`:
+
+```
+{
+    "qkv_shape": "(batch_size, seqlen, 3, nheads, headdim)",
+    "dropout_p": "float. Dropout probability.",
+    "softmax_scale": "The scaling of QK^T before applying softmax.",
+    "causal": "bool. Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+    "window_size": "(left, right), If not (-1, -1), implements sliding window local attention.",
+    "alibi_slopes": "fp32 bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j."
+}
+```
+
+I hope this format meets your requirements. I identified all hyperparameters related to `flash_attn_2_cuda` in a systematic way:
+
+1. **qkv_shape**: This variable defines the shape of input tensors (Q, K, V) for `flash_attn_qkvpacked_func`, which eventually calls `_flash_attn_forward()` and then `flash_attn_2_cuda`.
+   * Occurs: flash_attn.utils.benchmark.time_f_b -> time_fwd_bwd
+   * Role/Purpose: Input tensor's size & dimension
+
+2. **dropout_p**: This is input to `flash_attn_qkvpacked_func`. It controls the dropout rate in attention mechanism.
+   * Occurs: multiple places including benchmarks.py
+   * Role/Purpose: Training, Inference with Attention Mechanism for Transformers - probabilistic weighting of output units during training
+
+
+3. **softmax_scale**: This variable is used as an input to `flash_attn_qkvpacked_func`, defining the scaling factor for softmax scores in attention mechanism.
+   * Occurs: flash_attn.utils.benchmark.time_f_b -> time_fwd_bwd and at two places after that along call chain
+   * Role/Purpose: Training, Inference with Attention Mechanism for Transformers - normalizing weights by summing to 1
+
+4. **causal**: This flag is used in `flash_attn_qkvpacked_func` (see function) as an input. This decides whether causal attention mask should be applied or not.
+   * Occurs: multiple places including benchmarks.py
+   * Role/Purpose: Training, Inference with Attention Mechanism for Transformers - applies a valid-weights technique to force predictions before certain inputs
+
+5. **window_size**: It's used as an input in `flash_attn_qkvpacked_func` (see function) and specifies if implements sliding window local attention.
+   * Occurs: benchmarks.py
+   * Role/Purpose: Training, Inference with Attention Mechanism for Transformers - speed up calculation where only a few 'windows' of sequence are fully weighted at once by this technique
+
+6. **alibi_slopes**: This is an input to `flash_attn_qkvpacked_func` when the return_att_prob argument equals True and specifies slopes used in bias addition formula.
+   * Occurs: flash_attn.utils.benchmark.time_f_b -> time_fwd_bwd
+   * Role/Purpose: Training, Inference with Attention Mechanism for Transformers - describes exponential attenuation of weights toward ends of sequence
+

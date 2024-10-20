@@ -1,0 +1,11 @@
+{
+    "embed_dim": "[flash_attn.modules.mha.MHA.__init__] The dimension of embedding, which is the total number of features in each token.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Number of attention heads. This parameter determines how many parallel self-attention mechanisms are used within a single layer, influencing model capacity and computation complexity.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.MHA.__init__] The dimension for rotary position embeddings applied to the query and key vectors during multi-head attention computations. It affects positional information encoding in transformers.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.forward] Scaling factor used before applying softmax on QK^T (query times transpose of keys). This parameter can affect the stability and performance of attention scores computation.",
+    "causal": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Boolean flag indicating whether to apply a causal mask in self-attention. When True, it restricts each position from attending forward positions and is commonly used for autoregressive models.",
+    "window_size": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] A tuple specifying the left and right window size of local attention (sliding window). This parameter limits the context length to a fixed-size sliding window around each token, affecting how far back or forward tokens can attend in sequence.",
+    "rotary_interleaved": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] Boolean flag indicating whether rotary embeddings are interleaved. When True, it combines dimensions 0 & 1, 2 & 3 for the embedding application; when False, it applies to even and odd positions separately.",
+    "alibi_slopes": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] A tensor of slopes used in ALiBi (Attention with Linear Biases) mechanism. It introduces a bias that linearly increases or decreases as the distance between tokens grows, affecting attention scores."
+}
+

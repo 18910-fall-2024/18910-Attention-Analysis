@@ -1,0 +1,1166 @@
+No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, true, false, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, true, false, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, true, false, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, true, false, true, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, true, false, true, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, true, false, true>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, false, false, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, false, false, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, false, false, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, true, false, true, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, true, false, true, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, true, false, true>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, true, true, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, true, true, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, true, true, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, true, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, true, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, true, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, false, true, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, false, true, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, false, true, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, true, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, true, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, true, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, true, false, false, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, true, false, false, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, true, false, false, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, false, false, true, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, false, false, true, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, false, false, true>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, false, false, false, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, false, false, false, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, false, true, false, false, false, false, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, false, false, true, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, false, false, true, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, false, false, true>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, false, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, false, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, true, false, false, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, false, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, false, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true, false, false, false, false, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:249:13: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 32, 4>, true, true>' requested here
+  249 |             run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |             ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 32, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, true, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, true, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, true, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, true, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, true, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, true, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, true, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, true, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, true, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, true, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, true, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, true, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, false, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, false, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, false, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, false, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, false, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, true, false, false, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, false, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, false, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, false, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, false, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, false, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true, false, false, false, false, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:235:21: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 64, 64, 4>, false, true>' requested here
+  235 |                     run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                     ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 64, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, true, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, true, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, true, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, true, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, true, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, true, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, true, true, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, true, true, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, true, true, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, true, true, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, true, true, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, true, true, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, false, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, false, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, false, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, false, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, false, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, true, false, false, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, false, true, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, false, true, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, false, true, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:362:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  362 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:1088:12: note: in instantiation of function template specialization 'flash::compute_attn_1rowblock<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, false, false, false, Flash_fwd_params>' requested here
+ 1088 |     flash::compute_attn_1rowblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params, bidb, bidh, m_block);
+      |            ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:32:16: note: in instantiation of function template specialization 'flash::compute_attn<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, false, false, false, Flash_fwd_params>' requested here
+   32 |         flash::compute_attn<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Return_softmax>(params);
+      |                ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:76:44: note: in instantiation of function template specialization 'flash_fwd_kernel<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true, false, false, false, false, false, false>' requested here
+   76 |                             auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap>;
+      |                                            ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:66:26: note: expanded from macro 'SOFTCAP_SWITCH'
+   66 |   #define SOFTCAP_SWITCH BOOL_SWITCH
+      |                          ^
+../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:238:17: note: in instantiation of function template specialization 'run_flash_fwd<Flash_fwd_kernel_traits<128, 128, 64, 4>, false, true>' requested here
+  238 |                 run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+      |                 ^
+../../flash-attention/csrc/flash_attn/src/static_switch.h:36:26: note: expanded from macro 'DROPOUT_SWITCH'
+   36 |   #define DROPOUT_SWITCH BOOL_SWITCH
+      |                          ^
+cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:9:5: note: in instantiation of function template specialization 'run_mha_fwd_hdim128<cutlass::half_t, true>' requested here
+    9 |     run_mha_fwd_hdim128<cutlass::half_t, true>(params, stream);
+      |     ^
+In file included from cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu:5:
+In file included from ../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h:11:
+../../flash-attention/csrc/flash_attn/src/flash_fwd_kernel.h:424:78: error: missing 'typename' prior to dependent type name 'Flash_fwd_kernel_traits<128, 128, 64, 4>::TiledMma'
+  424 |         Tensor tOrP = make_tensor(rP.data(), flash::convert_layout_acc_Aregs<Kernel_traits::TiledMma>(rP.layout()));
+      |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~
+80 errors generated when compiling for sm_80.
+Preprocessing cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu
+Error preprocessing cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu: Command '['clang++', 'cuda_src/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu', '-O3', '-std=c++17', '-ferror-limit=0', '-w', '-U__CUDA_NO_HALF_OPERATORS__', '-U__CUDA_NO_HALF_CONVERSIONS__', '-U__CUDA_NO_HALF2_OPERATORS__', '-U__CUDA_NO_BFLOAT16_CONVERSIONS__', '--no-cuda-version-check', '-emit-llvm', '-S', '--cuda-gpu-arch=sm_80', '-I../../flash-attention/csrc/flash_attn', '-I../../flash-attention/csrc/flash_attn/src', '-I../../flash-attention/csrc/cutlass/include', '-I/home/yifangao/anaconda3/envs/18910/include/python3.9', '-I/home/yifangao/anaconda3/envs/18910/lib/python3.9/site-packages/torch/include', '-I/home/yifangao/anaconda3/envs/18910/lib/python3.9/site-packages/torch/include/torch/csrc/api/include', '-I/home/yifangao/anaconda3/envs/18910/lib/python3.9/site-packages/torch/include/TH', '-I/home/yifangao/anaconda3/envs/18910/lib/python3.9/site-packages/torch/include/THC', '-I/usr/local/cuda/include']' returned non-zero exit status 1.

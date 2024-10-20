@@ -1,0 +1,22 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=2.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a JSON of the identifying results:
+
+```
+{
+  "batch_size": "The batch size used for input to flash_attn_2_cuda, which determines the number of sequences in one mini-batch.",
+  "seqlen": "The sequence length (or window size) for each query and key tensor input into flash_attn_2_cuda from _flash_attn_forward function.",
+  "nheads": "Number of attention heads used by the flash_attn_2_cuda, where the number of heads is calculated from headdim",
+  "dropout_p": "The dropout probability during training for output embedding or attention weights in flash_attn_func and _flash_attn_forward respectively.",
+  "softmax_scale": "A scaling factor to be multiplied with QK^T (q \* k) before applying softmax function, controlled by the argument 'softscale' of flash_qkvpacked_func",
+  "return_softmax": "Boolean flag used in FlashAttnQKVPackedFunc's forward method indicating whether output attention probabilities or original outputs should be returned.",
+  "causal", "_flash_attn_forward": {"The causal parameter determines if a mask is applied to the Q \* K matrix while applying softmax, used in _flash_attn_forward function to control its input tensor sizes (dimensionality)."}
+}
+```
+
+Please note that I kept these values consistent with descriptions from your code and they might not be exactly suitable as JSON keys for generalisation of hyperparameters.
+

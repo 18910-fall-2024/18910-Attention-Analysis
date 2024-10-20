@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9250, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.8, min_p=0.4
+prompt=prompt_api_8
+
+==================== Generated Output ====================
+{
+    "embed_dim": "[flash_attn.modules.mha.MHA.__init__] The dimension of the embedding, which is also referred to as hidden size in Transformers. It affects the model's architecture and behavior.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Number of attention heads used for multi-head self-attention or cross-attention mechanisms, influencing both the computation efficiency and output quality in Transformers. It determines the dimensions of tensors input to `flash_attn_2_cuda`.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality of rotary positional embeddings used for attention score computations during training or inference, affecting model's architecture and behavior by enabling more effective use of position information in Transformers. It determines the dimensions of tensors input to `flash_attn_2_cuda`.",
+    "softmax_scale": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Scaling factor applied before computing softmax for attention scores, impacting model's output performance and stability during training or inference. It affects the computation of attention weights in `flash_attn_2_cuda`.",
+    "causal": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Boolean indicating whether to apply causal masking, which is crucial for autoregressive models like language modeling. It influences the attention mechanism's behavior and output quality in Transformers.",
+    "window_size": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Tuple defining left and right window sizes for local (sliding) attention, impacting model architecture by enabling or disabling sliding window mechanisms. It determines the context size in `flash_attn_2_cuda`.",
+    "rotary_interleaved": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Boolean indicating whether rotary embeddings are interleaved, affecting how positional information is applied to attention scores. It influences the computation of position-aware attention weights in `flash_attn_2_cuda`.",
+    "alibi_slopes": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Slope values for ALiBi (Attention with Linear Biases) mechanism, impacting the attention score computation and model's output quality. It affects how biases are applied to scores in `flash_attn_2_cuda`."
+}
+

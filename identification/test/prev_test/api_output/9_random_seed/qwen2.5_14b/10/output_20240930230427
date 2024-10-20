@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.1, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain, config definition] The number of sequences processed in parallel. It determines the batch size for input tensors.",
+    "seqlen": "[time_fwd_bwd function call chain, config definition] Sequence length or context window size per sequence. This parameter defines how long each sequence is and affects tensor dimensions directly related to attention mechanism computation.",
+    "headdim": "[time_fwd_bwd function call chain, config definition] The dimension of the hidden state for each head in multi-head self-attention layers within Transformers. It influences input tensors' shape and impacts model capacity.",
+    "nheads": "[time_fwd_bwd function call chain calculation] Number of attention heads used by Transformer models; it's derived from `dim` (model embedding size) divided by `headdim`. This parameter affects the dimensionality of Q, K, V matrices in multi-head self-attention operations and influences tensor shapes.",
+    "dropout_p": "[flash_attn_qkvpacked_func function] Dropout probability applied during training to prevent overfitting. It is passed directly into flash attention functions but does not affect input tensors' dimensions or model structure.",
+    "softmax_scale": "_flash_attn_forward (if None) The scaling factor for the dot product of Q and K before applying softmax, which can be set based on head dimensionality; if `None`, it defaults to 1 / sqrt(headdim). This parameter influences attention scores' scale but does not change tensor dimensions.",
+    "causal": "[flash_attn_qkvpacked_func function] Boolean indicating whether causal masking is applied during inference or training. It affects the computation of self-attention by restricting each position in a sequence to attend only to previous positions, impacting how tensors are processed within `flash_attn_2_cuda` but not changing their dimensions.",
+    "window_size": "[flash_attn_qkvpacked_func function] Tuple defining left and right context window sizes for local attention. This parameter influences the computation of self-attention by restricting each position in a sequence to attend only to keys within its specified range, impacting how tensors are processed without altering tensor shapes directly."
+}
+

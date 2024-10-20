@@ -1,0 +1,8 @@
+{
+    "dropout_p": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Dropout probability applied during attention mechanism to prevent overfitting and improve generalization.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Scaling factor for the dot product of query-key pairs before applying softmax. It is used to stabilize numerical computation during attention score calculation.",
+    "causal": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Boolean parameter indicating whether causal masking should be applied in the self-attention mechanism for auto-regressive models. It ensures that each position can attend to its left context.",
+    "window_size": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Tuple of integers indicating the size of sliding window local attention in both directions (left and right). This parameter restricts queries' ability to attend keys beyond a certain distance.",
+    "alibi_slopes": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, flash_attn.flash_attn_interface.flash_attn_func] Tensor containing slopes for ALiBi bias. These biases are added to the attention scores based on relative position between queries and keys."
+}
+

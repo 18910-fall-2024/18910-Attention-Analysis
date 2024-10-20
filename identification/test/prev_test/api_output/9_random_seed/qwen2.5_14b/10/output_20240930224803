@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.1, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] The batch size of input tensors, determining how many sequences are processed in parallel.",
+    "seqlen": "[time_fwd_bwd function call chain] Sequence length or the number of tokens per sequence. It determines the dimensionality along which attention is computed for each token.",
+    "headdim": "[time_fwd_bwd function call chain] The size (dimension) of individual heads in multi-head self-attention mechanism, affecting computational complexity and model capacity.",
+    "nheads": "[time_fwd_bwd function call chain] Number of parallel attention heads. It is derived from the total dimension divided by head dimensions (`dim // headdim`).",
+    "causal": "[flash_attn_qkvpacked_func function definition] Indicates whether causal (masked) self-attention should be used, which restricts each position to attend only to previous positions.",
+    "dropout_p": "[_flash_attn_forward function definition] Dropout probability for the attention mechanism during training. It is set to 0.0 during evaluation/inference phases.",
+    "softmax_scale": "_[_flash_attn_forward function definition] Scaling factor applied before computing softmax over QK^T, typically derived from head dimension (`1 / sqrt(headdim)`).",
+    "window_size[0], window_size[1]": "[_flash_attn_forward function definition] Tuple defining the left and right context windows for local attention. -1 means no limit.",
+    "alibi_slopes": "_[_flash_attn_forward function definition] Slope values used in ALiBi (Attention with Linear Biases) mechanism, which adds a bias to each position's scores based on their distance."
+}
+

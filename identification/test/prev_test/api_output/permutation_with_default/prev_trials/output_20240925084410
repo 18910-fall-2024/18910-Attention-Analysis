@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.5, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.7, min_p=0.0
+
+==================== Generated Output ====================
+```json
+{
+    "dropout_p": "The probability of dropping out elements during attention computation. This is used to control overfitting.",
+    "softmax_scale": "The scaling factor for the softmax operation in self-attention, typically set as the inverse square root of the dimension size (d) of the queries and keys.",
+    "causal": "A boolean indicating whether the attention pattern should be causal or not. If True, only the past elements can attend to each other; if False, all elements can attend to each other.",
+    "window_size": "A tuple defining the window size in both dimensions for local (block) attention. Local attention restricts which elements a given element can attend to based on this window size.",
+    "alibi_slopes": "Slopes used with ALiBi positional encodings, which allows for non-causal models to capture longer-range dependencies without using more memory or compute than causal ones.",
+    "return_softmax": "A boolean that indicates whether the function should return the softmax values in addition to the output tensor."
+}
+```
+

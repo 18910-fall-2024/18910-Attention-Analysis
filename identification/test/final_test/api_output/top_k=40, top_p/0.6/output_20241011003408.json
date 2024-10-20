@@ -1,0 +1,21 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9092, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.2, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.6, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__] The dimension of the input embedding or hidden state in a Transformer model.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.test_block_parallel] Number of attention heads used for multi-head self-attention mechanism. This hyperparameter determines how many parallel attention mechanisms are applied to different subspaces (or 'heads') within the input embedding or hidden state.",
+    "head_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality of each head in a multi-headed Transformer model, calculated as `embed_dim / num_heads` where embed_dim is the total size of the embeddings for all heads combined. This parameter determines how much information (in terms of dimensions) can be processed by individual attention mechanisms.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.MHA.__init__] The dimension used in rotary position embedding, which helps to incorporate positional information into self-attention mechanism without increasing the computational complexity. This parameter is crucial for models that rely on Rotary Position Embeddings (RoPE) like RoFormer.",
+    "seqlen": "[flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention] The sequence length of input sequences, which determines how long each sequence in a batch will be processed. This is critical for determining the size and shape of tensors passed to attention mechanisms during both training and inference.",
+    "batch_size": "[tests.modules.test_block_parallel.test_block_parallel] Number of samples or instances being processed simultaneously through the model (in one forward pass). It affects how many sequences are handled in parallel, influencing memory usage and computational efficiency.",
+    "max_seqlen": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] The maximum sequence length that can be accommodated by the KV cache. This parameter is important for managing cached key-value pairs during inference or training with dynamic input lengths.",
+    "cache_batch_idx": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention] Indices used to index into the KV cache. This parameter helps in managing cached key-value pairs for different sequences or batches efficiently.",
+    "cache_seqlens": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention] Sequence lengths of each sequence within the batch. This parameter is crucial in determining how much data from previous steps needs to be cached and updated for incremental decoding or training.",
+    "window_size": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] The size of local attention window used when implementing sliding window (local) self-attention. This parameter determines the range within which each query token attends to key tokens.",
+    "rotary_interleaved": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] A boolean indicating whether rotary embeddings are interleaved or not (i.e., how dimensions of the embedding vectors should be combined). This parameter is important for models that use Rotary Position Embeddings.",
+    "num_splits": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Number of splits along sequence dimension to apply when processing key-value pairs. It can be used as a heuristic or manually set for optimizing performance and memory usage."
+}
+

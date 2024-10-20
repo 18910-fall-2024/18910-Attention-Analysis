@@ -1,0 +1,16 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "batch_size": "The batch size of input data, which determines the number of sequences processed simultaneously.",
+    "seqlen": "The sequence length of each input sequence, which affects the attention mechanism's computation complexity and memory usage.",
+    "headdim": "The dimensionality of a single head in multi-head self-attention (MHSA), impacting model capacity and computational efficiency.",
+    "nheads": "The number of heads used in MHSA, influencing both the model's representational power and its overall computational cost.",
+    "causal": "A boolean flag indicating whether to apply causal attention masks for autoregressive modeling or not; affects how keys are weighted during self-attention computations.",
+    "window_size": "A tuple defining a sliding window local attention strategy, specifying left and right offsets within which query attends to key positions.",
+    "alibi_slopes": "Bias values added to attention scores based on the absolute difference between query and key indices; used for alibi-based self-attention mechanisms."
+}
+

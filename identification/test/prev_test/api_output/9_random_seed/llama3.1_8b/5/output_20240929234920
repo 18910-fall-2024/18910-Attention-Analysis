@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "batch_size": "The batch size of input tensor, which determines the number of sequences processed simultaneously. It's used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "seqlen": "The sequence length of input tensor, which determines the maximum context window for attention mechanism. It's used in time_fwd_bwd and flops.",
+    "headdim": "The head dimension of QKV tensors, which is a hyperparameter controlling the size of each attention head in flash_attn_qkvpacked_func",
+    "nheads": "The number of attention heads, which determines how many parallel attention streams are processed. It's used in time_fwd_bwd and flops.",
+    "causal": "A boolean indicating whether to apply causal mask for autoregressive modeling. This is a hyperparameter controlling the structure of attention mechanism in flash_attn_qkvpacked_func",
+    "window_size": "The size of sliding window local attention, which determines how much context information each query can access.",
+    "alibi_slopes": "A bias added to attention scores based on absolute difference between query and key indices. This is a hyperparameter controlling the structure of attention mechanism in flash_attn_qkvpacked_func",
+    "dropout_p": "The dropout probability for training, which determines how much information is dropped during each forward pass.",
+    "softmax_scale": "A scaling factor applied to QK^T before softmax normalization."
+}
+

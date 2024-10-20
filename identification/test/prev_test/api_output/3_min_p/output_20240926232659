@@ -1,0 +1,22 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.2
+
+==================== Generated Output ====================
+Here are the **hyperparameters** related to `flash_attn_2_cuda` extracted from the code snippets:
+
+```json
+{
+    "batch_size": "The batch size of input tensors. It's used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "seqlen": "The sequence length of input tensor. It's used in flops, time_fwd_bwd, flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "headdim": "The head dimension (i.e., the hidden size per attention head). It's used in flops, time_fwd_bwd, flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "nheads": "The number of attention heads. It's calculated as dim // headdim in benchmarks.benchmark_flash_attention/time_f_b",
+    "causal": "Whether to apply causal attention mask or not. It's used in flash_attn_qkvpacked_func, time_fwd_bwd and _flash_attn_forward.",
+    "window_size": "The size of sliding window for local attention. It's optional and used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "alibi_slopes": "A bias added to the attention score based on absolute difference between query position and key position. It's optional and used in flash_attn_qkvpacked_func, time_fwd_bwd and _flash_attn_forward."
+}
+```
+
+These **hyperparameters** are all related to `flash_attn_2_cuda` because they determine either the sizes/dimensions/shapes of input tensors or attention model structures in `flash_attn_2_cuda`.
+

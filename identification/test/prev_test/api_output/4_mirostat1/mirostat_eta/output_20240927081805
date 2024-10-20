@@ -1,0 +1,23 @@
+mirostat=1, mirostat_eta=0.6000000000000001, mirostat_tau=3.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the output as a JSON structure:
+
+```json
+{
+
+    "qkv": "Input tensor with shape (batch_size, seqlen, 3, nheads, headdim), where batch_size and seqlen are the hyperparameters determining input size or sequence length.",
+    "dropout_p": "Dropout probability hyperparameter used for training attention model in Transformers",
+    "softmax_scale": "Scaling factor of QK^T before applying softmax hyperparameter, default to 1 / sqrt(headdim), determines QKV format structure and scaling factors used by flash_attn_qkvpacked_func",
+    "causal": "Boolean flag indicating whether to apply causal attention mask in Transformers, ignored the implementation because boolean return result does nothing with attention mechanism.",
+    "window_size": "(left, right) tuple that implements sliding window local attention hyperparameter (optional), determines input tensor size and shape based on context length for Transformer",
+    "alibi_slopes": "Bias of (-alibi_slope * |i - j|) added to the attention score of query i and key j layer-wise learning rate adapted to each head by flash_attn_qkvpacked_func, resolves conflicts caused by relative position embedding algorithms used in dense multi-head self-attention",
+    "deterministic": "Boolean flag indicating whether to use deterministic implementation for backward pass hyperparameter (optional), ignored the implementation because boolean return result does nothing with attention mechanism.",
+    "return_softmax" : "Flag that determines if softmax scores should be returned or not out of flash_attn_qkvpacked_func function, relevant to evaluation metrics but not core parameters used during forward passes."
+
+}
+```
+

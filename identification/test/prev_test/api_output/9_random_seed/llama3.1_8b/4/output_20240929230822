@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.85, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "batch_size": "The batch size of input sequences, used as a dimension for attention mechanism",
+    "seqlen": "The length of input sequence, also serves as the spatial dimension in attention calculation",
+    "headdim": "Dimensionality of each head in multi-head self-attention (MHA) module, determines the number of independent attention calculations performed simultaneously.",
+    "nheads": "Number of heads used for MHA, controls how many parallel attention mechanisms are applied to input sequences. Each head has its own set of weights and biases",
+    "causal": "Boolean flag indicating whether causal masking should be applied in self-attention mechanism (e.g., auto-regressive modeling). When True, each token can only attend to tokens on the left.",
+    "window_size": "(left, right) tuple specifying a sliding window size for local attention. If not (-1, -1), query at position i will only attend to keys between [i - window_size[0], i + window_size[1]] inclusive",
+    "alibi_slopes": "Bias added to the attention score of each pair (query i and key j) based on their absolute difference. When used with causal=True, this helps model long-range dependencies in sequence data.",
+    "dropout_p": "Dropout probability for self-attention mechanism during training. This hyperparameter controls how much information is dropped from output sequences to prevent overfitting",
+    "softmax_scale": "Scaling factor applied before softmax function when computing attention weights. When set, it modifies the standard softmax normalization behavior and can help stabilize model performance."
+}
+

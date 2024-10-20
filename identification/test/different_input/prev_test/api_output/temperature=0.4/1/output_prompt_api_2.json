@@ -1,0 +1,15 @@
+{
+    "embed_dim": "[flash_attn.modules.mha.ParallelMHA.__init__] The dimension of the embedding vector, which is also used to determine other dimensions like head_dim and qkv_proj.",
+    "num_heads": "[flash_attn.modules.mha.ParallelMHA.__init__] Number of attention heads in multi-head self-attention mechanism. Determines partitioning of embeddings among different heads.",
+    "head_dim": "[flash_attn.modules.mha.ParallelMHA._update_kvcache_attention, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Dimension per head for the embedding vector (embed_dim // num_heads).",
+    "rotary_emb_dim": "[flash_attn.modules.mha.ParallelMHA.__init__] The dimension of rotary embeddings used in attention mechanism.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA._update_kvcache_attention] Scaling factor for the dot product between query and key vectors before applying softmax. Default is 1/sqrt(head_dim).",
+    "causal": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA.__init__] Boolean indicating whether to apply a causal mask in attention mechanism.",
+    "window_size": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA._update_kvcache_attention] Tuple specifying the window size for local (sliding) attention. -1 means infinite context window.",
+    "rotary_interleaved": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA.__init__] Boolean indicating whether rotary embeddings are interleaved or not.",
+    "alibi_slopes": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA._update_kvcache_attention] Slope values for ALiBi bias in attention mechanism. If provided, it should be a tensor of shape (num_heads,) or (batch_size, num_heads).",
+    "cache_seqlens": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA._update_kvcache_attention] Sequence lengths for the cache. Can be an integer representing a single sequence length across all sequences or a tensor of shape (batch_size,) with individual sequence lengths.",
+    "block_table": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA._update_kvcache_attention] Table used for block-wise caching. Shape is typically (num_blocks, page_block_size) where num_blocks can vary and page_block_size must be a multiple of 256.",
+    "cache_batch_idx": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.ParallelMHA._update_kvcache_attention] Indices used to index into the cache. Shape is (batch_size,) and dtype should be torch.int32."
+}
+

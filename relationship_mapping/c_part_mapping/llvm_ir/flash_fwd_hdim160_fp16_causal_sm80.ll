@@ -1,0 +1,12066 @@
+; ModuleID = 'cuda_src/csrc/flash_attn/src/flash_fwd_hdim160_fp16_causal_sm80.cu'
+source_filename = "cuda_src/csrc/flash_attn/src/flash_fwd_hdim160_fp16_causal_sm80.cu"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+%"class.std::ios_base::Init" = type { i8 }
+%struct.cudaDeviceProp = type { [256 x i8], %struct.CUuuid_st, [8 x i8], i32, i64, i64, i32, i32, i64, i32, [3 x i32], [3 x i32], i32, i64, i32, i32, i64, i64, i32, i32, i32, i32, i32, i32, i32, i32, i32, [2 x i32], [2 x i32], [3 x i32], [2 x i32], [3 x i32], [3 x i32], i32, [2 x i32], [3 x i32], [2 x i32], i32, [2 x i32], [3 x i32], [2 x i32], [3 x i32], i32, [2 x i32], i64, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i64, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i64, i32, i32, i32, i32, i64, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, [2 x i32], [1 x i32], [60 x i32] }
+%struct.CUuuid_st = type { [16 x i8] }
+%struct.Flash_fwd_params = type <{ %struct.Qkv_params, ptr, ptr, i64, i64, i64, ptr, ptr, ptr, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, float, float, ptr, ptr, ptr, ptr, ptr, ptr, ptr, i64, i64, i64, i64, i64, i64, ptr, ptr, ptr, ptr, i64, i32, float, i8, [3 x i8], float, float, i32, i32, float, %"struct.at::PhiloxCudaState", ptr, i8, i8, i8, i8, i32, ptr, i64, i8, i8, [6 x i8] }>
+%struct.Qkv_params = type { ptr, ptr, ptr, i64, i64, i64, i64, i64, i64, i64, i64, i64, i32, i32, i32 }
+%"struct.at::PhiloxCudaState" = type <{ %"union.at::PhiloxCudaState::Payload", %"union.at::PhiloxCudaState::Payload", i32, i8, [3 x i8] }>
+%"union.at::PhiloxCudaState::Payload" = type { i64 }
+%class.anon.170 = type { ptr, ptr, ptr, ptr }
+%class.anon.125 = type { ptr, ptr, ptr, ptr }
+%class.anon.77 = type { ptr, ptr, ptr, ptr }
+%class.anon.32 = type { ptr, ptr, ptr, ptr }
+%struct.dim3 = type { i32, i32, i32 }
+%class.anon.359 = type { ptr, ptr, ptr, ptr }
+%class.anon.314 = type { ptr, ptr, ptr, ptr }
+%class.anon.266 = type { ptr, ptr, ptr, ptr }
+%class.anon.221 = type { ptr, ptr, ptr, ptr }
+%class.anon.51 = type { ptr, ptr, ptr }
+%class.anon.52 = type { ptr, ptr, ptr }
+%class.anon.48 = type { ptr, ptr, ptr }
+%class.anon.49 = type { ptr, ptr, ptr }
+%class.anon.42 = type { ptr, ptr, ptr }
+%class.anon.43 = type { ptr, ptr, ptr }
+%class.anon.39 = type { ptr, ptr, ptr }
+%class.anon.40 = type { ptr, ptr, ptr }
+%class.anon.96 = type { ptr, ptr, ptr }
+%class.anon.97 = type { ptr, ptr, ptr }
+%class.anon.93 = type { ptr, ptr, ptr }
+%class.anon.94 = type { ptr, ptr, ptr }
+%class.anon.87 = type { ptr, ptr, ptr }
+%class.anon.88 = type { ptr, ptr, ptr }
+%class.anon.84 = type { ptr, ptr, ptr }
+%class.anon.85 = type { ptr, ptr, ptr }
+%class.anon.144 = type { ptr, ptr, ptr }
+%class.anon.145 = type { ptr, ptr, ptr }
+%class.anon.141 = type { ptr, ptr, ptr }
+%class.anon.142 = type { ptr, ptr, ptr }
+%class.anon.135 = type { ptr, ptr, ptr }
+%class.anon.136 = type { ptr, ptr, ptr }
+%class.anon.132 = type { ptr, ptr, ptr }
+%class.anon.133 = type { ptr, ptr, ptr }
+%class.anon.189 = type { ptr, ptr, ptr }
+%class.anon.190 = type { ptr, ptr, ptr }
+%class.anon.186 = type { ptr, ptr, ptr }
+%class.anon.187 = type { ptr, ptr, ptr }
+%class.anon.180 = type { ptr, ptr, ptr }
+%class.anon.181 = type { ptr, ptr, ptr }
+%class.anon.177 = type { ptr, ptr, ptr }
+%class.anon.178 = type { ptr, ptr, ptr }
+%class.anon.240 = type { ptr, ptr, ptr }
+%class.anon.241 = type { ptr, ptr, ptr }
+%class.anon.237 = type { ptr, ptr, ptr }
+%class.anon.238 = type { ptr, ptr, ptr }
+%class.anon.231 = type { ptr, ptr, ptr }
+%class.anon.232 = type { ptr, ptr, ptr }
+%class.anon.228 = type { ptr, ptr, ptr }
+%class.anon.229 = type { ptr, ptr, ptr }
+%class.anon.285 = type { ptr, ptr, ptr }
+%class.anon.286 = type { ptr, ptr, ptr }
+%class.anon.282 = type { ptr, ptr, ptr }
+%class.anon.283 = type { ptr, ptr, ptr }
+%class.anon.276 = type { ptr, ptr, ptr }
+%class.anon.277 = type { ptr, ptr, ptr }
+%class.anon.273 = type { ptr, ptr, ptr }
+%class.anon.274 = type { ptr, ptr, ptr }
+%class.anon.333 = type { ptr, ptr, ptr }
+%class.anon.334 = type { ptr, ptr, ptr }
+%class.anon.330 = type { ptr, ptr, ptr }
+%class.anon.331 = type { ptr, ptr, ptr }
+%class.anon.324 = type { ptr, ptr, ptr }
+%class.anon.325 = type { ptr, ptr, ptr }
+%class.anon.321 = type { ptr, ptr, ptr }
+%class.anon.322 = type { ptr, ptr, ptr }
+%class.anon.378 = type { ptr, ptr, ptr }
+%class.anon.379 = type { ptr, ptr, ptr }
+%class.anon.375 = type { ptr, ptr, ptr }
+%class.anon.376 = type { ptr, ptr, ptr }
+%class.anon.369 = type { ptr, ptr, ptr }
+%class.anon.370 = type { ptr, ptr, ptr }
+%class.anon.366 = type { ptr, ptr, ptr }
+%class.anon.367 = type { ptr, ptr, ptr }
+%class.anon.548 = type { ptr, ptr, ptr, ptr }
+%class.anon.503 = type { ptr, ptr, ptr, ptr }
+%class.anon.455 = type { ptr, ptr, ptr, ptr }
+%class.anon.410 = type { ptr, ptr, ptr, ptr }
+%class.anon.737 = type { ptr, ptr, ptr, ptr }
+%class.anon.692 = type { ptr, ptr, ptr, ptr }
+%class.anon.644 = type { ptr, ptr, ptr, ptr }
+%class.anon.599 = type { ptr, ptr, ptr, ptr }
+%class.anon.429 = type { ptr, ptr, ptr }
+%class.anon.430 = type { ptr, ptr, ptr }
+%class.anon.426 = type { ptr, ptr, ptr }
+%class.anon.427 = type { ptr, ptr, ptr }
+%class.anon.420 = type { ptr, ptr, ptr }
+%class.anon.421 = type { ptr, ptr, ptr }
+%class.anon.417 = type { ptr, ptr, ptr }
+%class.anon.418 = type { ptr, ptr, ptr }
+%class.anon.474 = type { ptr, ptr, ptr }
+%class.anon.475 = type { ptr, ptr, ptr }
+%class.anon.471 = type { ptr, ptr, ptr }
+%class.anon.472 = type { ptr, ptr, ptr }
+%class.anon.465 = type { ptr, ptr, ptr }
+%class.anon.466 = type { ptr, ptr, ptr }
+%class.anon.462 = type { ptr, ptr, ptr }
+%class.anon.463 = type { ptr, ptr, ptr }
+%class.anon.522 = type { ptr, ptr, ptr }
+%class.anon.523 = type { ptr, ptr, ptr }
+%class.anon.519 = type { ptr, ptr, ptr }
+%class.anon.520 = type { ptr, ptr, ptr }
+%class.anon.513 = type { ptr, ptr, ptr }
+%class.anon.514 = type { ptr, ptr, ptr }
+%class.anon.510 = type { ptr, ptr, ptr }
+%class.anon.511 = type { ptr, ptr, ptr }
+%class.anon.567 = type { ptr, ptr, ptr }
+%class.anon.568 = type { ptr, ptr, ptr }
+%class.anon.564 = type { ptr, ptr, ptr }
+%class.anon.565 = type { ptr, ptr, ptr }
+%class.anon.558 = type { ptr, ptr, ptr }
+%class.anon.559 = type { ptr, ptr, ptr }
+%class.anon.555 = type { ptr, ptr, ptr }
+%class.anon.556 = type { ptr, ptr, ptr }
+%class.anon.618 = type { ptr, ptr, ptr }
+%class.anon.619 = type { ptr, ptr, ptr }
+%class.anon.615 = type { ptr, ptr, ptr }
+%class.anon.616 = type { ptr, ptr, ptr }
+%class.anon.609 = type { ptr, ptr, ptr }
+%class.anon.610 = type { ptr, ptr, ptr }
+%class.anon.606 = type { ptr, ptr, ptr }
+%class.anon.607 = type { ptr, ptr, ptr }
+%class.anon.663 = type { ptr, ptr, ptr }
+%class.anon.664 = type { ptr, ptr, ptr }
+%class.anon.660 = type { ptr, ptr, ptr }
+%class.anon.661 = type { ptr, ptr, ptr }
+%class.anon.654 = type { ptr, ptr, ptr }
+%class.anon.655 = type { ptr, ptr, ptr }
+%class.anon.651 = type { ptr, ptr, ptr }
+%class.anon.652 = type { ptr, ptr, ptr }
+%class.anon.711 = type { ptr, ptr, ptr }
+%class.anon.712 = type { ptr, ptr, ptr }
+%class.anon.708 = type { ptr, ptr, ptr }
+%class.anon.709 = type { ptr, ptr, ptr }
+%class.anon.702 = type { ptr, ptr, ptr }
+%class.anon.703 = type { ptr, ptr, ptr }
+%class.anon.699 = type { ptr, ptr, ptr }
+%class.anon.700 = type { ptr, ptr, ptr }
+%class.anon.756 = type { ptr, ptr, ptr }
+%class.anon.757 = type { ptr, ptr, ptr }
+%class.anon.753 = type { ptr, ptr, ptr }
+%class.anon.754 = type { ptr, ptr, ptr }
+%class.anon.747 = type { ptr, ptr, ptr }
+%class.anon.748 = type { ptr, ptr, ptr }
+%class.anon.744 = type { ptr, ptr, ptr }
+%class.anon.745 = type { ptr, ptr, ptr }
+
+$_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_st = comdat any
+
+$_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_st = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_st = comdat any
+
+$_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_st = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv = comdat any
+
+$_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv = comdat any
+
+@_ZStL8__ioinit = internal global %"class.std::ios_base::Init" zeroinitializer, align 1
+@__dso_handle = external hidden global i8
+@.str = private unnamed_addr constant [70 x i8] c"../../flash-attention/csrc/flash_attn/src/flash_fwd_launch_template.h\00", align 1
+@__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv = private unnamed_addr constant [11 x i8] c"operator()\00", align 1
+@llvm.global_ctors = appending global [1 x { i32, ptr, ptr }] [{ i32, ptr, ptr } { i32 65535, ptr @_GLOBAL__sub_I_flash_fwd_hdim160_fp16_causal_sm80.cu, ptr null }]
+
+declare void @_ZNSt8ios_base4InitC1Ev(ptr noundef nonnull align 1 dereferenceable(1)) unnamed_addr #0
+
+; Function Attrs: nounwind
+declare void @_ZNSt8ios_base4InitD1Ev(ptr noundef nonnull align 1 dereferenceable(1)) unnamed_addr #1
+
+; Function Attrs: nofree nounwind
+declare i32 @__cxa_atexit(ptr, ptr, ptr) local_unnamed_addr #2
+
+; Function Attrs: mustprogress uwtable
+define dso_local void @_Z12run_mha_fwd_IN7cutlass6half_tELi160ELb1EEvR16Flash_fwd_paramsP11CUstream_st(ptr noundef nonnull align 8 dereferenceable(458) %0, ptr noundef %1) local_unnamed_addr #3 {
+  %3 = tail call noundef ptr @_ZN2at4cuda26getCurrentDevicePropertiesEv()
+  %4 = getelementptr inbounds %struct.cudaDeviceProp, ptr %3, i64 0, i32 14
+  %5 = load i32, ptr %4, align 8, !tbaa !6
+  %6 = icmp eq i32 %5, 8
+  br i1 %6, label %7, label %14
+
+7:                                                ; preds = %2
+  %8 = getelementptr inbounds %struct.cudaDeviceProp, ptr %3, i64 0, i32 15
+  %9 = load i32, ptr %8, align 4, !tbaa !13
+  %10 = icmp slt i32 %9, 1
+  %11 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 40
+  %12 = load float, ptr %11, align 4, !tbaa !14
+  %13 = fcmp olt float %12, 1.000000e+00
+  br i1 %13, label %18, label %21
+
+14:                                               ; preds = %2
+  %15 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 40
+  %16 = load float, ptr %15, align 4, !tbaa !14
+  %17 = fcmp olt float %16, 1.000000e+00
+  br i1 %17, label %20, label %23
+
+18:                                               ; preds = %7
+  br i1 %10, label %20, label %19
+
+19:                                               ; preds = %18
+  tail call void @_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_st(ptr noundef nonnull align 8 dereferenceable(458) %0, ptr noundef %1)
+  br label %24
+
+20:                                               ; preds = %18, %14
+  tail call void @_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_st(ptr noundef nonnull align 8 dereferenceable(458) %0, ptr noundef %1)
+  br label %24
+
+21:                                               ; preds = %7
+  br i1 %10, label %23, label %22
+
+22:                                               ; preds = %21
+  tail call void @_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_st(ptr noundef nonnull align 8 dereferenceable(458) %0, ptr noundef %1)
+  br label %24
+
+23:                                               ; preds = %21, %14
+  tail call void @_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_st(ptr noundef nonnull align 8 dereferenceable(458) %0, ptr noundef %1)
+  br label %24
+
+24:                                               ; preds = %19, %20, %22, %23
+  ret void
+}
+
+; Function Attrs: mustprogress nocallback nofree nosync nounwind willreturn memory(argmem: readwrite)
+declare void @llvm.lifetime.start.p0(i64 immarg, ptr nocapture) #4
+
+declare noundef ptr @_ZN2at4cuda26getCurrentDevicePropertiesEv() local_unnamed_addr #0
+
+; Function Attrs: mustprogress nocallback nofree nosync nounwind willreturn memory(argmem: readwrite)
+declare void @llvm.lifetime.end.p0(i64 immarg, ptr nocapture) #4
+
+; Function Attrs: mustprogress uwtable
+define linkonce_odr dso_local void @_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_st(ptr noundef nonnull align 8 dereferenceable(458) %0, ptr noundef %1) local_unnamed_addr #3 comdat {
+  %3 = alloca %class.anon.170, align 8
+  %4 = alloca %class.anon.125, align 8
+  %5 = alloca %class.anon.77, align 8
+  %6 = alloca %class.anon.32, align 8
+  %7 = alloca ptr, align 8
+  %8 = alloca %struct.dim3, align 4
+  %9 = alloca i8, align 1
+  store ptr %1, ptr %7, align 8, !tbaa !21
+  %10 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 10
+  %11 = load i32, ptr %10, align 4, !tbaa !22
+  %12 = add nsw i32 %11, 63
+  %13 = sdiv i32 %12, 64
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %8) #9
+  %14 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 9
+  %15 = load i32, ptr %14, align 8, !tbaa !23
+  %16 = getelementptr inbounds %struct.Qkv_params, ptr %0, i64 0, i32 12
+  %17 = load i32, ptr %16, align 8, !tbaa !24
+  store i32 %13, ptr %8, align 4, !tbaa !25
+  %18 = getelementptr inbounds %struct.dim3, ptr %8, i64 0, i32 1
+  store i32 %15, ptr %18, align 4, !tbaa !27
+  %19 = getelementptr inbounds %struct.dim3, ptr %8, i64 0, i32 2
+  store i32 %17, ptr %19, align 4, !tbaa !28
+  %20 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 21
+  %21 = load ptr, ptr %20, align 8, !tbaa !29
+  %22 = icmp eq ptr %21, null
+  %23 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 22
+  %24 = load ptr, ptr %23, align 8
+  %25 = icmp eq ptr %24, null
+  %26 = select i1 %22, i1 %25, i1 false
+  br i1 %26, label %27, label %32
+
+27:                                               ; preds = %2
+  %28 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 11
+  %29 = load i32, ptr %28, align 8, !tbaa !30
+  %30 = and i32 %29, 63
+  %31 = icmp eq i32 %30, 0
+  br i1 %31, label %40, label %32
+
+32:                                               ; preds = %27, %2
+  %33 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 13
+  %34 = load i32, ptr %33, align 8, !tbaa !31
+  %35 = icmp eq i32 %34, 160
+  call void @llvm.lifetime.start.p0(i64 1, ptr nonnull %9) #9
+  %36 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 6
+  %37 = load ptr, ptr %36, align 8, !tbaa !32
+  %38 = icmp ne ptr %37, null
+  %39 = zext i1 %38 to i8
+  store i8 %39, ptr %9, align 1, !tbaa !33
+  br i1 %35, label %60, label %64
+
+40:                                               ; preds = %27
+  %41 = and i32 %11, 63
+  %42 = icmp eq i32 %41, 0
+  %43 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 13
+  %44 = load i32, ptr %43, align 8, !tbaa !31
+  %45 = icmp eq i32 %44, 160
+  call void @llvm.lifetime.start.p0(i64 1, ptr nonnull %9) #9
+  %46 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 6
+  %47 = load ptr, ptr %46, align 8, !tbaa !32
+  %48 = icmp ne ptr %47, null
+  %49 = zext i1 %48 to i8
+  store i8 %49, ptr %9, align 1, !tbaa !33
+  br i1 %42, label %50, label %59
+
+50:                                               ; preds = %40
+  br i1 %45, label %51, label %55
+
+51:                                               ; preds = %50
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %6) #9
+  store ptr %9, ptr %6, align 8, !tbaa !21
+  %52 = getelementptr inbounds %class.anon.32, ptr %6, i64 0, i32 1
+  store ptr %0, ptr %52, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.32, ptr %6, i64 0, i32 2
+  store ptr %8, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.32, ptr %6, i64 0, i32 3
+  store ptr %7, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %6)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %6) #9
+  br label %68
+
+55:                                               ; preds = %50
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %5) #9
+  store ptr %9, ptr %5, align 8, !tbaa !21
+  %56 = getelementptr inbounds %class.anon.77, ptr %5, i64 0, i32 1
+  store ptr %0, ptr %56, align 8, !tbaa !21
+  %57 = getelementptr inbounds %class.anon.77, ptr %5, i64 0, i32 2
+  store ptr %8, ptr %57, align 8, !tbaa !21
+  %58 = getelementptr inbounds %class.anon.77, ptr %5, i64 0, i32 3
+  store ptr %7, ptr %58, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %5)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %5) #9
+  br label %68
+
+59:                                               ; preds = %40
+  br i1 %45, label %60, label %64
+
+60:                                               ; preds = %32, %59
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %4) #9
+  store ptr %9, ptr %4, align 8, !tbaa !21
+  %61 = getelementptr inbounds %class.anon.125, ptr %4, i64 0, i32 1
+  store ptr %0, ptr %61, align 8, !tbaa !21
+  %62 = getelementptr inbounds %class.anon.125, ptr %4, i64 0, i32 2
+  store ptr %8, ptr %62, align 8, !tbaa !21
+  %63 = getelementptr inbounds %class.anon.125, ptr %4, i64 0, i32 3
+  store ptr %7, ptr %63, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %4)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %4) #9
+  br label %68
+
+64:                                               ; preds = %32, %59
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %3) #9
+  store ptr %9, ptr %3, align 8, !tbaa !21
+  %65 = getelementptr inbounds %class.anon.170, ptr %3, i64 0, i32 1
+  store ptr %0, ptr %65, align 8, !tbaa !21
+  %66 = getelementptr inbounds %class.anon.170, ptr %3, i64 0, i32 2
+  store ptr %8, ptr %66, align 8, !tbaa !21
+  %67 = getelementptr inbounds %class.anon.170, ptr %3, i64 0, i32 3
+  store ptr %7, ptr %67, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %3)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %3) #9
+  br label %68
+
+68:                                               ; preds = %51, %55, %60, %64
+  call void @llvm.lifetime.end.p0(i64 1, ptr nonnull %9) #9
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %8) #9
+  ret void
+}
+
+; Function Attrs: mustprogress uwtable
+define linkonce_odr dso_local void @_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_st(ptr noundef nonnull align 8 dereferenceable(458) %0, ptr noundef %1) local_unnamed_addr #3 comdat {
+  %3 = alloca %class.anon.359, align 8
+  %4 = alloca %class.anon.314, align 8
+  %5 = alloca %class.anon.266, align 8
+  %6 = alloca %class.anon.221, align 8
+  %7 = alloca ptr, align 8
+  %8 = alloca %struct.dim3, align 4
+  %9 = alloca i8, align 1
+  store ptr %1, ptr %7, align 8, !tbaa !21
+  %10 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 10
+  %11 = load i32, ptr %10, align 4, !tbaa !22
+  %12 = add nsw i32 %11, 127
+  %13 = sdiv i32 %12, 128
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %8) #9
+  %14 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 9
+  %15 = load i32, ptr %14, align 8, !tbaa !23
+  %16 = getelementptr inbounds %struct.Qkv_params, ptr %0, i64 0, i32 12
+  %17 = load i32, ptr %16, align 8, !tbaa !24
+  store i32 %13, ptr %8, align 4, !tbaa !25
+  %18 = getelementptr inbounds %struct.dim3, ptr %8, i64 0, i32 1
+  store i32 %15, ptr %18, align 4, !tbaa !27
+  %19 = getelementptr inbounds %struct.dim3, ptr %8, i64 0, i32 2
+  store i32 %17, ptr %19, align 4, !tbaa !28
+  %20 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 21
+  %21 = load ptr, ptr %20, align 8, !tbaa !29
+  %22 = icmp eq ptr %21, null
+  %23 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 22
+  %24 = load ptr, ptr %23, align 8
+  %25 = icmp eq ptr %24, null
+  %26 = select i1 %22, i1 %25, i1 false
+  br i1 %26, label %27, label %32
+
+27:                                               ; preds = %2
+  %28 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 11
+  %29 = load i32, ptr %28, align 8, !tbaa !30
+  %30 = and i32 %29, 31
+  %31 = icmp eq i32 %30, 0
+  br i1 %31, label %40, label %32
+
+32:                                               ; preds = %27, %2
+  %33 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 13
+  %34 = load i32, ptr %33, align 8, !tbaa !31
+  %35 = icmp eq i32 %34, 160
+  call void @llvm.lifetime.start.p0(i64 1, ptr nonnull %9) #9
+  %36 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 6
+  %37 = load ptr, ptr %36, align 8, !tbaa !32
+  %38 = icmp ne ptr %37, null
+  %39 = zext i1 %38 to i8
+  store i8 %39, ptr %9, align 1, !tbaa !33
+  br i1 %35, label %60, label %64
+
+40:                                               ; preds = %27
+  %41 = and i32 %11, 127
+  %42 = icmp eq i32 %41, 0
+  %43 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 13
+  %44 = load i32, ptr %43, align 8, !tbaa !31
+  %45 = icmp eq i32 %44, 160
+  call void @llvm.lifetime.start.p0(i64 1, ptr nonnull %9) #9
+  %46 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 6
+  %47 = load ptr, ptr %46, align 8, !tbaa !32
+  %48 = icmp ne ptr %47, null
+  %49 = zext i1 %48 to i8
+  store i8 %49, ptr %9, align 1, !tbaa !33
+  br i1 %42, label %50, label %59
+
+50:                                               ; preds = %40
+  br i1 %45, label %51, label %55
+
+51:                                               ; preds = %50
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %6) #9
+  store ptr %9, ptr %6, align 8, !tbaa !21
+  %52 = getelementptr inbounds %class.anon.221, ptr %6, i64 0, i32 1
+  store ptr %0, ptr %52, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.221, ptr %6, i64 0, i32 2
+  store ptr %8, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.221, ptr %6, i64 0, i32 3
+  store ptr %7, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %6)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %6) #9
+  br label %68
+
+55:                                               ; preds = %50
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %5) #9
+  store ptr %9, ptr %5, align 8, !tbaa !21
+  %56 = getelementptr inbounds %class.anon.266, ptr %5, i64 0, i32 1
+  store ptr %0, ptr %56, align 8, !tbaa !21
+  %57 = getelementptr inbounds %class.anon.266, ptr %5, i64 0, i32 2
+  store ptr %8, ptr %57, align 8, !tbaa !21
+  %58 = getelementptr inbounds %class.anon.266, ptr %5, i64 0, i32 3
+  store ptr %7, ptr %58, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %5)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %5) #9
+  br label %68
+
+59:                                               ; preds = %40
+  br i1 %45, label %60, label %64
+
+60:                                               ; preds = %32, %59
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %4) #9
+  store ptr %9, ptr %4, align 8, !tbaa !21
+  %61 = getelementptr inbounds %class.anon.314, ptr %4, i64 0, i32 1
+  store ptr %0, ptr %61, align 8, !tbaa !21
+  %62 = getelementptr inbounds %class.anon.314, ptr %4, i64 0, i32 2
+  store ptr %8, ptr %62, align 8, !tbaa !21
+  %63 = getelementptr inbounds %class.anon.314, ptr %4, i64 0, i32 3
+  store ptr %7, ptr %63, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %4)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %4) #9
+  br label %68
+
+64:                                               ; preds = %32, %59
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %3) #9
+  store ptr %9, ptr %3, align 8, !tbaa !21
+  %65 = getelementptr inbounds %class.anon.359, ptr %3, i64 0, i32 1
+  store ptr %0, ptr %65, align 8, !tbaa !21
+  %66 = getelementptr inbounds %class.anon.359, ptr %3, i64 0, i32 2
+  store ptr %8, ptr %66, align 8, !tbaa !21
+  %67 = getelementptr inbounds %class.anon.359, ptr %3, i64 0, i32 3
+  store ptr %7, ptr %67, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %3)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %3) #9
+  br label %68
+
+68:                                               ; preds = %51, %55, %60, %64
+  call void @llvm.lifetime.end.p0(i64 1, ptr nonnull %9) #9
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %8) #9
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+declare void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef, ptr noundef, ptr noundef, i32 noundef, i1 noundef zeroext) local_unnamed_addr #0
+
+declare i32 @__cudaPushCallConfiguration(i64, i32, i64, i32, i64 noundef, ptr noundef) local_unnamed_addr #0
+
+; Function Attrs: mustprogress nocallback nofree nounwind willreturn memory(argmem: readwrite)
+declare void @llvm.memcpy.p0.p0.i64(ptr noalias nocapture writeonly, ptr noalias nocapture readonly, i64, i1 immarg) #6
+
+declare i32 @cudaGetLastError() local_unnamed_addr #0
+
+declare i32 @__cudaPopCallConfiguration(ptr, ptr, ptr, ptr) local_unnamed_addr
+
+declare i32 @cudaLaunchKernel(ptr, i64, i32, i64, i32, ptr, i64, ptr) local_unnamed_addr
+
+declare i32 @cudaFuncSetAttribute(ptr noundef, i32 noundef, i32 noundef) local_unnamed_addr #0
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.51, align 8
+  %3 = alloca %class.anon.52, align 8
+  %4 = alloca %class.anon.48, align 8
+  %5 = alloca %class.anon.49, align 8
+  %6 = alloca %class.anon.42, align 8
+  %7 = alloca %class.anon.43, align 8
+  %8 = alloca %class.anon.39, align 8
+  %9 = alloca %class.anon.40, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !34
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.32, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !38
+  %15 = getelementptr inbounds %class.anon.32, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !39
+  %17 = getelementptr inbounds %class.anon.32, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !40
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.39, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.39, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.40, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.40, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.42, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.42, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.43, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.43, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.48, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.48, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.49, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.49, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.51, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.51, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.52, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.52, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !43
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.39, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !48
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.39, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !49
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !50
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.40, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !52
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.40, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !53
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !54
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.42, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !56
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.42, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !57
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !58
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.43, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !60
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.43, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !61
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !62
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.48, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !64
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.48, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !65
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !66
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.49, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !68
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.49, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !69
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !70
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.51, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !72
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.51, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !73
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !74
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.52, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !76
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.52, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !77
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.96, align 8
+  %3 = alloca %class.anon.97, align 8
+  %4 = alloca %class.anon.93, align 8
+  %5 = alloca %class.anon.94, align 8
+  %6 = alloca %class.anon.87, align 8
+  %7 = alloca %class.anon.88, align 8
+  %8 = alloca %class.anon.84, align 8
+  %9 = alloca %class.anon.85, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !78
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.77, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !80
+  %15 = getelementptr inbounds %class.anon.77, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !81
+  %17 = getelementptr inbounds %class.anon.77, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !82
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.84, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.84, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.85, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.85, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.87, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.87, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.88, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.88, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.93, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.93, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.94, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.94, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.96, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.96, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.97, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.97, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !83
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.84, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !85
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.84, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !86
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !87
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.85, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !89
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.85, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !90
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !91
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.87, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !93
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.87, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !94
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !95
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.88, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !97
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.88, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !98
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !99
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.93, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !101
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.93, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !102
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !103
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.94, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !105
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.94, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !106
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !107
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.96, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !109
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.96, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !110
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !111
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.97, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !113
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.97, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !114
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.144, align 8
+  %3 = alloca %class.anon.145, align 8
+  %4 = alloca %class.anon.141, align 8
+  %5 = alloca %class.anon.142, align 8
+  %6 = alloca %class.anon.135, align 8
+  %7 = alloca %class.anon.136, align 8
+  %8 = alloca %class.anon.132, align 8
+  %9 = alloca %class.anon.133, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !115
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.125, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !117
+  %15 = getelementptr inbounds %class.anon.125, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !118
+  %17 = getelementptr inbounds %class.anon.125, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !119
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.132, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.132, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.133, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.133, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.135, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.135, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.136, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.136, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.141, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.141, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.142, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.142, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.144, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.144, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.145, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.145, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !120
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.132, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !122
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.132, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !123
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !124
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.133, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !126
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.133, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !127
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !128
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.135, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !130
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.135, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !131
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !132
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.136, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !134
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.136, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !135
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !136
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.141, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !138
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.141, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !139
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !140
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.142, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !142
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.142, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !143
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !144
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.144, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !146
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.144, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !147
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !148
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.145, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !150
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.145, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !151
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.189, align 8
+  %3 = alloca %class.anon.190, align 8
+  %4 = alloca %class.anon.186, align 8
+  %5 = alloca %class.anon.187, align 8
+  %6 = alloca %class.anon.180, align 8
+  %7 = alloca %class.anon.181, align 8
+  %8 = alloca %class.anon.177, align 8
+  %9 = alloca %class.anon.178, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !152
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.170, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !154
+  %15 = getelementptr inbounds %class.anon.170, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !155
+  %17 = getelementptr inbounds %class.anon.170, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !156
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.177, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.177, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.178, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.178, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.180, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.180, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.181, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.181, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.186, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.186, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.187, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.187, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.189, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.189, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.190, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.190, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !157
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.177, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !159
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.177, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !160
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !161
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.178, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !163
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.178, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !164
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !165
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.180, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !167
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.180, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !168
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !169
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.181, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !171
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.181, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !172
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !173
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.186, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !175
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.186, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !176
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !177
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.187, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !179
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.187, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !180
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !181
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.189, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !183
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.189, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !184
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !185
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.190, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !187
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.190, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !188
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.240, align 8
+  %3 = alloca %class.anon.241, align 8
+  %4 = alloca %class.anon.237, align 8
+  %5 = alloca %class.anon.238, align 8
+  %6 = alloca %class.anon.231, align 8
+  %7 = alloca %class.anon.232, align 8
+  %8 = alloca %class.anon.228, align 8
+  %9 = alloca %class.anon.229, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !189
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.221, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !191
+  %15 = getelementptr inbounds %class.anon.221, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !192
+  %17 = getelementptr inbounds %class.anon.221, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !193
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.228, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.228, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.229, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.229, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.231, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.231, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.232, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.232, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.237, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.237, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.238, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.238, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.240, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.240, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.241, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.241, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !194
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.228, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !196
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.228, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !197
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !198
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.229, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !200
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.229, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !201
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !202
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.231, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !204
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.231, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !205
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !206
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.232, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !208
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.232, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !209
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !210
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.237, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !212
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.237, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !213
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !214
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.238, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !216
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.238, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !217
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !218
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.240, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !220
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.240, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !221
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !222
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.241, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !224
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.241, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !225
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.285, align 8
+  %3 = alloca %class.anon.286, align 8
+  %4 = alloca %class.anon.282, align 8
+  %5 = alloca %class.anon.283, align 8
+  %6 = alloca %class.anon.276, align 8
+  %7 = alloca %class.anon.277, align 8
+  %8 = alloca %class.anon.273, align 8
+  %9 = alloca %class.anon.274, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !226
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.266, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !228
+  %15 = getelementptr inbounds %class.anon.266, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !229
+  %17 = getelementptr inbounds %class.anon.266, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !230
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.273, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.273, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.274, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.274, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.276, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.276, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.277, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.277, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.282, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.282, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.283, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.283, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.285, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.285, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.286, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.286, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !231
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.273, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !233
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.273, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !234
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !235
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.274, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !237
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.274, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !238
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !239
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.276, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !241
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.276, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !242
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !243
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.277, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !245
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.277, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !246
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !247
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.282, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !249
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.282, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !250
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !251
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.283, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !253
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.283, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !254
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !255
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.285, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !257
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.285, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !258
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !259
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.286, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !261
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.286, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !262
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.333, align 8
+  %3 = alloca %class.anon.334, align 8
+  %4 = alloca %class.anon.330, align 8
+  %5 = alloca %class.anon.331, align 8
+  %6 = alloca %class.anon.324, align 8
+  %7 = alloca %class.anon.325, align 8
+  %8 = alloca %class.anon.321, align 8
+  %9 = alloca %class.anon.322, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !263
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.314, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !265
+  %15 = getelementptr inbounds %class.anon.314, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !266
+  %17 = getelementptr inbounds %class.anon.314, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !267
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.321, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.321, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.322, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.322, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.324, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.324, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.325, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.325, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.330, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.330, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.331, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.331, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.333, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.333, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.334, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.334, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !268
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.321, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !270
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.321, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !271
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !272
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.322, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !274
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.322, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !275
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !276
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.324, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !278
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.324, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !279
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !280
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.325, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !282
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.325, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !283
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !284
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.330, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !286
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.330, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !287
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !288
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.331, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !290
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.331, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !291
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !292
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.333, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !294
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.333, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !295
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !296
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.334, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !298
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.334, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !299
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.378, align 8
+  %3 = alloca %class.anon.379, align 8
+  %4 = alloca %class.anon.375, align 8
+  %5 = alloca %class.anon.376, align 8
+  %6 = alloca %class.anon.369, align 8
+  %7 = alloca %class.anon.370, align 8
+  %8 = alloca %class.anon.366, align 8
+  %9 = alloca %class.anon.367, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !300
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.359, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !302
+  %15 = getelementptr inbounds %class.anon.359, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !303
+  %17 = getelementptr inbounds %class.anon.359, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !304
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.366, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.366, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.367, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.367, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.369, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.369, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.370, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.370, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.375, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.375, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.376, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.376, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.378, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.378, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.379, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.379, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !305
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.366, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !307
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.366, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !308
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !309
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.367, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !311
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.367, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !312
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !313
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.369, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !315
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.369, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !316
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !317
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.370, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !319
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.370, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !320
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb1EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !321
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.375, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !323
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.375, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !324
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !325
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.376, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !327
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.376, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !328
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !329
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.378, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !331
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.378, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !332
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !333
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.379, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !335
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.379, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !336
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: mustprogress uwtable
+define linkonce_odr dso_local void @_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_st(ptr noundef nonnull align 8 dereferenceable(458) %0, ptr noundef %1) local_unnamed_addr #3 comdat {
+  %3 = alloca %class.anon.548, align 8
+  %4 = alloca %class.anon.503, align 8
+  %5 = alloca %class.anon.455, align 8
+  %6 = alloca %class.anon.410, align 8
+  %7 = alloca ptr, align 8
+  %8 = alloca %struct.dim3, align 4
+  %9 = alloca i8, align 1
+  store ptr %1, ptr %7, align 8, !tbaa !21
+  %10 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 10
+  %11 = load i32, ptr %10, align 4, !tbaa !22
+  %12 = add nsw i32 %11, 63
+  %13 = sdiv i32 %12, 64
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %8) #9
+  %14 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 9
+  %15 = load i32, ptr %14, align 8, !tbaa !23
+  %16 = getelementptr inbounds %struct.Qkv_params, ptr %0, i64 0, i32 12
+  %17 = load i32, ptr %16, align 8, !tbaa !24
+  store i32 %13, ptr %8, align 4, !tbaa !25
+  %18 = getelementptr inbounds %struct.dim3, ptr %8, i64 0, i32 1
+  store i32 %15, ptr %18, align 4, !tbaa !27
+  %19 = getelementptr inbounds %struct.dim3, ptr %8, i64 0, i32 2
+  store i32 %17, ptr %19, align 4, !tbaa !28
+  %20 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 21
+  %21 = load ptr, ptr %20, align 8, !tbaa !29
+  %22 = icmp eq ptr %21, null
+  %23 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 22
+  %24 = load ptr, ptr %23, align 8
+  %25 = icmp eq ptr %24, null
+  %26 = select i1 %22, i1 %25, i1 false
+  br i1 %26, label %27, label %32
+
+27:                                               ; preds = %2
+  %28 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 11
+  %29 = load i32, ptr %28, align 8, !tbaa !30
+  %30 = and i32 %29, 63
+  %31 = icmp eq i32 %30, 0
+  br i1 %31, label %40, label %32
+
+32:                                               ; preds = %27, %2
+  %33 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 13
+  %34 = load i32, ptr %33, align 8, !tbaa !31
+  %35 = icmp eq i32 %34, 160
+  call void @llvm.lifetime.start.p0(i64 1, ptr nonnull %9) #9
+  %36 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 6
+  %37 = load ptr, ptr %36, align 8, !tbaa !32
+  %38 = icmp ne ptr %37, null
+  %39 = zext i1 %38 to i8
+  store i8 %39, ptr %9, align 1, !tbaa !33
+  br i1 %35, label %60, label %64
+
+40:                                               ; preds = %27
+  %41 = and i32 %11, 63
+  %42 = icmp eq i32 %41, 0
+  %43 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 13
+  %44 = load i32, ptr %43, align 8, !tbaa !31
+  %45 = icmp eq i32 %44, 160
+  call void @llvm.lifetime.start.p0(i64 1, ptr nonnull %9) #9
+  %46 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 6
+  %47 = load ptr, ptr %46, align 8, !tbaa !32
+  %48 = icmp ne ptr %47, null
+  %49 = zext i1 %48 to i8
+  store i8 %49, ptr %9, align 1, !tbaa !33
+  br i1 %42, label %50, label %59
+
+50:                                               ; preds = %40
+  br i1 %45, label %51, label %55
+
+51:                                               ; preds = %50
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %6) #9
+  store ptr %9, ptr %6, align 8, !tbaa !21
+  %52 = getelementptr inbounds %class.anon.410, ptr %6, i64 0, i32 1
+  store ptr %0, ptr %52, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.410, ptr %6, i64 0, i32 2
+  store ptr %8, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.410, ptr %6, i64 0, i32 3
+  store ptr %7, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %6)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %6) #9
+  br label %68
+
+55:                                               ; preds = %50
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %5) #9
+  store ptr %9, ptr %5, align 8, !tbaa !21
+  %56 = getelementptr inbounds %class.anon.455, ptr %5, i64 0, i32 1
+  store ptr %0, ptr %56, align 8, !tbaa !21
+  %57 = getelementptr inbounds %class.anon.455, ptr %5, i64 0, i32 2
+  store ptr %8, ptr %57, align 8, !tbaa !21
+  %58 = getelementptr inbounds %class.anon.455, ptr %5, i64 0, i32 3
+  store ptr %7, ptr %58, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %5)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %5) #9
+  br label %68
+
+59:                                               ; preds = %40
+  br i1 %45, label %60, label %64
+
+60:                                               ; preds = %32, %59
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %4) #9
+  store ptr %9, ptr %4, align 8, !tbaa !21
+  %61 = getelementptr inbounds %class.anon.503, ptr %4, i64 0, i32 1
+  store ptr %0, ptr %61, align 8, !tbaa !21
+  %62 = getelementptr inbounds %class.anon.503, ptr %4, i64 0, i32 2
+  store ptr %8, ptr %62, align 8, !tbaa !21
+  %63 = getelementptr inbounds %class.anon.503, ptr %4, i64 0, i32 3
+  store ptr %7, ptr %63, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %4)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %4) #9
+  br label %68
+
+64:                                               ; preds = %32, %59
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %3) #9
+  store ptr %9, ptr %3, align 8, !tbaa !21
+  %65 = getelementptr inbounds %class.anon.548, ptr %3, i64 0, i32 1
+  store ptr %0, ptr %65, align 8, !tbaa !21
+  %66 = getelementptr inbounds %class.anon.548, ptr %3, i64 0, i32 2
+  store ptr %8, ptr %66, align 8, !tbaa !21
+  %67 = getelementptr inbounds %class.anon.548, ptr %3, i64 0, i32 3
+  store ptr %7, ptr %67, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %3)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %3) #9
+  br label %68
+
+68:                                               ; preds = %51, %55, %60, %64
+  call void @llvm.lifetime.end.p0(i64 1, ptr nonnull %9) #9
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %8) #9
+  ret void
+}
+
+; Function Attrs: mustprogress uwtable
+define linkonce_odr dso_local void @_Z13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_st(ptr noundef nonnull align 8 dereferenceable(458) %0, ptr noundef %1) local_unnamed_addr #3 comdat {
+  %3 = alloca %class.anon.737, align 8
+  %4 = alloca %class.anon.692, align 8
+  %5 = alloca %class.anon.644, align 8
+  %6 = alloca %class.anon.599, align 8
+  %7 = alloca ptr, align 8
+  %8 = alloca %struct.dim3, align 4
+  %9 = alloca i8, align 1
+  store ptr %1, ptr %7, align 8, !tbaa !21
+  %10 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 10
+  %11 = load i32, ptr %10, align 4, !tbaa !22
+  %12 = add nsw i32 %11, 127
+  %13 = sdiv i32 %12, 128
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %8) #9
+  %14 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 9
+  %15 = load i32, ptr %14, align 8, !tbaa !23
+  %16 = getelementptr inbounds %struct.Qkv_params, ptr %0, i64 0, i32 12
+  %17 = load i32, ptr %16, align 8, !tbaa !24
+  store i32 %13, ptr %8, align 4, !tbaa !25
+  %18 = getelementptr inbounds %struct.dim3, ptr %8, i64 0, i32 1
+  store i32 %15, ptr %18, align 4, !tbaa !27
+  %19 = getelementptr inbounds %struct.dim3, ptr %8, i64 0, i32 2
+  store i32 %17, ptr %19, align 4, !tbaa !28
+  %20 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 21
+  %21 = load ptr, ptr %20, align 8, !tbaa !29
+  %22 = icmp eq ptr %21, null
+  %23 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 22
+  %24 = load ptr, ptr %23, align 8
+  %25 = icmp eq ptr %24, null
+  %26 = select i1 %22, i1 %25, i1 false
+  br i1 %26, label %27, label %32
+
+27:                                               ; preds = %2
+  %28 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 11
+  %29 = load i32, ptr %28, align 8, !tbaa !30
+  %30 = and i32 %29, 31
+  %31 = icmp eq i32 %30, 0
+  br i1 %31, label %40, label %32
+
+32:                                               ; preds = %27, %2
+  %33 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 13
+  %34 = load i32, ptr %33, align 8, !tbaa !31
+  %35 = icmp eq i32 %34, 160
+  call void @llvm.lifetime.start.p0(i64 1, ptr nonnull %9) #9
+  %36 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 6
+  %37 = load ptr, ptr %36, align 8, !tbaa !32
+  %38 = icmp ne ptr %37, null
+  %39 = zext i1 %38 to i8
+  store i8 %39, ptr %9, align 1, !tbaa !33
+  br i1 %35, label %60, label %64
+
+40:                                               ; preds = %27
+  %41 = and i32 %11, 127
+  %42 = icmp eq i32 %41, 0
+  %43 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 13
+  %44 = load i32, ptr %43, align 8, !tbaa !31
+  %45 = icmp eq i32 %44, 160
+  call void @llvm.lifetime.start.p0(i64 1, ptr nonnull %9) #9
+  %46 = getelementptr inbounds %struct.Flash_fwd_params, ptr %0, i64 0, i32 6
+  %47 = load ptr, ptr %46, align 8, !tbaa !32
+  %48 = icmp ne ptr %47, null
+  %49 = zext i1 %48 to i8
+  store i8 %49, ptr %9, align 1, !tbaa !33
+  br i1 %42, label %50, label %59
+
+50:                                               ; preds = %40
+  br i1 %45, label %51, label %55
+
+51:                                               ; preds = %50
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %6) #9
+  store ptr %9, ptr %6, align 8, !tbaa !21
+  %52 = getelementptr inbounds %class.anon.599, ptr %6, i64 0, i32 1
+  store ptr %0, ptr %52, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.599, ptr %6, i64 0, i32 2
+  store ptr %8, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.599, ptr %6, i64 0, i32 3
+  store ptr %7, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %6)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %6) #9
+  br label %68
+
+55:                                               ; preds = %50
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %5) #9
+  store ptr %9, ptr %5, align 8, !tbaa !21
+  %56 = getelementptr inbounds %class.anon.644, ptr %5, i64 0, i32 1
+  store ptr %0, ptr %56, align 8, !tbaa !21
+  %57 = getelementptr inbounds %class.anon.644, ptr %5, i64 0, i32 2
+  store ptr %8, ptr %57, align 8, !tbaa !21
+  %58 = getelementptr inbounds %class.anon.644, ptr %5, i64 0, i32 3
+  store ptr %7, ptr %58, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %5)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %5) #9
+  br label %68
+
+59:                                               ; preds = %40
+  br i1 %45, label %60, label %64
+
+60:                                               ; preds = %32, %59
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %4) #9
+  store ptr %9, ptr %4, align 8, !tbaa !21
+  %61 = getelementptr inbounds %class.anon.692, ptr %4, i64 0, i32 1
+  store ptr %0, ptr %61, align 8, !tbaa !21
+  %62 = getelementptr inbounds %class.anon.692, ptr %4, i64 0, i32 2
+  store ptr %8, ptr %62, align 8, !tbaa !21
+  %63 = getelementptr inbounds %class.anon.692, ptr %4, i64 0, i32 3
+  store ptr %7, ptr %63, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %4)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %4) #9
+  br label %68
+
+64:                                               ; preds = %32, %59
+  call void @llvm.lifetime.start.p0(i64 32, ptr nonnull %3) #9
+  store ptr %9, ptr %3, align 8, !tbaa !21
+  %65 = getelementptr inbounds %class.anon.737, ptr %3, i64 0, i32 1
+  store ptr %0, ptr %65, align 8, !tbaa !21
+  %66 = getelementptr inbounds %class.anon.737, ptr %3, i64 0, i32 2
+  store ptr %8, ptr %66, align 8, !tbaa !21
+  %67 = getelementptr inbounds %class.anon.737, ptr %3, i64 0, i32 3
+  store ptr %7, ptr %67, align 8, !tbaa !21
+  call void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %3)
+  call void @llvm.lifetime.end.p0(i64 32, ptr nonnull %3) #9
+  br label %68
+
+68:                                               ; preds = %51, %55, %60, %64
+  call void @llvm.lifetime.end.p0(i64 1, ptr nonnull %9) #9
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %8) #9
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.429, align 8
+  %3 = alloca %class.anon.430, align 8
+  %4 = alloca %class.anon.426, align 8
+  %5 = alloca %class.anon.427, align 8
+  %6 = alloca %class.anon.420, align 8
+  %7 = alloca %class.anon.421, align 8
+  %8 = alloca %class.anon.417, align 8
+  %9 = alloca %class.anon.418, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !337
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.410, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !339
+  %15 = getelementptr inbounds %class.anon.410, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !340
+  %17 = getelementptr inbounds %class.anon.410, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !341
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.417, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.417, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.418, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.418, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.420, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.420, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.421, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.421, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.426, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.426, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.427, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.427, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.429, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.429, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.430, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.430, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !342
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.417, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !344
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.417, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !345
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !346
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.418, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !348
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.418, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !349
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !350
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.420, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !352
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.420, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !353
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !354
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.421, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !356
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.421, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !357
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !358
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.426, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !360
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.426, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !361
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !362
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.427, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !364
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.427, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !365
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !366
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.429, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !368
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.429, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !369
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !370
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.430, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !372
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.430, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !373
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.474, align 8
+  %3 = alloca %class.anon.475, align 8
+  %4 = alloca %class.anon.471, align 8
+  %5 = alloca %class.anon.472, align 8
+  %6 = alloca %class.anon.465, align 8
+  %7 = alloca %class.anon.466, align 8
+  %8 = alloca %class.anon.462, align 8
+  %9 = alloca %class.anon.463, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !374
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.455, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !376
+  %15 = getelementptr inbounds %class.anon.455, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !377
+  %17 = getelementptr inbounds %class.anon.455, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !378
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.462, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.462, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.463, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.463, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.465, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.465, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.466, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.466, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.471, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.471, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.472, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.472, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.474, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.474, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.475, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.475, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !379
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.462, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !381
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.462, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !382
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !383
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.463, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !385
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.463, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !386
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !387
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.465, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !389
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.465, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !390
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !391
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.466, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !393
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.466, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !394
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !395
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.471, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !397
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.471, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !398
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !399
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.472, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !401
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.472, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !402
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !403
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.474, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !405
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.474, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !406
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !407
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.475, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !409
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.475, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !410
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.522, align 8
+  %3 = alloca %class.anon.523, align 8
+  %4 = alloca %class.anon.519, align 8
+  %5 = alloca %class.anon.520, align 8
+  %6 = alloca %class.anon.513, align 8
+  %7 = alloca %class.anon.514, align 8
+  %8 = alloca %class.anon.510, align 8
+  %9 = alloca %class.anon.511, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !411
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.503, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !413
+  %15 = getelementptr inbounds %class.anon.503, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !414
+  %17 = getelementptr inbounds %class.anon.503, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !415
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.510, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.510, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.511, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.511, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.513, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.513, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.514, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.514, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.519, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.519, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.520, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.520, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.522, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.522, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.523, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.523, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !416
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.510, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !418
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.510, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !419
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !420
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.511, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !422
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.511, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !423
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !424
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.513, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !426
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.513, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !427
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !428
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.514, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !430
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.514, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !431
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !432
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.519, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !434
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.519, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !435
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !436
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.520, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !438
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.520, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !439
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !440
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.522, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !442
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.522, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !443
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !444
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.523, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !446
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.523, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !447
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.567, align 8
+  %3 = alloca %class.anon.568, align 8
+  %4 = alloca %class.anon.564, align 8
+  %5 = alloca %class.anon.565, align 8
+  %6 = alloca %class.anon.558, align 8
+  %7 = alloca %class.anon.559, align 8
+  %8 = alloca %class.anon.555, align 8
+  %9 = alloca %class.anon.556, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !448
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.548, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !450
+  %15 = getelementptr inbounds %class.anon.548, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !451
+  %17 = getelementptr inbounds %class.anon.548, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !452
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.555, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.555, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.556, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.556, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.558, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.558, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.559, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.559, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.564, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.564, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.565, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.565, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.567, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.567, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.568, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.568, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !453
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.555, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !455
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.555, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !456
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !457
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.556, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !459
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.556, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !460
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !461
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.558, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !463
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.558, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !464
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !465
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.559, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !467
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.559, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !468
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !469
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.564, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !471
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.564, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !472
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !473
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.565, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !475
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.565, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !476
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !477
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.567, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !479
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.567, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !480
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !481
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.568, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !483
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.568, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !484
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.618, align 8
+  %3 = alloca %class.anon.619, align 8
+  %4 = alloca %class.anon.615, align 8
+  %5 = alloca %class.anon.616, align 8
+  %6 = alloca %class.anon.609, align 8
+  %7 = alloca %class.anon.610, align 8
+  %8 = alloca %class.anon.606, align 8
+  %9 = alloca %class.anon.607, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !485
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.599, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !487
+  %15 = getelementptr inbounds %class.anon.599, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !488
+  %17 = getelementptr inbounds %class.anon.599, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !489
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.606, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.606, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.607, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.607, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.609, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.609, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.610, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.610, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.615, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.615, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.616, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.616, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.618, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.618, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.619, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.619, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !490
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.606, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !492
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.606, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !493
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !494
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.607, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !496
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.607, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !497
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !498
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.609, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !500
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.609, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !501
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !502
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.610, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !504
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.610, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !505
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !506
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.615, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !508
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.615, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !509
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !510
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.616, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !512
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.616, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !513
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !514
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.618, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !516
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.618, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !517
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !518
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.619, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !520
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.619, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !521
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: mustprogress norecurse uwtable
+define linkonce_odr dso_local void @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params(ptr noundef byval(%struct.Flash_fwd_params) align 8 %0) #5 comdat {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  store ptr %0, ptr %6, align 16
+  %7 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %8 = load i64, ptr %4, align 8
+  %9 = load ptr, ptr %5, align 8
+  %10 = load i64, ptr %2, align 8
+  %11 = getelementptr inbounds i8, ptr %2, i64 8
+  %12 = load i32, ptr %11, align 8
+  %13 = load i64, ptr %3, align 8
+  %14 = getelementptr inbounds i8, ptr %3, i64 8
+  %15 = load i32, ptr %14, align 8
+  %16 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %10, i32 %12, i64 %13, i32 %15, ptr noundef nonnull %6, i64 noundef %8, ptr noundef %9)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.663, align 8
+  %3 = alloca %class.anon.664, align 8
+  %4 = alloca %class.anon.660, align 8
+  %5 = alloca %class.anon.661, align 8
+  %6 = alloca %class.anon.654, align 8
+  %7 = alloca %class.anon.655, align 8
+  %8 = alloca %class.anon.651, align 8
+  %9 = alloca %class.anon.652, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !522
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.644, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !524
+  %15 = getelementptr inbounds %class.anon.644, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !525
+  %17 = getelementptr inbounds %class.anon.644, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !526
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.651, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.651, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.652, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.652, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.654, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.654, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.655, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.655, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.660, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.660, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.661, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.661, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.663, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.663, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.664, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.664, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !527
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.651, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !529
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.651, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !530
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !531
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.652, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !533
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.652, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !534
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !535
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.654, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !537
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.654, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !538
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !539
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.655, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !541
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.655, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !542
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !543
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.660, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !545
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.660, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !546
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !547
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.661, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !549
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.661, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !550
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !551
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.663, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !553
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.663, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !554
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !555
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.664, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !557
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.664, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !558
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.711, align 8
+  %3 = alloca %class.anon.712, align 8
+  %4 = alloca %class.anon.708, align 8
+  %5 = alloca %class.anon.709, align 8
+  %6 = alloca %class.anon.702, align 8
+  %7 = alloca %class.anon.703, align 8
+  %8 = alloca %class.anon.699, align 8
+  %9 = alloca %class.anon.700, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !559
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.692, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !561
+  %15 = getelementptr inbounds %class.anon.692, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !562
+  %17 = getelementptr inbounds %class.anon.692, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !563
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.699, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.699, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.700, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.700, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.702, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.702, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.703, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.703, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.708, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.708, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.709, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.709, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.711, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.711, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.712, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.712, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !564
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.699, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !566
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.699, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !567
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !568
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.700, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !570
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.700, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !571
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !572
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.702, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !574
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.702, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !575
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !576
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.703, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !578
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.703, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !579
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !580
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.708, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !582
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.708, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !583
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !584
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.709, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !586
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.709, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !587
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !588
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.711, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !590
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.711, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !591
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !592
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.712, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !594
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.712, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !595
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb1ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(32) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %class.anon.756, align 8
+  %3 = alloca %class.anon.757, align 8
+  %4 = alloca %class.anon.753, align 8
+  %5 = alloca %class.anon.754, align 8
+  %6 = alloca %class.anon.747, align 8
+  %7 = alloca %class.anon.748, align 8
+  %8 = alloca %class.anon.744, align 8
+  %9 = alloca %class.anon.745, align 8
+  %10 = load ptr, ptr %0, align 8, !tbaa !596
+  %11 = load i8, ptr %10, align 1, !tbaa !33, !range !36, !noundef !37
+  %12 = icmp eq i8 %11, 0
+  %13 = getelementptr inbounds %class.anon.737, ptr %0, i64 0, i32 1
+  %14 = load ptr, ptr %13, align 8, !tbaa !598
+  %15 = getelementptr inbounds %class.anon.737, ptr %0, i64 0, i32 2
+  %16 = load ptr, ptr %15, align 8, !tbaa !599
+  %17 = getelementptr inbounds %class.anon.737, ptr %0, i64 0, i32 3
+  %18 = load ptr, ptr %17, align 8, !tbaa !600
+  %19 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 55
+  %20 = load ptr, ptr %19, align 8, !tbaa !41
+  %21 = icmp eq ptr %20, null
+  %22 = getelementptr inbounds %struct.Flash_fwd_params, ptr %14, i64 0, i32 47
+  %23 = load float, ptr %22, align 4, !tbaa !42
+  %24 = fcmp ogt float %23, 0.000000e+00
+  br i1 %12, label %40, label %25
+
+25:                                               ; preds = %1
+  br i1 %21, label %33, label %26
+
+26:                                               ; preds = %25
+  br i1 %24, label %27, label %30
+
+27:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %8) #9
+  store ptr %16, ptr %8, align 8, !tbaa !21
+  %28 = getelementptr inbounds %class.anon.744, ptr %8, i64 0, i32 1
+  store ptr %18, ptr %28, align 8, !tbaa !21
+  %29 = getelementptr inbounds %class.anon.744, ptr %8, i64 0, i32 2
+  store ptr %14, ptr %29, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %8)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %8) #9
+  br label %55
+
+30:                                               ; preds = %26
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %9) #9
+  store ptr %16, ptr %9, align 8, !tbaa !21
+  %31 = getelementptr inbounds %class.anon.745, ptr %9, i64 0, i32 1
+  store ptr %18, ptr %31, align 8, !tbaa !21
+  %32 = getelementptr inbounds %class.anon.745, ptr %9, i64 0, i32 2
+  store ptr %14, ptr %32, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %9)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %9) #9
+  br label %55
+
+33:                                               ; preds = %25
+  br i1 %24, label %34, label %37
+
+34:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %6) #9
+  store ptr %16, ptr %6, align 8, !tbaa !21
+  %35 = getelementptr inbounds %class.anon.747, ptr %6, i64 0, i32 1
+  store ptr %18, ptr %35, align 8, !tbaa !21
+  %36 = getelementptr inbounds %class.anon.747, ptr %6, i64 0, i32 2
+  store ptr %14, ptr %36, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %6)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %6) #9
+  br label %55
+
+37:                                               ; preds = %33
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %7) #9
+  store ptr %16, ptr %7, align 8, !tbaa !21
+  %38 = getelementptr inbounds %class.anon.748, ptr %7, i64 0, i32 1
+  store ptr %18, ptr %38, align 8, !tbaa !21
+  %39 = getelementptr inbounds %class.anon.748, ptr %7, i64 0, i32 2
+  store ptr %14, ptr %39, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %7)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %7) #9
+  br label %55
+
+40:                                               ; preds = %1
+  br i1 %21, label %48, label %41
+
+41:                                               ; preds = %40
+  br i1 %24, label %42, label %45
+
+42:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %4) #9
+  store ptr %16, ptr %4, align 8, !tbaa !21
+  %43 = getelementptr inbounds %class.anon.753, ptr %4, i64 0, i32 1
+  store ptr %18, ptr %43, align 8, !tbaa !21
+  %44 = getelementptr inbounds %class.anon.753, ptr %4, i64 0, i32 2
+  store ptr %14, ptr %44, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %4)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %4) #9
+  br label %55
+
+45:                                               ; preds = %41
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %5) #9
+  store ptr %16, ptr %5, align 8, !tbaa !21
+  %46 = getelementptr inbounds %class.anon.754, ptr %5, i64 0, i32 1
+  store ptr %18, ptr %46, align 8, !tbaa !21
+  %47 = getelementptr inbounds %class.anon.754, ptr %5, i64 0, i32 2
+  store ptr %14, ptr %47, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %5)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %5) #9
+  br label %55
+
+48:                                               ; preds = %40
+  br i1 %24, label %49, label %52
+
+49:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %2) #9
+  store ptr %16, ptr %2, align 8, !tbaa !21
+  %50 = getelementptr inbounds %class.anon.756, ptr %2, i64 0, i32 1
+  store ptr %18, ptr %50, align 8, !tbaa !21
+  %51 = getelementptr inbounds %class.anon.756, ptr %2, i64 0, i32 2
+  store ptr %14, ptr %51, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %2)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %2) #9
+  br label %55
+
+52:                                               ; preds = %48
+  call void @llvm.lifetime.start.p0(i64 24, ptr nonnull %3) #9
+  store ptr %16, ptr %3, align 8, !tbaa !21
+  %53 = getelementptr inbounds %class.anon.757, ptr %3, i64 0, i32 1
+  store ptr %18, ptr %53, align 8, !tbaa !21
+  %54 = getelementptr inbounds %class.anon.757, ptr %3, i64 0, i32 2
+  store ptr %14, ptr %54, align 8, !tbaa !21
+  call void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %3)
+  call void @llvm.lifetime.end.p0(i64 24, ptr nonnull %3) #9
+  br label %55
+
+55:                                               ; preds = %52, %49, %45, %42, %37, %34, %30, %27
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !601
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.744, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !603
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.744, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !604
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !605
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.745, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !607
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.745, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !608
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !609
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.747, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !611
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.747, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !612
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !613
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.748, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !615
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.748, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !616
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !617
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.753, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !619
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.753, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !620
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !621
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.754, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !623
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.754, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !624
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb1ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !625
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.756, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !627
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.756, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !628
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb1ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: inlinehint mustprogress uwtable
+define linkonce_odr dso_local void @_ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEv(ptr noundef nonnull align 8 dereferenceable(24) %0) local_unnamed_addr #7 comdat align 2 {
+  %2 = alloca %struct.dim3, align 8
+  %3 = alloca %struct.dim3, align 8
+  %4 = alloca i64, align 8
+  %5 = alloca ptr, align 8
+  %6 = alloca ptr, align 16
+  %7 = alloca %struct.Flash_fwd_params, align 8
+  %8 = alloca %struct.Flash_fwd_params, align 8
+  %9 = tail call noundef i32 @cudaFuncSetAttribute(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i32 noundef 8, i32 noundef 61440)
+  tail call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %9, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 82, i1 noundef zeroext true)
+  %10 = load ptr, ptr %0, align 8, !tbaa !629
+  %11 = load i64, ptr %10, align 4, !tbaa.struct !45
+  %12 = getelementptr inbounds i8, ptr %10, i64 8
+  %13 = load i32, ptr %12, align 4, !tbaa.struct !47
+  %14 = getelementptr inbounds %class.anon.757, ptr %0, i64 0, i32 1
+  %15 = load ptr, ptr %14, align 8, !tbaa !631
+  %16 = load ptr, ptr %15, align 8, !tbaa !21
+  %17 = tail call i32 @__cudaPushCallConfiguration(i64 %11, i32 %13, i64 4294967424, i32 1, i64 noundef 61440, ptr noundef %16)
+  %18 = icmp eq i32 %17, 0
+  br i1 %18, label %19, label %32
+
+19:                                               ; preds = %1
+  %20 = getelementptr inbounds %class.anon.757, ptr %0, i64 0, i32 2
+  %21 = load ptr, ptr %20, align 8, !tbaa !632
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %8, ptr noundef nonnull align 8 dereferenceable(464) %21, i64 464, i1 false)
+  call void @llvm.lifetime.start.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.start.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.start.p0(i64 8, ptr nonnull %6)
+  call void @llvm.memcpy.p0.p0.i64(ptr noundef nonnull align 8 dereferenceable(464) %7, ptr noundef nonnull align 8 dereferenceable(464) %8, i64 464, i1 false)
+  store ptr %7, ptr %6, align 16
+  %22 = call i32 @__cudaPopCallConfiguration(ptr nonnull %2, ptr nonnull %3, ptr nonnull %4, ptr nonnull %5)
+  %23 = load i64, ptr %4, align 8
+  %24 = load ptr, ptr %5, align 8
+  %25 = load i64, ptr %2, align 8
+  %26 = getelementptr inbounds i8, ptr %2, i64 8
+  %27 = load i32, ptr %26, align 8
+  %28 = load i64, ptr %3, align 8
+  %29 = getelementptr inbounds i8, ptr %3, i64 8
+  %30 = load i32, ptr %29, align 8
+  %31 = call noundef i32 @cudaLaunchKernel(ptr noundef nonnull @_Z31__device_stub__flash_fwd_kernelI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1ELb0ELb0ELb0ELb0ELb0ELb0EEv16Flash_fwd_params, i64 %25, i32 %27, i64 %28, i32 %30, ptr noundef nonnull %6, i64 noundef %23, ptr noundef %24)
+  call void @llvm.lifetime.end.p0(i64 464, ptr nonnull %7)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %2)
+  call void @llvm.lifetime.end.p0(i64 12, ptr nonnull %3)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %4)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %5)
+  call void @llvm.lifetime.end.p0(i64 8, ptr nonnull %6)
+  br label %32
+
+32:                                               ; preds = %1, %19
+  %33 = call i32 @cudaGetLastError()
+  call void @_ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib(i32 noundef %33, ptr noundef nonnull @.str, ptr noundef nonnull @__func__._ZZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEv, i32 noundef 89, i1 noundef zeroext true)
+  ret void
+}
+
+; Function Attrs: uwtable
+define internal void @_GLOBAL__sub_I_flash_fwd_hdim160_fp16_causal_sm80.cu() #8 section ".text.startup" {
+  tail call void @_ZNSt8ios_base4InitC1Ev(ptr noundef nonnull align 1 dereferenceable(1) @_ZStL8__ioinit)
+  %1 = tail call i32 @__cxa_atexit(ptr nonnull @_ZNSt8ios_base4InitD1Ev, ptr nonnull @_ZStL8__ioinit, ptr nonnull @__dso_handle) #9
+  ret void
+}
+
+attributes #0 = { "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #1 = { nounwind "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #2 = { nofree nounwind }
+attributes #3 = { mustprogress uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #4 = { mustprogress nocallback nofree nosync nounwind willreturn memory(argmem: readwrite) }
+attributes #5 = { mustprogress norecurse uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" "uniform-work-group-size"="true" }
+attributes #6 = { mustprogress nocallback nofree nounwind willreturn memory(argmem: readwrite) }
+attributes #7 = { inlinehint mustprogress uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #8 = { uwtable "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cmov,+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+attributes #9 = { nounwind }
+
+!llvm.module.flags = !{!0, !1, !2, !3, !4}
+!llvm.ident = !{!5}
+
+!0 = !{i32 2, !"SDK Version", [2 x i32] [i32 12, i32 3]}
+!1 = !{i32 1, !"wchar_size", i32 4}
+!2 = !{i32 8, !"PIC Level", i32 2}
+!3 = !{i32 7, !"PIE Level", i32 2}
+!4 = !{i32 7, !"uwtable", i32 2}
+!5 = !{!"clang version 18.1.8"}
+!6 = !{!7, !11, i64 360}
+!7 = !{!"_ZTS14cudaDeviceProp", !8, i64 0, !10, i64 256, !8, i64 272, !11, i64 280, !12, i64 288, !12, i64 296, !11, i64 304, !11, i64 308, !12, i64 312, !11, i64 320, !8, i64 324, !8, i64 336, !11, i64 348, !12, i64 352, !11, i64 360, !11, i64 364, !12, i64 368, !12, i64 376, !11, i64 384, !11, i64 388, !11, i64 392, !11, i64 396, !11, i64 400, !11, i64 404, !11, i64 408, !11, i64 412, !11, i64 416, !8, i64 420, !8, i64 428, !8, i64 436, !8, i64 448, !8, i64 456, !8, i64 468, !11, i64 480, !8, i64 484, !8, i64 492, !8, i64 504, !11, i64 512, !8, i64 516, !8, i64 524, !8, i64 536, !8, i64 544, !11, i64 556, !8, i64 560, !12, i64 568, !11, i64 576, !11, i64 580, !11, i64 584, !11, i64 588, !11, i64 592, !11, i64 596, !11, i64 600, !11, i64 604, !11, i64 608, !11, i64 612, !11, i64 616, !11, i64 620, !11, i64 624, !11, i64 628, !11, i64 632, !11, i64 636, !12, i64 640, !11, i64 648, !11, i64 652, !11, i64 656, !11, i64 660, !11, i64 664, !11, i64 668, !11, i64 672, !11, i64 676, !11, i64 680, !11, i64 684, !11, i64 688, !11, i64 692, !12, i64 696, !11, i64 704, !11, i64 708, !11, i64 712, !11, i64 716, !12, i64 720, !11, i64 728, !11, i64 732, !11, i64 736, !11, i64 740, !11, i64 744, !11, i64 748, !11, i64 752, !11, i64 756, !11, i64 760, !11, i64 764, !11, i64 768, !11, i64 772, !11, i64 776, !8, i64 780, !8, i64 788, !8, i64 792}
+!8 = !{!"omnipotent char", !9, i64 0}
+!9 = !{!"Simple C++ TBAA"}
+!10 = !{!"_ZTS9CUuuid_st", !8, i64 0}
+!11 = !{!"int", !8, i64 0}
+!12 = !{!"long", !8, i64 0}
+!13 = !{!7, !11, i64 364}
+!14 = !{!15, !18, i64 372}
+!15 = !{!"_ZTS16Flash_fwd_params", !16, i64 0, !17, i64 112, !17, i64 120, !12, i64 128, !12, i64 136, !12, i64 144, !17, i64 152, !17, i64 160, !17, i64 168, !11, i64 176, !11, i64 180, !11, i64 184, !11, i64 188, !11, i64 192, !11, i64 196, !11, i64 200, !11, i64 204, !11, i64 208, !11, i64 212, !18, i64 216, !18, i64 220, !17, i64 224, !17, i64 232, !17, i64 240, !17, i64 248, !17, i64 256, !17, i64 264, !17, i64 272, !12, i64 280, !12, i64 288, !12, i64 296, !12, i64 304, !12, i64 312, !12, i64 320, !17, i64 328, !17, i64 336, !17, i64 344, !17, i64 352, !12, i64 360, !11, i64 368, !18, i64 372, !8, i64 376, !18, i64 380, !18, i64 384, !11, i64 388, !11, i64 392, !18, i64 396, !19, i64 400, !17, i64 424, !20, i64 432, !20, i64 433, !20, i64 434, !20, i64 435, !11, i64 436, !17, i64 440, !12, i64 448, !20, i64 456, !20, i64 457}
+!16 = !{!"_ZTS10Qkv_params", !17, i64 0, !17, i64 8, !17, i64 16, !12, i64 24, !12, i64 32, !12, i64 40, !12, i64 48, !12, i64 56, !12, i64 64, !12, i64 72, !12, i64 80, !12, i64 88, !11, i64 96, !11, i64 100, !11, i64 104}
+!17 = !{!"any pointer", !8, i64 0}
+!18 = !{!"float", !8, i64 0}
+!19 = !{!"_ZTSN2at15PhiloxCudaStateE", !8, i64 0, !8, i64 8, !11, i64 16, !20, i64 20}
+!20 = !{!"bool", !8, i64 0}
+!21 = !{!17, !17, i64 0}
+!22 = !{!15, !11, i64 180}
+!23 = !{!15, !11, i64 176}
+!24 = !{!16, !11, i64 96}
+!25 = !{!26, !11, i64 0}
+!26 = !{!"_ZTS4dim3", !11, i64 0, !11, i64 4, !11, i64 8}
+!27 = !{!26, !11, i64 4}
+!28 = !{!26, !11, i64 8}
+!29 = !{!15, !17, i64 224}
+!30 = !{!15, !11, i64 184}
+!31 = !{!15, !11, i64 192}
+!32 = !{!15, !17, i64 152}
+!33 = !{!20, !20, i64 0}
+!34 = !{!35, !17, i64 0}
+!35 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!36 = !{i8 0, i8 2}
+!37 = !{}
+!38 = !{!35, !17, i64 8}
+!39 = !{!35, !17, i64 16}
+!40 = !{!35, !17, i64 24}
+!41 = !{!15, !17, i64 440}
+!42 = !{!15, !18, i64 396}
+!43 = !{!44, !17, i64 0}
+!44 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!45 = !{i64 0, i64 4, !46, i64 4, i64 4, !46, i64 8, i64 4, !46}
+!46 = !{!11, !11, i64 0}
+!47 = !{i64 0, i64 4, !46}
+!48 = !{!44, !17, i64 8}
+!49 = !{!44, !17, i64 16}
+!50 = !{!51, !17, i64 0}
+!51 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!52 = !{!51, !17, i64 8}
+!53 = !{!51, !17, i64 16}
+!54 = !{!55, !17, i64 0}
+!55 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!56 = !{!55, !17, i64 8}
+!57 = !{!55, !17, i64 16}
+!58 = !{!59, !17, i64 0}
+!59 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!60 = !{!59, !17, i64 8}
+!61 = !{!59, !17, i64 16}
+!62 = !{!63, !17, i64 0}
+!63 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!64 = !{!63, !17, i64 8}
+!65 = !{!63, !17, i64 16}
+!66 = !{!67, !17, i64 0}
+!67 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!68 = !{!67, !17, i64 8}
+!69 = !{!67, !17, i64 16}
+!70 = !{!71, !17, i64 0}
+!71 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!72 = !{!71, !17, i64 8}
+!73 = !{!71, !17, i64 16}
+!74 = !{!75, !17, i64 0}
+!75 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!76 = !{!75, !17, i64 8}
+!77 = !{!75, !17, i64 16}
+!78 = !{!79, !17, i64 0}
+!79 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!80 = !{!79, !17, i64 8}
+!81 = !{!79, !17, i64 16}
+!82 = !{!79, !17, i64 24}
+!83 = !{!84, !17, i64 0}
+!84 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!85 = !{!84, !17, i64 8}
+!86 = !{!84, !17, i64 16}
+!87 = !{!88, !17, i64 0}
+!88 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!89 = !{!88, !17, i64 8}
+!90 = !{!88, !17, i64 16}
+!91 = !{!92, !17, i64 0}
+!92 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!93 = !{!92, !17, i64 8}
+!94 = !{!92, !17, i64 16}
+!95 = !{!96, !17, i64 0}
+!96 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!97 = !{!96, !17, i64 8}
+!98 = !{!96, !17, i64 16}
+!99 = !{!100, !17, i64 0}
+!100 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!101 = !{!100, !17, i64 8}
+!102 = !{!100, !17, i64 16}
+!103 = !{!104, !17, i64 0}
+!104 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!105 = !{!104, !17, i64 8}
+!106 = !{!104, !17, i64 16}
+!107 = !{!108, !17, i64 0}
+!108 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!109 = !{!108, !17, i64 8}
+!110 = !{!108, !17, i64 16}
+!111 = !{!112, !17, i64 0}
+!112 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!113 = !{!112, !17, i64 8}
+!114 = !{!112, !17, i64 16}
+!115 = !{!116, !17, i64 0}
+!116 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!117 = !{!116, !17, i64 8}
+!118 = !{!116, !17, i64 16}
+!119 = !{!116, !17, i64 24}
+!120 = !{!121, !17, i64 0}
+!121 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!122 = !{!121, !17, i64 8}
+!123 = !{!121, !17, i64 16}
+!124 = !{!125, !17, i64 0}
+!125 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!126 = !{!125, !17, i64 8}
+!127 = !{!125, !17, i64 16}
+!128 = !{!129, !17, i64 0}
+!129 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!130 = !{!129, !17, i64 8}
+!131 = !{!129, !17, i64 16}
+!132 = !{!133, !17, i64 0}
+!133 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!134 = !{!133, !17, i64 8}
+!135 = !{!133, !17, i64 16}
+!136 = !{!137, !17, i64 0}
+!137 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!138 = !{!137, !17, i64 8}
+!139 = !{!137, !17, i64 16}
+!140 = !{!141, !17, i64 0}
+!141 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!142 = !{!141, !17, i64 8}
+!143 = !{!141, !17, i64 16}
+!144 = !{!145, !17, i64 0}
+!145 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!146 = !{!145, !17, i64 8}
+!147 = !{!145, !17, i64 16}
+!148 = !{!149, !17, i64 0}
+!149 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!150 = !{!149, !17, i64 8}
+!151 = !{!149, !17, i64 16}
+!152 = !{!153, !17, i64 0}
+!153 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!154 = !{!153, !17, i64 8}
+!155 = !{!153, !17, i64 16}
+!156 = !{!153, !17, i64 24}
+!157 = !{!158, !17, i64 0}
+!158 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!159 = !{!158, !17, i64 8}
+!160 = !{!158, !17, i64 16}
+!161 = !{!162, !17, i64 0}
+!162 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!163 = !{!162, !17, i64 8}
+!164 = !{!162, !17, i64 16}
+!165 = !{!166, !17, i64 0}
+!166 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!167 = !{!166, !17, i64 8}
+!168 = !{!166, !17, i64 16}
+!169 = !{!170, !17, i64 0}
+!170 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!171 = !{!170, !17, i64 8}
+!172 = !{!170, !17, i64 16}
+!173 = !{!174, !17, i64 0}
+!174 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!175 = !{!174, !17, i64 8}
+!176 = !{!174, !17, i64 16}
+!177 = !{!178, !17, i64 0}
+!178 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!179 = !{!178, !17, i64 8}
+!180 = !{!178, !17, i64 16}
+!181 = !{!182, !17, i64 0}
+!182 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!183 = !{!182, !17, i64 8}
+!184 = !{!182, !17, i64 16}
+!185 = !{!186, !17, i64 0}
+!186 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!187 = !{!186, !17, i64 8}
+!188 = !{!186, !17, i64 16}
+!189 = !{!190, !17, i64 0}
+!190 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!191 = !{!190, !17, i64 8}
+!192 = !{!190, !17, i64 16}
+!193 = !{!190, !17, i64 24}
+!194 = !{!195, !17, i64 0}
+!195 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!196 = !{!195, !17, i64 8}
+!197 = !{!195, !17, i64 16}
+!198 = !{!199, !17, i64 0}
+!199 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!200 = !{!199, !17, i64 8}
+!201 = !{!199, !17, i64 16}
+!202 = !{!203, !17, i64 0}
+!203 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!204 = !{!203, !17, i64 8}
+!205 = !{!203, !17, i64 16}
+!206 = !{!207, !17, i64 0}
+!207 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!208 = !{!207, !17, i64 8}
+!209 = !{!207, !17, i64 16}
+!210 = !{!211, !17, i64 0}
+!211 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!212 = !{!211, !17, i64 8}
+!213 = !{!211, !17, i64 16}
+!214 = !{!215, !17, i64 0}
+!215 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!216 = !{!215, !17, i64 8}
+!217 = !{!215, !17, i64 16}
+!218 = !{!219, !17, i64 0}
+!219 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!220 = !{!219, !17, i64 8}
+!221 = !{!219, !17, i64 16}
+!222 = !{!223, !17, i64 0}
+!223 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!224 = !{!223, !17, i64 8}
+!225 = !{!223, !17, i64 16}
+!226 = !{!227, !17, i64 0}
+!227 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!228 = !{!227, !17, i64 8}
+!229 = !{!227, !17, i64 16}
+!230 = !{!227, !17, i64 24}
+!231 = !{!232, !17, i64 0}
+!232 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!233 = !{!232, !17, i64 8}
+!234 = !{!232, !17, i64 16}
+!235 = !{!236, !17, i64 0}
+!236 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!237 = !{!236, !17, i64 8}
+!238 = !{!236, !17, i64 16}
+!239 = !{!240, !17, i64 0}
+!240 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!241 = !{!240, !17, i64 8}
+!242 = !{!240, !17, i64 16}
+!243 = !{!244, !17, i64 0}
+!244 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!245 = !{!244, !17, i64 8}
+!246 = !{!244, !17, i64 16}
+!247 = !{!248, !17, i64 0}
+!248 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!249 = !{!248, !17, i64 8}
+!250 = !{!248, !17, i64 16}
+!251 = !{!252, !17, i64 0}
+!252 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!253 = !{!252, !17, i64 8}
+!254 = !{!252, !17, i64 16}
+!255 = !{!256, !17, i64 0}
+!256 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!257 = !{!256, !17, i64 8}
+!258 = !{!256, !17, i64 16}
+!259 = !{!260, !17, i64 0}
+!260 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!261 = !{!260, !17, i64 8}
+!262 = !{!260, !17, i64 16}
+!263 = !{!264, !17, i64 0}
+!264 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!265 = !{!264, !17, i64 8}
+!266 = !{!264, !17, i64 16}
+!267 = !{!264, !17, i64 24}
+!268 = !{!269, !17, i64 0}
+!269 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!270 = !{!269, !17, i64 8}
+!271 = !{!269, !17, i64 16}
+!272 = !{!273, !17, i64 0}
+!273 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!274 = !{!273, !17, i64 8}
+!275 = !{!273, !17, i64 16}
+!276 = !{!277, !17, i64 0}
+!277 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!278 = !{!277, !17, i64 8}
+!279 = !{!277, !17, i64 16}
+!280 = !{!281, !17, i64 0}
+!281 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!282 = !{!281, !17, i64 8}
+!283 = !{!281, !17, i64 16}
+!284 = !{!285, !17, i64 0}
+!285 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!286 = !{!285, !17, i64 8}
+!287 = !{!285, !17, i64 16}
+!288 = !{!289, !17, i64 0}
+!289 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!290 = !{!289, !17, i64 8}
+!291 = !{!289, !17, i64 16}
+!292 = !{!293, !17, i64 0}
+!293 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!294 = !{!293, !17, i64 8}
+!295 = !{!293, !17, i64 16}
+!296 = !{!297, !17, i64 0}
+!297 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!298 = !{!297, !17, i64 8}
+!299 = !{!297, !17, i64 16}
+!300 = !{!301, !17, i64 0}
+!301 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!302 = !{!301, !17, i64 8}
+!303 = !{!301, !17, i64 16}
+!304 = !{!301, !17, i64 24}
+!305 = !{!306, !17, i64 0}
+!306 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!307 = !{!306, !17, i64 8}
+!308 = !{!306, !17, i64 16}
+!309 = !{!310, !17, i64 0}
+!310 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!311 = !{!310, !17, i64 8}
+!312 = !{!310, !17, i64 16}
+!313 = !{!314, !17, i64 0}
+!314 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!315 = !{!314, !17, i64 8}
+!316 = !{!314, !17, i64 16}
+!317 = !{!318, !17, i64 0}
+!318 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!319 = !{!318, !17, i64 8}
+!320 = !{!318, !17, i64 16}
+!321 = !{!322, !17, i64 0}
+!322 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!323 = !{!322, !17, i64 8}
+!324 = !{!322, !17, i64 16}
+!325 = !{!326, !17, i64 0}
+!326 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!327 = !{!326, !17, i64 8}
+!328 = !{!326, !17, i64 16}
+!329 = !{!330, !17, i64 0}
+!330 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!331 = !{!330, !17, i64 8}
+!332 = !{!330, !17, i64 16}
+!333 = !{!334, !17, i64 0}
+!334 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb1ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!335 = !{!334, !17, i64 8}
+!336 = !{!334, !17, i64 16}
+!337 = !{!338, !17, i64 0}
+!338 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!339 = !{!338, !17, i64 8}
+!340 = !{!338, !17, i64 16}
+!341 = !{!338, !17, i64 24}
+!342 = !{!343, !17, i64 0}
+!343 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!344 = !{!343, !17, i64 8}
+!345 = !{!343, !17, i64 16}
+!346 = !{!347, !17, i64 0}
+!347 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!348 = !{!347, !17, i64 8}
+!349 = !{!347, !17, i64 16}
+!350 = !{!351, !17, i64 0}
+!351 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!352 = !{!351, !17, i64 8}
+!353 = !{!351, !17, i64 16}
+!354 = !{!355, !17, i64 0}
+!355 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!356 = !{!355, !17, i64 8}
+!357 = !{!355, !17, i64 16}
+!358 = !{!359, !17, i64 0}
+!359 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!360 = !{!359, !17, i64 8}
+!361 = !{!359, !17, i64 16}
+!362 = !{!363, !17, i64 0}
+!363 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!364 = !{!363, !17, i64 8}
+!365 = !{!363, !17, i64 16}
+!366 = !{!367, !17, i64 0}
+!367 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!368 = !{!367, !17, i64 8}
+!369 = !{!367, !17, i64 16}
+!370 = !{!371, !17, i64 0}
+!371 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!372 = !{!371, !17, i64 8}
+!373 = !{!371, !17, i64 16}
+!374 = !{!375, !17, i64 0}
+!375 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!376 = !{!375, !17, i64 8}
+!377 = !{!375, !17, i64 16}
+!378 = !{!375, !17, i64 24}
+!379 = !{!380, !17, i64 0}
+!380 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!381 = !{!380, !17, i64 8}
+!382 = !{!380, !17, i64 16}
+!383 = !{!384, !17, i64 0}
+!384 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!385 = !{!384, !17, i64 8}
+!386 = !{!384, !17, i64 16}
+!387 = !{!388, !17, i64 0}
+!388 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!389 = !{!388, !17, i64 8}
+!390 = !{!388, !17, i64 16}
+!391 = !{!392, !17, i64 0}
+!392 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!393 = !{!392, !17, i64 8}
+!394 = !{!392, !17, i64 16}
+!395 = !{!396, !17, i64 0}
+!396 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!397 = !{!396, !17, i64 8}
+!398 = !{!396, !17, i64 16}
+!399 = !{!400, !17, i64 0}
+!400 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!401 = !{!400, !17, i64 8}
+!402 = !{!400, !17, i64 16}
+!403 = !{!404, !17, i64 0}
+!404 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!405 = !{!404, !17, i64 8}
+!406 = !{!404, !17, i64 16}
+!407 = !{!408, !17, i64 0}
+!408 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!409 = !{!408, !17, i64 8}
+!410 = !{!408, !17, i64 16}
+!411 = !{!412, !17, i64 0}
+!412 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!413 = !{!412, !17, i64 8}
+!414 = !{!412, !17, i64 16}
+!415 = !{!412, !17, i64 24}
+!416 = !{!417, !17, i64 0}
+!417 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!418 = !{!417, !17, i64 8}
+!419 = !{!417, !17, i64 16}
+!420 = !{!421, !17, i64 0}
+!421 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!422 = !{!421, !17, i64 8}
+!423 = !{!421, !17, i64 16}
+!424 = !{!425, !17, i64 0}
+!425 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!426 = !{!425, !17, i64 8}
+!427 = !{!425, !17, i64 16}
+!428 = !{!429, !17, i64 0}
+!429 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!430 = !{!429, !17, i64 8}
+!431 = !{!429, !17, i64 16}
+!432 = !{!433, !17, i64 0}
+!433 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!434 = !{!433, !17, i64 8}
+!435 = !{!433, !17, i64 16}
+!436 = !{!437, !17, i64 0}
+!437 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!438 = !{!437, !17, i64 8}
+!439 = !{!437, !17, i64 16}
+!440 = !{!441, !17, i64 0}
+!441 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!442 = !{!441, !17, i64 8}
+!443 = !{!441, !17, i64 16}
+!444 = !{!445, !17, i64 0}
+!445 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!446 = !{!445, !17, i64 8}
+!447 = !{!445, !17, i64 16}
+!448 = !{!449, !17, i64 0}
+!449 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!450 = !{!449, !17, i64 8}
+!451 = !{!449, !17, i64 16}
+!452 = !{!449, !17, i64 24}
+!453 = !{!454, !17, i64 0}
+!454 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!455 = !{!454, !17, i64 8}
+!456 = !{!454, !17, i64 16}
+!457 = !{!458, !17, i64 0}
+!458 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!459 = !{!458, !17, i64 8}
+!460 = !{!458, !17, i64 16}
+!461 = !{!462, !17, i64 0}
+!462 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!463 = !{!462, !17, i64 8}
+!464 = !{!462, !17, i64 16}
+!465 = !{!466, !17, i64 0}
+!466 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!467 = !{!466, !17, i64 8}
+!468 = !{!466, !17, i64 16}
+!469 = !{!470, !17, i64 0}
+!470 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!471 = !{!470, !17, i64 8}
+!472 = !{!470, !17, i64 16}
+!473 = !{!474, !17, i64 0}
+!474 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!475 = !{!474, !17, i64 8}
+!476 = !{!474, !17, i64 16}
+!477 = !{!478, !17, i64 0}
+!478 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!479 = !{!478, !17, i64 8}
+!480 = !{!478, !17, i64 16}
+!481 = !{!482, !17, i64 0}
+!482 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi64ELi64ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi64ELi64ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!483 = !{!482, !17, i64 8}
+!484 = !{!482, !17, i64 16}
+!485 = !{!486, !17, i64 0}
+!486 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!487 = !{!486, !17, i64 8}
+!488 = !{!486, !17, i64 16}
+!489 = !{!486, !17, i64 24}
+!490 = !{!491, !17, i64 0}
+!491 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!492 = !{!491, !17, i64 8}
+!493 = !{!491, !17, i64 16}
+!494 = !{!495, !17, i64 0}
+!495 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!496 = !{!495, !17, i64 8}
+!497 = !{!495, !17, i64 16}
+!498 = !{!499, !17, i64 0}
+!499 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!500 = !{!499, !17, i64 8}
+!501 = !{!499, !17, i64 16}
+!502 = !{!503, !17, i64 0}
+!503 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!504 = !{!503, !17, i64 8}
+!505 = !{!503, !17, i64 16}
+!506 = !{!507, !17, i64 0}
+!507 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!508 = !{!507, !17, i64 8}
+!509 = !{!507, !17, i64 16}
+!510 = !{!511, !17, i64 0}
+!511 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!512 = !{!511, !17, i64 8}
+!513 = !{!511, !17, i64 16}
+!514 = !{!515, !17, i64 0}
+!515 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!516 = !{!515, !17, i64 8}
+!517 = !{!515, !17, i64 16}
+!518 = !{!519, !17, i64 0}
+!519 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!520 = !{!519, !17, i64 8}
+!521 = !{!519, !17, i64 16}
+!522 = !{!523, !17, i64 0}
+!523 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!524 = !{!523, !17, i64 8}
+!525 = !{!523, !17, i64 16}
+!526 = !{!523, !17, i64 24}
+!527 = !{!528, !17, i64 0}
+!528 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!529 = !{!528, !17, i64 8}
+!530 = !{!528, !17, i64 16}
+!531 = !{!532, !17, i64 0}
+!532 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!533 = !{!532, !17, i64 8}
+!534 = !{!532, !17, i64 16}
+!535 = !{!536, !17, i64 0}
+!536 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!537 = !{!536, !17, i64 8}
+!538 = !{!536, !17, i64 16}
+!539 = !{!540, !17, i64 0}
+!540 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!541 = !{!540, !17, i64 8}
+!542 = !{!540, !17, i64 16}
+!543 = !{!544, !17, i64 0}
+!544 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!545 = !{!544, !17, i64 8}
+!546 = !{!544, !17, i64 16}
+!547 = !{!548, !17, i64 0}
+!548 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!549 = !{!548, !17, i64 8}
+!550 = !{!548, !17, i64 16}
+!551 = !{!552, !17, i64 0}
+!552 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!553 = !{!552, !17, i64 8}
+!554 = !{!552, !17, i64 16}
+!555 = !{!556, !17, i64 0}
+!556 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!557 = !{!556, !17, i64 8}
+!558 = !{!556, !17, i64 16}
+!559 = !{!560, !17, i64 0}
+!560 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!561 = !{!560, !17, i64 8}
+!562 = !{!560, !17, i64 16}
+!563 = !{!560, !17, i64 24}
+!564 = !{!565, !17, i64 0}
+!565 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!566 = !{!565, !17, i64 8}
+!567 = !{!565, !17, i64 16}
+!568 = !{!569, !17, i64 0}
+!569 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!570 = !{!569, !17, i64 8}
+!571 = !{!569, !17, i64 16}
+!572 = !{!573, !17, i64 0}
+!573 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!574 = !{!573, !17, i64 8}
+!575 = !{!573, !17, i64 16}
+!576 = !{!577, !17, i64 0}
+!577 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!578 = !{!577, !17, i64 8}
+!579 = !{!577, !17, i64 16}
+!580 = !{!581, !17, i64 0}
+!581 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!582 = !{!581, !17, i64 8}
+!583 = !{!581, !17, i64 16}
+!584 = !{!585, !17, i64 0}
+!585 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!586 = !{!585, !17, i64 8}
+!587 = !{!585, !17, i64 16}
+!588 = !{!589, !17, i64 0}
+!589 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!590 = !{!589, !17, i64 8}
+!591 = !{!589, !17, i64 16}
+!592 = !{!593, !17, i64 0}
+!593 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!594 = !{!593, !17, i64 8}
+!595 = !{!593, !17, i64 16}
+!596 = !{!597, !17, i64 0}
+!597 = !{!"_ZTSZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16, !17, i64 24}
+!598 = !{!597, !17, i64 8}
+!599 = !{!597, !17, i64 16}
+!600 = !{!597, !17, i64 24}
+!601 = !{!602, !17, i64 0}
+!602 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!603 = !{!602, !17, i64 8}
+!604 = !{!602, !17, i64 16}
+!605 = !{!606, !17, i64 0}
+!606 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!607 = !{!606, !17, i64 8}
+!608 = !{!606, !17, i64 16}
+!609 = !{!610, !17, i64 0}
+!610 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!611 = !{!610, !17, i64 8}
+!612 = !{!610, !17, i64 16}
+!613 = !{!614, !17, i64 0}
+!614 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!615 = !{!614, !17, i64 8}
+!616 = !{!614, !17, i64 16}
+!617 = !{!618, !17, i64 0}
+!618 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!619 = !{!618, !17, i64 8}
+!620 = !{!618, !17, i64 16}
+!621 = !{!622, !17, i64 0}
+!622 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!623 = !{!622, !17, i64 8}
+!624 = !{!622, !17, i64 16}
+!625 = !{!626, !17, i64 0}
+!626 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE_", !17, i64 0, !17, i64 8, !17, i64 16}
+!627 = !{!626, !17, i64 8}
+!628 = !{!626, !17, i64 16}
+!629 = !{!630, !17, i64 0}
+!630 = !{!"_ZTSZZZZZZZZZZZZ13run_flash_fwdI23Flash_fwd_kernel_traitsILi160ELi128ELi32ELi4ELb0ELb0EN7cutlass6half_tE19Flash_kernel_traitsILi160ELi128ELi32ELi4ES2_EELb0ELb1EEvR16Flash_fwd_paramsP11CUstream_stENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvENKUlvE0_clEvENKUlvE_clEvEUlvE0_", !17, i64 0, !17, i64 8, !17, i64 16}
+!631 = !{!630, !17, i64 8}
+!632 = !{!630, !17, i64 16}

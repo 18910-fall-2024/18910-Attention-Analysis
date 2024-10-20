@@ -1,0 +1,27 @@
+mirostat=1, mirostat_eta=1.0, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output of **all** the hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+  "qkv_shape": "The input tensor shape, which determines the size of query (Q), key (K) and value (V).",
+  "dropout_p": "Dropout probability during training. Used in both forward and backward passes.",
+  "softmax_scale": "Scaling factor for softmax normalization. Determined by either a pre-defined constant or calculated from head_dim (dimension of attention heads)",
+  "causal": "Whether to apply causal attention mask, often used in autoregressive models.",
+  "window_size": "Sliding window size for local attention, which constrains the range of attended keys for each query.",
+  "alibi_slopes": "Bias terms added to attention scores based on absolute differences between query and key positions",
+  "deterministic": "Whether to use a deterministic implementation of the backward pass, slightly slower with more memory usage",
+  "return_softmax": "Whether to also return softmax-normalized attention probabilities instead of just outputting the final weighted sum"
+}
+```
+
+Key points:
+
+- You can find `qkv_shape` in all three code snippets related to flash_attn.
+- `dropout_p`, `softmax_scale`, and `causal` are all used in flash\_attn.py and are indeed crucial for training with attention mechanism.
+- `window_size`, `alibi_slopes`, `deterministic`, and `return_softmax` were referenced in the discussion surrounding the functions related to `flash_attn_2_cuda`.
+

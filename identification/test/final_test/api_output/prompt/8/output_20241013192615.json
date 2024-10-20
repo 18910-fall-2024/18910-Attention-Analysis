@@ -1,0 +1,19 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9250, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.8, min_p=0.4
+prompt=prompt_api_8
+
+==================== Generated Output ====================
+{
+    "embed_dim": "[flash_attn.modules.mha.MHA.__init__] The dimension of the embedding, which is also referred to as hidden size in Transformers. It affects the model's architecture and behavior.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Number of attention heads used by MHA (Multi-head Attention). This hyperparameter determines how many parallel self-attention mechanisms are applied to the input embeddings, influencing model performance and output quality.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.MHA.__init__] The dimension for rotary positional embedding. It affects attention score computation by providing position information through sinusoidal functions rotated in a specific manner.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.forward] Scaling factor applied to the dot product of query and key before computing softmax. It influences attention score computation by scaling down or up the values for numerical stability and performance optimization.",
+    "causal": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.forward] Boolean indicating whether to apply a causal mask in self-attention mechanism (True) which is typical during autoregressive modeling. This parameter affects the attention score computation by masking out future tokens.",
+    "window_size": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.forward] Tuple indicating left and right window size for local (sliding) self-attention mechanism in Transformers. It influences how far the model can look back or forward when computing attention scores.",
+    "rotary_interleaved": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.forward] Boolean indicating whether rotary embeddings are interleaved (True) for applying sinusoidal positional encodings in an alternating manner across dimensions. This parameter affects the way position information is embedded and influences attention score computation.",
+    "alibi_slopes": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.forward] Slope values for ALiBi (Attention with Linear Biases) mechanism. It adds a bias to the attention scores based on relative positions between query and key tokens.",
+    "num_splits": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.forward] Number of splits for keys/values along sequence dimension during computation. This hyperparameter influences how efficiently large sequences are processed but does not directly impact the model's output quality."
+}
+

@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, num_keep=15, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a list of **hyperparameters** related to `flash_attn_2_cuda`:
+
+```
+{
+    "qkv": "Input tensor containing query, key, and value embeddings for the attention mechanism.",
+    "dropout_p": "Dropout probability used in training the model. Determines how many elements are randomly dropped during forward pass.",
+    "softmax_scale": "Scaling factor applied to softmax output of attention scores. Used to prevent exploding gradients.",
+    "causal": "Boolean indicating whether causal masking is applied to input sequences (e.g., for autoregressive models).",
+    "window_size": "Tuple containing window sizes in two dimensions, used as a mask during forward pass.",
+    "alibi_slopes": "List of slopes used by ALiBi attention mechanism. Determines the shape and structure of the attention weights.",
+    "deterministic": "Boolean indicating whether to use deterministic or random initialization for model parameters.",
+    "return_attn_probs": "Boolean indicating whether to return attention probabilities in addition to output tensor."
+}
+```
+
+Note: I ignored `return_softmax` because it's a boolean hyperparameter that only decides the format of function outputs, but doesn't affect the training/inference process with attention mechanism.
+

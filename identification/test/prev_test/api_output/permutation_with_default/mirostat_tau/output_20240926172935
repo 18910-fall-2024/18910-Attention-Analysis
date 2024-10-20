@@ -1,0 +1,23 @@
+mirostat=2, mirostat_eta=0.1, mirostat_tau=10.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output of the hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+    "batch_size": "The batch size of the input tensor qkv.",
+    "seqlen_vals": "A tuple containing seqlen values for testing different sequence lengths.",
+    "nheads": "The number of attention heads in the Transformer model. Computed as dim // headdim, where dim is 2048 and headdim is set to various values (64, 128).",
+    "headdim_vals": "A list containing two head dimension values for testing different head dimensions.",
+    "dropout_p": "The dropout probability when computing attention. Set to zero during evaluation.",
+    "causal": "A boolean indicating whether to apply causal attention mask or not. Used in auto-regressive modeling.",
+    "window_size": "A tuple (left, right) containing the size of the sliding window for local attention. If set to (-1, -1), no sliding window is applied.",
+    "alibi_slopes": "A parameter used for biasing the attention scores with slopes. Can be set to different values or computed based on the sequence positions.",
+    "softmax_scale": "The scaling of QK^T before applying softmax when computing attention.",
+    "dim": "The dimension size (2048) used in the computation of nheads."
+}
+```
+

@@ -1,0 +1,21 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=200, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "batch_size": "The batch size of input data for attention mechanism, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "seqlen": "The sequence length of input data for attention mechanism, used in time_fwd_bwd and _flash_attn_forward.",
+  "headdim": "The head dimension (or the number of hidden units) per query or key vector for multi-head self-attention, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "nheads": "The number of attention heads for multi-head self-attention, calculated as dim // headdim, where dim is a hyperparameter for the model dimensionality. Used in flops and time_fwd_bwd.",
+  "causal": "A boolean indicating whether to apply causal (or triangular) attention mask during computation. Used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "window_size": "The size of sliding window for local self-attention, used as a hyperparameter for context windowing mechanism in _flash_attn_forward. It can be (-1, -1), indicating no windowing",
+  "alibi_slopes": "A list or tensor representing the slopes (or bias terms) added to attention scores between each query and key pair during computation. Used as a hyperparameter for alibi self-attention mechanism in _flash_attn_forward.",
+  "dropout_p": "The dropout probability used for regularization of model outputs, used in flash_attn_qkvpacked_func, time_fwd_bwd, and flops."
+}
+```
+

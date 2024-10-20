@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=0.94, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "qkv": "Input tensor of shape (batch_size, seqlen, 3, nheads, headdim), where qkv is a packed input for query, key and value.",
+    "dropout_p": "Dropout probability used in attention mechanism during training or inference with Transformer models.",
+    "softmax_scale": "Scaling factor applied to QK^T before softmax operation. Default value is 1 / sqrt(headdim).",
+    "causal": "Boolean flag indicating whether causal attention mask should be applied (e.g., for auto-regressive modeling) in flash_attn_2_cuda.",
+    "window_size": "(left, right), where left and right are integers specifying the sliding window size used to implement local attention mechanism. If not (-1, -1), implements sliding window local attention",
+    "alibi_slopes": "Bias added to attention score of query i and key j in flash_attn_2_cuda.",
+    "deterministic": "Boolean flag indicating whether deterministic implementation should be used for backward pass in flash_attn_2_cuda (slower but uses more memory). The forward pass is always deterministic.",
+    "return_softmax": "Boolean flag to return the attention probabilities from flash_attn_qkvpacked_func and _flash_attn_forward",
+    "nheads": "Number of heads in multi-head self-attention mechanism used by Transformer models, determined as dim // headdim where dim = 2048"
+}
+

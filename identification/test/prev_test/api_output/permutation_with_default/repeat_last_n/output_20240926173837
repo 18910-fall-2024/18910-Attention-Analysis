@@ -1,0 +1,20 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=256, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the **hyperparameters** related to `flash_attn_2_cuda` that I was able to identify:
+
+```json
+{
+  "qkv": "Input tensor shape, containing Q, K, and V values for attention mechanism in Transformers. Expected shape is (batch_size, seqlen, 3, nheads, headdim).",
+  "softmax_scale": "Scaling factor used in attention softmax function, default to 1 / sqrt(headdim).",
+  "causal": "Whether to apply causal attention mask for auto-regressive modeling. Used in Transformer models.",
+  "window_size": "Sliding window size for local attention, e.g., (left, right) for implementing sliding window local attention.",
+  "alibi_slopes": "Bias slopes used in alibi method for attention scores, can be (nheads,) or (batch_size, nheads).",
+  "dropout_p": "Dropout probability for attention mechanism, set to 0.0 during evaluation.",
+  "deterministic": "Whether to use deterministic implementation of backward pass for attention mechanism."
+}
+```
+

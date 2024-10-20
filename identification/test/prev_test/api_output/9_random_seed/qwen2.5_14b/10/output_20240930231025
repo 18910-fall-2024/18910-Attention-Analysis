@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.1, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] The number of sequences in a batch.",
+    "seqlen": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] The length or sequence length for each input sequence.",
+    "nheads": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Number of attention heads in the Transformer model.",
+    "headdim": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Dimensionality (or size) of each head's key, query and value vectors.",
+    "dropout_p": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.apply/time_fwd_bwd/flash_attn.flash_attn_interface._flash_attn_forward/_flash_attn_forward] Dropout probability used during training to randomly drop some attention weights. It does not affect the inference phase.",
+    "softmax_scale": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.apply/time_fwd_bwd/flash_attn.flash_attn_interface._flash_attn_forward/_flash_attn_forward] Scaling factor applied to QK^T before computing softmax. Default is 1 / sqrt(headdim).",
+    "causal": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.apply/time_fwd_bwd/flash_attn.flash_attn_interface._flash_attn_forward/_flash_attn_forward] Indicates whether to apply a causal mask, which is used in autoregressive models where each token can only attend to previous tokens.",
+    "window_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.apply/time_fwd_bwd/flash_attn.flash_attn_interface._flash_attn_forward/_flash_attn_forward] Tuple indicating the left and right window sizes for local attention. Default is (-1, -1) meaning no restriction.",
+    "alibi_slopes": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.apply/time_fwd_bwd/flash_attn.flash_attn_interface._flash_attn_forward/_flash_attn_forward] Slope values for ALiBi bias, which is used to add a positional bias in the attention mechanism."
+}
+

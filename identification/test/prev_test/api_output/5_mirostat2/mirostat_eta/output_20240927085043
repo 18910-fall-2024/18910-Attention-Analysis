@@ -1,0 +1,21 @@
+mirostat=2, mirostat_eta=0.1, mirostat_tau=2.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a list of **all** hyperparameters that are related to `flash_attn_2_cuda` and determining its input tensors' sizes, dimensions or shapes:
+
+```json
+{
+    "batch_size": "The number of sequence batches. Used in the benchmark time_fwd_bwd function.",
+    "seqlen": "The length of each sequence. Used in the benchmark time_fwd_bwd function to compute forward pass speed.",
+    "nheads": "Number of attention heads. Calculated based on headdim and dim, used as input shape for flash_attn_qkvpacked_func.",
+    "headdim": "Dimension of each head. Used to calculate nheads and in benchmark time_fwd_bwd function to compute forward pass speed.",
+    "dim": "Total dimension of the model. Used with headdim to calculate nheads, which is input shape for flash_attn_qkvpacked_func",
+    "dropout_p": "The probability that an element will be ignored during dropout. Passed as argument in flash_attn_qkvpacked_func to compute forward pass speed.",
+    "causal": "Whether the attention mechanism should be causal (True) or not (False). Used when computing forward and backward pass speeds in benchmark time_fwd_bwd function",
+    "window_size": "(left, right): If not (-1, -1), implements sliding window local attention. Passed as argument to compute forward pass speed via _flash_attn_forward() function.",
+}
+```
+

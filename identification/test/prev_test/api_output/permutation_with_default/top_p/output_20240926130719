@@ -1,0 +1,25 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.7000000000000001, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+  "qkv": "Input tensor shape: (batch_size, seqlen, 3, nheads, headdim). This is the input shape for flash_attn_qkvpacked_func and flash_attn_2_cuda.",
+  "dropout_p": "Dropout probability. This is a hyperparameter used in both forward and backward passes of attention mechanisms.",
+  "softmax_scale": "Scaling factor for softmax. If not provided, it will be set to 1 / sqrt(headdim).",
+  "causal": "Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+  "window_size": "Sliding window size for local attention. If (-1, -1), implements global attention.",
+  "alibi_slopes": "Bias of (-alibi_slope * |i - j|) added to the attention score of query i and key j.",
+  "nheads": "Number of attention heads in a Transformer model.",
+  "headdim": "Dimension of each attention head in a Transformer model.",
+  "batch_size": "Batch size for input data. This is used to compute the number of attention heads (nheads) from headdim.",
+  "seqlen": "Sequence length for input data. This determines the size of the input tensor qkv."
+}
+```
+
+Note that `qkv` is a tensor shape and not a hyperparameter in the classical sense, but it's included here as it's an important parameter for `flash_attn_2_cuda`.
+

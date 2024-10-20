@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.5, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] The number of sequences or samples in a batch.",
+    "seqlen": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Length of the sequence for each sample in the batch, which determines the size along the sequence dimension (second dimension) of input tensors.",
+    "headdim": "[time_fwd_brd/configs/time_f_b] The dimension or feature length associated with a single attention head. It is used to determine tensor shapes and dimensions related to individual heads within multi-head self-attention mechanisms in Transformers.",
+    "nheads": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Number of attention heads, which is used for determining the number of parallel channels or streams to process input data in multi-head self-attention mechanisms.",
+    "dropout_p": "[time_fwd_brd/configs/time_f_b and time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Dropout probability used during training to randomly drop out (set to zero) a fraction of the input units in each layer, which helps prevent overfitting.",
+    "softmax_scale": "[time_fwd_brd/configs/time_f_b and time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Scaling factor applied to the dot product of query-key pairs before applying softmax, which can improve numerical stability during attention computation.",
+    "causal": "[time_fwd_brd/configs/time_f_b and time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Boolean indicating whether to apply a causal mask, which restricts each position in the sequence only attending to previous positions. This is used for autoregressive models like language modeling.",
+    "window_size": "[time_fwd_brd/configs/time_f_b and time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Tuple indicating the size of a sliding window for local attention. It restricts each position in the sequence to attend only within its specified left and right context.",
+    "alibi_slopes": "[time_fwd_brd/configs/time_f_b and time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Slope values used for the ALiBi (Attention with Linear Biases) mechanism, which adds a bias term to each position's attention scores based on its distance from other positions."
+}
+

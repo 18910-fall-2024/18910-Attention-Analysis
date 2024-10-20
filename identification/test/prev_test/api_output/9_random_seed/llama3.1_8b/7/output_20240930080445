@@ -1,0 +1,14 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=0.94, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input data.", 
+"seqlen": "The sequence length of input data.",
+"Headdim": "The head dimension used in the Transformer model, which determines the number of attention heads and their output dimensions.",
+"deterministic": "Whether to use a deterministic implementation for backward pass computation. This parameter is related to training process with attention mechanism.", 
+"return_attn_probs": "A boolean flag indicating whether to return attention probabilities during forward pass. This parameter has nothing to do with the size or shape of input tensors, so it's ignored.",
+"window_size": "The window size used in sliding window local attention, which determines how much context each query can attend to.", 
+"alibi_slopes": "A bias term added to attention scores based on the distance between queries and keys. This parameter is related to training process with attention mechanism."}
+

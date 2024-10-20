@@ -1,0 +1,16 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] Determines the batch size of input tensors for attention mechanism.",
+    "seqlen": "[time_fwd_bwd/flash_attn.flash_attn_interface.flash_attn_qkvpacked_func] Specifies the sequence length (or number of tokens) in each sample within a batch, affecting tensor dimensions and computation scope.",
+    "headdim": "[flops/time_fwd_bwd] Represents head dimension size used for attention mechanism calculations; impacts memory requirements and computational complexity.",
+    "nheads": "[time_fwd_bwd/flash_attn.flash_attn_interface._flash_attn_forward] Number of heads in the multi-head self-attention, influencing tensor shapes (batch_size * n_heads) and computation parallelism.",
+    "dropout_p": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.apply] Probability for dropout during training; it does not affect inference but is crucial for regularization in attention mechanism calculations.",
+    "softmax_scale": "[_flash_attn_forward/time_fwd_bwd] Scaling factor applied to the dot product of queries and keys before applying softmax, affecting stability and precision of attention weights computation.",
+    "causal": "_[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.apply] Boolean indicating whether causal (autoregressive) masking is used; this parameter influences the shape and content of tensors involved in forward pass by restricting future context access."
+}
+

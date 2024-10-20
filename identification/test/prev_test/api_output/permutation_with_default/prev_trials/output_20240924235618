@@ -1,0 +1,27 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the identified hyperparameters with their descriptions:
+
+```
+{
+    "qkv_shape": "Input tensor shape, a 3D tensor of shape [batch_size, sequence_length, 3]",
+    "softmax_scale": "Scaling factor for softmax function. If None, it is set to qkv.shape[-1] ** (-0.5)",
+    "dropout_p": "Dropout probability (between 0 and 1). If greater than 0, dropout is applied",
+    "causal": "Whether to use causal attention or not",
+    "window_size": "Window size for local attention. A tuple of two integers (height, width) if local window is used",
+    "alibi_slopes": "List of slopes for alibi attention",
+    "deterministic": "Whether the attention should be deterministic or not",
+    "return_attn_probs": "Whether to return attention probabilities in addition to output"
+}
+```
+
+All these hyperparameters are used to determine the sizes, dimensions, and shapes of tensors input to `flash_attn_2_cuda`. The key parameters that derive the input tensor shape are:
+
+*   "qkv_shape"
+
+The values of these hyperparameters are determined by the function `_flash_attn_forward` in the code snippet.
+

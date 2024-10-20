@@ -1,0 +1,30 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=0, tfs_z=0.4, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a JSON object containing the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "qkv_shape": "(batch_size, seqlen, 3, nheads, headdim)",
+  "dropout_p": "float. Dropout probability.",
+  "softmax_scale": "None or float. The scaling of QK^T before applying softmax.",
+  "causal": "bool. Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+  "window_size": "(left, right) If not (-1, -1), implements sliding window local attention.",
+  "alibi_slopes": "(nheads,) or (batch_size, nheads), fp32. A bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j."
+}
+```
+
+Here's a brief description for each parameter:
+
+- **qkv_shape**: The shape of input tensor `qkv` in function `_flash_attn_forward`, which determines the sizes, dimensions, or shapes of tensors input to `flash_attn_2_cuda`.
+- **dropout_p**: A hyperparameter used in functions like `attention_pytorch` and `flash_attn_qkvpacked_func`, determining dropout probability for training with attention mechanism.
+- **softmax_scale**: The scaling factor applied before softmax operation. It's a hyperparameter used in function `_flash_attn_forward`, which determines the input to `flash_attn_2_cuda`.
+- **causal**: A boolean flag indicating whether causal mask should be applied during forward pass, as seen in functions like `attention_pytorch` and `flash_attn_qkvpacked_func`. It's a hyperparameter used for training or inference with attention mechanism.
+- **window_size**: The size of the sliding window local attention. This is another hyperparameter that determines input to `flash_attn_2_cuda`.
+- **alibi_slopes**: A bias term added during forward pass, which can be seen in function `_flash_attn_forward`. It's a hyperparameter used for training with attention mechanism.
+
+Note: The description of each parameter includes both the function where it is used and its role or purpose.
+

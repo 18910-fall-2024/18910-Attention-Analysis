@@ -1,0 +1,21 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=90, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the identified hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+    "batch_size": "The number of batches in the input data, used as a hyperparameter for scaling attention computation.",
+    "seqlen": "Sequence length of each batch, determines the size and shape of tensor inputs to flash_attn_2_cuda.",
+    "nheads": "Number of attention heads in the transformer model, affects the dimensions and sizes of tensor inputs to flash_attn_2_cuda.",
+    "headdim": "Dimension of each head in the attention mechanism, used for scaling and determining the shape of tensor inputs to flash_attn_2_cuda.",
+    "causal": "Whether to apply causal attention mask, determines the structure of attention model in flash_attn_2_cuda.",
+    "window_size": "Size of sliding window for local attention, affects the dimensions and sizes of tensor inputs to flash_attn_2_cuda when used.",
+    "softmax_scale": "Scaling factor for softmax computation, used for determining the shape of output tensors from flash_attn_2_cuda.",
+    "dropout_p": "Dropout probability in the attention mechanism, affects the structure and training process of transformer model using flash_attn_2_cuda."
+}
+```
+

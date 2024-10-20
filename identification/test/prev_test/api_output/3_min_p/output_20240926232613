@@ -1,0 +1,28 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.1
+
+==================== Generated Output ====================
+Here are the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+    "batch_size": "The batch size of input data. Used in flash_attn_qkvpacked_func, _flash_attn_forward",
+    "seqlen": "Sequence length. Used in time_fwd_bwd and _flash_attn_forward.",
+    "nheads": "Number of attention heads for multi-head attention mechanism in the Transformer model. Derived from dim / headdim in flash_attn_qkvpacked_func",
+    "headdim": "The dimensionality of each head, used to calculate nheads (number of attention heads). Used in time_fwd_bwd and _flash_attn_forward.",
+    "causal": "Whether causal mask is applied during self-attention. Used in time_fwd_bwd, flash_attn_qkvpacked_func, _flash_attn_forward",
+    "window_size": "Context window size for local sliding attention. Default to (-1,-1), which means infinite context window. Used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "dropout_p": "Probability of dropout during self-attention computation. Set to 0.0 by default, used in time_fwd_bwd and _flash_attn_forward",
+    "softmax_scale": "Scaling factor for softmax normalization. If None, set it as the inverse square root of headdim (dimensionality per head). Used in flash_attn_qkvpacked_func and _flash_attn_forward"
+}
+```
+
+These hyperparameters determine sizes or shapes of input tensors to `flash_attn_2_cuda`:
+
+- "batch_size" determines batch size,
+- "seqlen" determines sequence length
+- "nheads", "headdim" together calculate the shape for attention mechanism in each head.
+- The rest are used as masks, biases or probabilities during computing self-attention
+

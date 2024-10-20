@@ -1,0 +1,292 @@
+The following is a function call chain starting from the code file listed below. The code base is an implementation of the deployment of Transformer.
+
+Identify all **hyperparameters** along the call chain and extract those are **related to the arguments of `flash_attn_2_cuda`** (the end of the call chain).
+- Focus on **hyperparameters** that are used for **training or inference** with **attention mechanism**, especially for **Transformers**.
+- Identify **all hyperparameters** in all code snippets that are related to `flash_attn_2_cuda`.
+- List **hyperparameters** determining the **sizes, dimensions, and shapes** of tensors input to `flash_attn_2_cuda`, or determining attention model structures among them.
+- **Ignore the boolean hyperparameters that only decide return format of a function but do nothing with the attention mechanism.**
+
+
+**Function call chain**:
+`/tests.test_flash_attn.test_flash_attn_bwd_varlen_overflow -> tests.test_flash_attn.test_flash_attn_bwd_varlen_overflow/flash_attn.flash_attn_interface.flash_attn_varlen_func -> flash_attn.flash_attn_interface.flash_attn_varlen_func/flash_attn.flash_attn_interface.FlashAttnVarlenFunc.apply -> flash_attn.flash_attn_interface.FlashAttnVarlenFunc.apply/flash_attn.flash_attn_interface.FlashAttnVarlenFunc.forward -> flash_attn.flash_attn_interface.FlashAttnVarlenFunc.forward/flash_attn.flash_attn_interface._flash_attn_varlen_forward -> flash_attn.flash_attn_interface._flash_attn_varlen_forward/flash_attn_2_cuda.varlen_fwd`
+
+Each function/variable is formatted as: the part before "/" indicates the scope of the function/variable being called, and the part after "/" indicates where the function originates from.
+
+
+**Code in the scope of starting point**:
+
+`tests.test_flash_attn.test_flash_attn_bwd_varlen_overflow`:
+```python
+def test_flash_attn_bwd_varlen_overflow(d, causal, dtype):
+    """We previously had a bug where not masking elements beyond seqlen_k caused NaN in dQ,
+    in the case where seqlen % 128 != 0 or varlen.
+    """
+    device = "cuda"
+    # set seed
+    torch.random.manual_seed(0)
+    nheads = 5
+    q_cuseqlen = torch.tensor([0, 76, 110, 256], device=device, dtype=torch.int32)
+    k_cuseqlen = torch.tensor([0, 1, 2, 3], device=device, dtype=torch.int32)
+    Mq = 256
+    Mk = 3
+
+    q = torch.randn([Mq, nheads, d], dtype=dtype, device=device) * 3
+    k, v = [torch.randn([Mk, nheads, d], dtype=dtype, device=device) * 3 for _ in range(2)]
+    q.requires_grad_(True)
+    k.requires_grad_(True)
+    v.requires_grad_(True)
+
+    out = flash_attn_varlen_func(q, k, v, q_cuseqlen, k_cuseqlen, Mq, Mk, causal=causal)
+    g = torch.randn_like(out)
+    out.backward(g)
+
+    assert not q.grad.isnan().any()
+    assert not k.grad.isnan().any()
+    assert not v.grad.isnan().any()
+```
+
+
+**Other functions in the call chain**:
+
+`flash_attn.flash_attn_interface.flash_attn_varlen_func`:
+```python
+def flash_attn_varlen_func(
+    q,
+    k,
+    v,
+    cu_seqlens_q,
+    cu_seqlens_k,
+    max_seqlen_q,
+    max_seqlen_k,
+    dropout_p=0.0,
+    softmax_scale=None,
+    causal=False,
+    window_size=(-1, -1),  # -1 means infinite context window
+    alibi_slopes=None,
+    deterministic=False,
+    return_attn_probs=False,
+    block_table=None,
+):
+    """dropout_p should be set to 0.0 during evaluation
+    Supports multi-query and grouped-query attention (MQA/GQA) by passing in K, V with fewer heads
+    than Q. Note that the number of heads in Q must be divisible by the number of heads in KV.
+    For example, if Q has 6 heads and K, V have 2 heads, head 0, 1, 2 of Q will attention to head
+    0 of K, V, and head 3, 4, 5 of Q will attention to head 1 of K, V.
+
+    If causal=True, the causal mask is aligned to the bottom right corner of the attention matrix.
+    For example, if seqlen_q = 2 and seqlen_k = 5, the causal mask (1 = keep, 0 = masked out) is:
+        1 1 1 1 0
+        1 1 1 1 1
+    If seqlen_q = 5 and seqlen_k = 2, the causal mask is:
+        0 0
+        0 0
+        0 0
+        1 0
+        1 1
+    If the row of the mask is all zero, the output will be zero.
+
+    If window_size != (-1, -1), implements sliding window local attention. Query at position i
+    will only attend to keys between
+    [i + seqlen_k - seqlen_q - window_size[0], i + seqlen_k - seqlen_q + window_size[1]] inclusive.
+
+    Arguments:
+        q: (total_q, nheads, headdim), where total_q = total number of query tokens in the batch.
+        k: (total_k, nheads_k, headdim), where total_k = total number of key tokens in the batch.
+        v: (total_k, nheads_k, headdim), where total_k = total number of key tokens in the batch.
+        cu_seqlens_q: (batch_size + 1,), dtype torch.int32. The cumulative sequence lengths
+           of the sequences in the batch, used to index into q.
+        cu_seqlens_k: (batch_size + 1,), dtype torch.int32. The cumulative sequence lengths
+           of the sequences in the batch, used to index into kv.
+        max_seqlen_q: int. Maximum query sequence length in the batch.
+        max_seqlen_k: int. Maximum key sequence length in the batch.
+        dropout_p: float. Dropout probability.
+        softmax_scale: float. The scaling of QK^T before applying softmax.
+            Default to 1 / sqrt(headdim).
+        causal: bool. Whether to apply causal attention mask (e.g., for auto-regressive modeling).
+        window_size: (left, right). If not (-1, -1), implements sliding window local attention.
+        alibi_slopes: (nheads,) or (batch_size, nheads), fp32. A bias of
+            (-alibi_slope * |i + seqlen_k - seqlen_q - j|)
+            is added to the attention score of query i and key j.
+        deterministic: bool. Whether to use the deterministic implementation of the backward pass,
+            which is slightly slower and uses more memory. The forward pass is always deterministic.
+        return_attn_probs: bool. Whether to return the attention probabilities. This option is for
+           testing only. The returned probabilities are not guaranteed to be correct
+           (they might not have the right scaling).
+    Return:
+        out: (total, nheads, headdim).
+        softmax_lse [optional, if return_attn_probs=True]: (batch_size, nheads, seqlen). The
+            logsumexp of each row of the matrix QK^T * scaling (e.g., log of the softmax
+            normalization factor).
+        S_dmask [optional, if return_attn_probs=True]: (batch_size, nheads, seqlen, seqlen).
+            The output of softmax (possibly with different scaling). It also encodes the dropout
+            pattern (negative means that location was dropped, nonnegative means it was kept).
+    """
+    return FlashAttnVarlenFunc.apply(
+        q,
+        k,
+        v,
+        cu_seqlens_q,
+        cu_seqlens_k,
+        max_seqlen_q,
+        max_seqlen_k,
+        dropout_p,
+        softmax_scale,
+        causal,
+        window_size,
+        alibi_slopes,
+        deterministic,
+        return_attn_probs,
+        block_table,
+    )
+```
+
+`flash_attn.flash_attn_interface.FlashAttnVarlenFunc`:
+```python
+class FlashAttnVarlenFunc(torch.autograd.Function):
+    @staticmethod
+    def forward(
+        ctx,
+        q,
+        k,
+        v,
+        cu_seqlens_q,
+        cu_seqlens_k,
+        max_seqlen_q,
+        max_seqlen_k,
+        dropout_p,
+        softmax_scale,
+        causal,
+        window_size,
+        alibi_slopes,
+        deterministic,
+        return_softmax,
+        block_table,
+    ):
+        if softmax_scale is None:
+            softmax_scale = q.shape[-1] ** (-0.5)
+        out, q, k, v, out_padded, softmax_lse, S_dmask, rng_state = _flash_attn_varlen_forward(
+            q,
+            k,
+            v,
+            cu_seqlens_q,
+            cu_seqlens_k,
+            max_seqlen_q,
+            max_seqlen_k,
+            dropout_p,
+            softmax_scale,
+            causal=causal,
+            window_size=window_size,
+            alibi_slopes=alibi_slopes,
+            return_softmax=return_softmax and dropout_p > 0,
+            block_table=block_table,
+        )
+        ctx.save_for_backward(
+            q, k, v, out_padded, softmax_lse, cu_seqlens_q, cu_seqlens_k, rng_state
+        )
+        ctx.dropout_p = dropout_p
+        ctx.max_seqlen_q = max_seqlen_q
+        ctx.max_seqlen_k = max_seqlen_k
+        ctx.softmax_scale = softmax_scale
+        ctx.causal = causal
+        ctx.window_size = window_size
+        ctx.alibi_slopes = alibi_slopes
+        ctx.deterministic = deterministic
+        return out if not return_softmax else (out, softmax_lse, S_dmask)
+
+    @staticmethod
+    def backward(ctx, dout, *args):
+        q, k, v, out, softmax_lse, cu_seqlens_q, cu_seqlens_k, rng_state = ctx.saved_tensors
+        dq, dk, dv = torch.empty_like(q), torch.empty_like(k), torch.empty_like(v)
+        _flash_attn_varlen_backward(
+            dout,
+            q,
+            k,
+            v,
+            out,
+            softmax_lse,
+            dq,
+            dk,
+            dv,
+            cu_seqlens_q,
+            cu_seqlens_k,
+            ctx.max_seqlen_q,
+            ctx.max_seqlen_k,
+            ctx.dropout_p,
+            ctx.softmax_scale,
+            ctx.causal,
+            ctx.window_size,
+            ctx.alibi_slopes,
+            ctx.deterministic,
+            rng_state=rng_state,
+        )
+        dq = dq[..., : dout.shape[-1]]  # We could have padded the head dimension
+        dk = dk[..., : dout.shape[-1]]
+        dv = dv[..., : dout.shape[-1]]
+        return dq, dk, dv, None, None, None, None, None, None, None, None, None, None, None, None
+```
+
+`flash_attn.flash_attn_interface._flash_attn_varlen_forward`:
+```python
+def _flash_attn_varlen_forward(
+    q,
+    k,
+    v,
+    cu_seqlens_q,
+    cu_seqlens_k,
+    max_seqlen_q,
+    max_seqlen_k,
+    dropout_p,
+    softmax_scale,
+    causal,
+    window_size,
+    alibi_slopes,
+    return_softmax,
+    block_table,
+):
+    maybe_contiguous = lambda x: x.contiguous() if x.stride(-1) != 1 else x
+    q, k, v = [maybe_contiguous(x) for x in (q, k, v)]
+    out, q, k, v, out_padded, softmax_lse, S_dmask, rng_state = flash_attn_cuda.varlen_fwd(
+        q,
+        k,
+        v,
+        None,
+        cu_seqlens_q,
+        cu_seqlens_k,
+        None,
+        block_table,
+        alibi_slopes,
+        max_seqlen_q,
+        max_seqlen_k,
+        dropout_p,
+        softmax_scale,
+        False,
+        causal,
+        window_size[0],
+        window_size[1],
+        return_softmax,
+        None,
+    )
+    # if out.isnan().any() or softmax_lse.isnan().any():
+    #     breakpoint()
+    return out, q, k, v, out_padded, softmax_lse, S_dmask, rng_state
+```
+
+Based on your knowledge of Transformer, identify all **hyperparameters** in the code snippets that finally related to `flash_attn_2_cuda`, especially for those hyperparameters determining the input tensors' **sizes, dimensions, and shapes**.
+Focus on **hyperparameters** that are used for **training or inference** with **attention mechanism**, especially for **Transformers**.
+You should:
+- Identify **all** hyperparameters in all code snippets that are related to `flash_attn_2_cuda`.
+- List **all hyperparameters** determining the **sizes, dimensions, or shapes** of tensors input to `flash_attn_2_cuda`, or those determine the attention model structure in `flash_attn_2_cuda`.
+- **Ignore the boolean hyperparameters that only decide return format of a function but do nothing with the attention mechanism.**
+
+Provide a brief description of each parameter you identified, including
+- **Scope** in which the parameter is used. Show the scope in the following format: Join the path to where it is from directory to function using ".".
+  If a parameter appears in multiple functions, use ", " to separate different scope paths. E.g., if parameter `a` appears in `func1` in `flash_attn/file1.py` and `func2` in `flash_attn/file2.py`, its scope should be written as: `flash_attn.file1.func1, flash_attn.file2.func2`
+- The role or purpose of the parameter
+
+Only output a **JSON**. Set the keys to hyperparameters you identified and values to corresponding scopes and descriptions. Put all your output in the JSON structure with the following format:
+```json
+{
+    "hyperparameter1":"[scope1] description1",
+    "hyperparameter2":"[scope2] description2"
+}
+```

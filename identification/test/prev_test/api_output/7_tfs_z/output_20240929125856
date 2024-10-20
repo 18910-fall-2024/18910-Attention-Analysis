@@ -1,0 +1,21 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=0, tfs_z=0.30000000000000004, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a list of **all** hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+    "batch_size": "The number of sequences in the input batch. Used as an argument for flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "seqlen": "The length of each sequence in the input batch. Used as an argument for flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "nheads": "The number of attention heads used by the model. Calculated from headdim (2048) / headdim (64 or 128).",
+    "headdim": "The dimensionality of each head in the multi-head attention mechanism. Used to calculate nheads and as an argument for flash_attn_qkvpacked_func.",
+    "causal": "A boolean indicating whether causal masking should be applied during self-attention computation. Used as an argument for flash_attn_qkvpacked_func, _flash_attn_forward, and _flash_attn_backward.",
+    "window_size": "The size of the sliding window used in local attention (if applicable). If (-1,-1), no local attention is performed. Used as an argument for flash_attn_qkvpacked_func and _flash_attn_forward.",
+    "alibi_slopes": "A bias added to the attention scores based on the absolute difference between query and key indices. Used as an argument for flash_attn_qkvpacked_func, _flash_attn_forward, and _flash_attn_backward.",
+    "dropout_p": "The dropout probability used during self-attention computation. Used as an argument for flash_attn_qkvpacked_func, _flash_attn_forward, and _flash_attn_backward."
+}
+```
+

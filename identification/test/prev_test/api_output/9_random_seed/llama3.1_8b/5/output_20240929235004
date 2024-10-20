@@ -1,0 +1,19 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "batch_size": "The batch size of input data, used as a dimension for tensors qkv and v in flash_attn_qkvpacked_func.",
+    "seqlen": "Sequence length, the number of tokens in each sequence. Used to calculate flops (floating-point operations) and time_f_bwd",
+    "nheads": "Number of attention heads, calculated from headdim by dividing dim into nheads.",
+    "headdim": "The dimension for each head of self-attention mechanism, used as a hyperparameter in flash_attn_qkvpacked_func to calculate flops and determine the size of tensors qkv",
+    "causal": "Whether to apply causal attention mask (e.g., for auto-regressive modeling). Used in _flash_attn_forward function.",
+    "window_size": "If not (-1, -1), implements sliding window local attention. Used as a hyperparameter in flash_attn_qkvpacked_func",
+    "alibi_slopes": "A bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j. Used in _flash_attn_forward function.",
+    "deterministic": "Whether to use the deterministic implementation of the backward pass, which is slightly slower and uses more memory. The forward pass is always deterministic. Used as a hyperparameter in FlashAttnQKVPackedFunc",
+    "return_softmax": "Whether to return softmax (possibly with different scaling). It also encodes the dropout pattern (negative means that location was dropped, non-negative means it was kept). Used in _flash_attn_forward function.",
+    "softmax_scale": "The scaling of QK^T before applying softmax. Default is 1 / sqrt(headdim), used as a hyperparameter in flash_attn_qkvpacked_func"
+}
+

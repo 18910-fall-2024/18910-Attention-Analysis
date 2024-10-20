@@ -1,0 +1,28 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.5, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the identified hyperparameters related to `flash_attn_2_cuda` and their descriptions:
+
+```json
+{
+  "dropout_p": "Dropout probability used in flash_attn_forward function. It determines whether to apply dropout on attention weights.",
+  "softmax_scale": "Scaling factor for softmax normalization in flash_attn_forward function. It is used to stabilize the training process by preventing division by zero and large gradients.",
+  "causal": "Flag indicating whether causal masking should be applied when computing self-attention. Used in flash_attn_forward function.",
+  "window_size": "Tuple of integers specifying the size of the window for self-attention computation. Used in flash_attn_forward function.",
+  "alibi_slopes": "List of slopes used for alibi attention calculation. Used in flash_attn_forward function.",
+  "deterministic": "Flag indicating whether to use deterministic or random initialization for rng_state in flash_attn_forward function.",
+  "return_softmax": "Flag indicating whether to return softmax output along with the final output from flash_attn_forward function.",
+  "qkv_shape": "The shape of qkv tensor input to flash_attn_2_cuda, which is a tuple of integers (batch_size, sequence_length, num_heads, dim_head).",
+  "ctx.saved_tensors": "Saved tensors in ctx object containing the output and intermediate results from previous forward pass.",
+  "ctx.dropout_p": "Dropout probability saved in ctx object for backward computation.",
+  "ctx.softmax_scale": "Softmax scaling factor saved in ctx object for backward computation.",
+  "ctx.causal": "Causal flag saved in ctx object for backward computation.",
+  "ctx.window_size": "Window size tuple saved in ctx object for backward computation.",
+  "ctx.alibi_slopes": "Alibi slopes list saved in ctx object for backward computation.",
+  "ctx.deterministic": "Deterministic flag saved in ctx object for backward computation.",
+}
+```
+

@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] The batch size of input sequences, determining how many sequence inputs are processed in parallel.",
+    "seqlen": "[time_fwd_bwd function call chain] Length or number of tokens in each sequence. Together with the batch size and head dimensions, it determines the shape of QKV tensors fed into `flash_attn_2_cuda` functions.",
+    "headdim": "[time_fwd_bwd function call chain] The dimensionality (or width) of individual attention heads within multi-head self-attention layers in Transformers. It is used to compute tensor shapes and sizes for input data passed through the Flash Attention mechanism.",
+    "causal": "[flash_attn_qkvpacked_func, _flash_attn_forward functions] A boolean parameter indicating whether causal masking should be applied during computation of attention scores (True) or not (False). This impacts how QKV tensors are processed within `flash_attn_2_cuda` for autoregressive models.",
+    "dropout_p": "[time_fwd_bwd function call chain, flash_attn_qkvpacked_func] A float value representing the probability with which to drop out elements during training. Dropout is used in Transformer layers and its application influences how tensors are processed by `flash_attn_2_cuda` functions.",
+    "softmax_scale": "[flash_attn_qkvpacked_func function call chain, _flash_attn_forward] The scaling factor applied before computing the softmax operation on attention scores. If not provided explicitly (None), it defaults to 1 / sqrt(headdim). This parameter affects how QKV tensors are scaled and processed within `flash_attn_2_cuda`.",
+    "window_size": "[time_fwd_bwd function call chain, _flash_attn_forward] A tuple of integers representing the left and right window sizes for local attention. If set to (-1,-1), it indicates infinite context windows; otherwise, queries only attend keys within their respective sliding windows defined by `left` and `right`. This parameter influences how QKV tensors are processed in terms of contextual scope.",
+    "alibi_slopes": "[time_fwd_bwd function call chain] A tensor representing the slopes for ALiBi (Attention with Linear Biases) to be applied during attention computation. The presence or absence of this slope impacts bias application within `flash_attn_2_cuda` functions."
+}
+

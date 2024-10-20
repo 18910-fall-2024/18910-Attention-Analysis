@@ -1,0 +1,15 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.85, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input sequence.", 
+"seqlen": "The length of input sequence.",
+"Headdim": "The dimensionality of each head in the attention mechanism.",
+"deterministic": "Whether to use a deterministic implementation for backward pass, which is slightly slower and uses more memory. The forward pass is always deterministic.",
+"causal": "A boolean indicating whether causal attention mask should be applied (e.g., auto-regressive modeling).",
+"window_size": "The size of the sliding window local attention if not (-1,-1), implements sliding window local attention.", 
+"dropout_p": "Dropout probability for training. Should set to 0 during evaluation.",
+"deterministic": "Whether to use a deterministic implementation for backward pass, which is slightly slower and uses more memory. The forward pass is always deterministic."}
+

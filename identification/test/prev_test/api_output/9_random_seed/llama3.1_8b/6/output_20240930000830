@@ -1,0 +1,16 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.8, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "batch_size": "The batch size of input tensors for attention mechanism, used to calculate the number of queries and keys.",
+    "seqlen": "The sequence length (or window size) of input sequences for attention mechanism",
+    "nheads": "The number of attention heads in a Transformer model, used to split query, key, value into multiple smaller linear transformations.",
+    "headdim": "The dimensionality of each head in the multi-head self-attention layer. It is also known as the hidden size or embedding dimention",
+    "causal": "Whether to apply causal attention mask (e.g., for auto-regressive modeling) when computing attention weights, used to prevent future information from being accessed.",
+    "window_size": "The window size of sliding window local attention mechanism. It determines how many context positions are attended by each query position",
+    "softmax_scale": "A scaling factor applied before softmax normalization in the self-attention layer"
+}
+

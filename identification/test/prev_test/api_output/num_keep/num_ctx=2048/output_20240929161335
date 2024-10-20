@@ -1,0 +1,103 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, num_keep=0, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here are the code snippets with some modifications for better readability:
+
+**flash_attn_2_cuda.py**
+```python
+import torch
+from flashattn import FlashAttnQKVPackedFunc, _flash_attn_forward
+
+def flash_attn(
+    qkv,
+    dropout_p=0.1,
+    softmax_scale=None,
+    causal=False,
+    window_size=(256, 16),
+    alibi_slopes=[-4],
+    deterministic=True,
+    return_softmax=False
+):
+    """
+    Apply attention to `q` and `v`, returning a tensor of shape `(batch, sequence, head)`.
+
+    Args:
+        qkv (Tensor): Tensor containing query, key, value in the last three dimensions.
+            Shape should be `(sequence, batch, hidden)`.
+        dropout_p: Dropout probability for output. Default is 0.1.
+        softmax_scale: Scale factor to apply during attention computation. If None,
+            it will use `hidden ** (-0.5)` as default scale value.
+        causal (bool): Whether or not the model should be causal. This means that
+            if a sequence has length L, then only the first L positions can attend to each other.
+            Default is False.
+
+    Returns:
+        Tensor: Output of attention mechanism with shape `(sequence, batch)` if `return_softmax`
+                else returns output tensor without softmax value applied in last dimension,
+                which will be used for further computations like cross-entropy loss or cosine similarity
+                between outputs and labels. If return_attn_probs is True then it also includes the
+                probabilities of each position to attend other positions.
+    """
+    return FlashAttnQKVPackedFunc.apply(
+        qkv,
+        dropout_p=dropout_p,
+        softmax_scale=softmax_scale,
+        causal=causal,
+        window_size=window_size,
+        alibi_slopes=alibi_slopes,
+        deterministic=deterministic,
+        return_attn_probs=False
+    )
+```
+
+**flashattn.py**
+```python
+class FlashAttnQKVPackedFunc(torch.autograd.Function):
+    @staticmethod
+    def forward(
+        ctx,
+        qkv,
+        dropout_p=0.1,
+        softmax_scale=None,
+        causal=False,
+        window_size=(256, 16),
+        alibi_slopes=[-4],
+        deterministic=True,
+        return_softmax=False
+    ):
+        # ...
+
+class _FlashAttnForward(torch.autograd.Function):
+    @staticmethod
+    def forward(
+        ctx,
+        qkv,
+        dropout_p=0.1,
+        softmax_scale=None,
+        causal=False,
+        window_size=(256, 16),
+        alibi_slopes=[-4],
+        deterministic=True,
+        return_softmax=False
+    ):
+        # ...
+```
+
+Here are the identified hyperparameters with their descriptions in JSON format:
+
+```json
+{
+	"dropout_p": "Dropout probability for output",
+	"softmax_scale": "Scale factor to apply during attention computation. If None, it will use hidden ** (-0.5) as default scale value.",
+	"causal": "Whether or not the model should be causal (True/False)",
+	"window_size": "Window size used in Flash Attention algorithm",
+	"alibi_slopes": "Slope values for alibi attention mechanism",
+	"deterministic": "Deterministic mode of flash-attn computation"
+}
+```
+
+Note that I ignored `return_softmax` because it's a boolean hyperparameter that only decides the return format of a function but does nothing with the attention mechanism.
+

@@ -1,0 +1,20 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=30, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "batch_size": "The batch size of input sequences, used for attention mechanism.", 
+    "seqlen": "The length of input sequence in terms of number of tokens or elements., used for attention mechanism.", 
+    "nheads": "Number of heads (attention mechanisms) to be applied simultaneously. Each head applies the same operation on different subspaces of the input data, which is useful when dealing with multi-modal inputs such as text and images together.",
+    "headdim": "The dimensionality or size of each attention mechanism's output vector in a multi-head self-attention setup.", 
+    "causal": "Whether to apply causal (auto-regressive) masking for the input sequences, which is useful when training models that predict future values based on past ones.",
+    "dropout_p": "Dropout probability used during forward pass of attention mechanism. This helps prevent overfitting by randomly dropping out units with a certain probability.", 
+    "softmax_scale": "Scaling factor applied to QK^T before applying softmax, which is useful for preventing the explosion or underflow of values in the denominator.",
+    "window_size": "The size (left and right) of sliding window local attention. If not (-1, -1), implements sliding window local attention.", 
+    "alibi_slopes": "Bias added to the attention score based on absolute difference between query index i and key index j for each head in multi-head self-attention setup.",
+    "deterministic": "Whether to use deterministic implementation of backward pass. This is useful when training models that require reproducibility.", 
+    "return_attn_probs": "Whether to return attention probabilities, which are used during testing or evaluation phases."
+}
+

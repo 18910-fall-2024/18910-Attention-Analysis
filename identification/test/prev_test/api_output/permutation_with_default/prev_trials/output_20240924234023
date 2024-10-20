@@ -1,0 +1,24 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.6, seed=30, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Based on the code snippets, I have identified the following hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+  "window_size": "Hyperparameter determining the window size for attention. It is used in flash_attn_forward and flash_attn_backward functions.",
+  "alibi_slopes": "Hyperparameter determining the slopes for alibi attention. It is used in flash_attn_forward function.",
+  "softmax_scale": "Hyperparameter determining the scale for softmax. It is used in flash_attn_forward function.",
+  "dropout_p": "Hyperparameter determining the dropout probability. It is used in flash_attn_forward and flash_attn_backward functions.",
+  "deterministic": "Hyperparameter determining whether to use deterministic attention or not. It is used in flash_attn_forward function.",
+  "return_softmax": "Hyperparameter determining whether to return softmax output or not. It is used in flash_attn_forward function.",
+  "causal": "Hyperparameter determining whether to use causal attention or not. It is used in flash_attn_forward function."
+}
+```
+
+These hyperparameters determine the sizes, dimensions, and shapes of tensors input to `flash_attn_2_cuda`. The window_size parameter determines the size of the attention window, alibi_slopes parameter determines the slopes for alibi attention, softmax_scale parameter determines the scale for softmax, dropout_p parameter determines the probability of dropping out some attention weights, deterministic parameter determines whether to use deterministic attention or not, return_softmax parameter determines whether to return softmax output or not, and causal parameter determines whether to use causal attention or not.
+
+Note that all these hyperparameters are used in the `flash_attn_forward` function.
+

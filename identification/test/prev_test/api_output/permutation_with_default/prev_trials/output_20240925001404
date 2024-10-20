@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.5, seed=20, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+```json
+{
+    "dropout_p": "A hyperparameter used in the forward and backward functions of FlashAttnQKVPackedFunc. It represents the dropout probability applied during the attention mechanism.",
+    "softmax_scale": "A hyperparameter used in the forward function to scale the query-key product before applying softmax, which helps stabilize the computation of attention scores.",
+    "causal": "A boolean hyperparameter used in the _flash_attn_forward function to indicate whether causal masking is required (i.e., for autoregressive models).",
+    "window_size": "A hyperparameter used in the forward and backward functions to specify the window size for local attention. It determines the extent of the context that each position attends to.",
+    "alibi_slopes": "An array-like hyperparameter passed to _flash_attn_forward, which contains slopes for ALiBi (Attention with Linear Biases) positional encodings. This helps in controlling the influence of relative positions on attention scores.",
+    "return_softmax": "A boolean hyperparameter used in the forward function to indicate whether the softmax output should be returned along with the main output."
+}
+```
+

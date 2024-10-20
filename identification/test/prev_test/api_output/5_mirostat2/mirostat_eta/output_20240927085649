@@ -1,0 +1,34 @@
+mirostat=2, mirostat_eta=0.6000000000000001, mirostat_tau=2.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a list of **hyperparameters** related to `flash_attn_2_cuda` and their descriptions:
+
+```
+{
+  "qkv": "The input tensor q, k, v for attention mechanism in Transformers. It has shape (batch_size, seqlen, heads, head_dim).",
+  "dropout_p": "A float that denotes the dropout probability to randomly drop out a fraction of elements during training.",
+  "softmax_scale": "A float parameter used as scaling factor before applying softmax function. Default value is set based on model dimensions for multi-head attention mechanism in Transformers.",
+  "causal": "A boolean flag that decides whether causal mask should be applied, e.g., auto-regressive modeling in Seq2Seq and transformer models",
+  "window_size": "(left, right) represents the sliding window size used in local self-attention mechanisms for Transformer-based sequence processing. If (-1,-1), no windowing is applied.",
+  "alibi_slopes=(nheads,) or (batch_size, nheads)": "A slope value added to attention scores as a form of bias term during multi-head attention mechanism computation",
+  "deterministic": "A boolean flag that decides whether deterministic implementation should be used for the backward pass in flash_attn function"
+}
+```
+
+Note: The `softmax_scale` will default to sqrt(head_dim) when set to None, which means qkv dimension is a critical factor influencing this hyperparameter value.
+ 
+```json
+{
+  "qkv": "The input tensor q, k, v for attention mechanism in Transformers. It has shape (batch_size, seqlen, heads, head_dim).",
+  "dropout_p": "A float that denotes the dropout probability to randomly drop out a fraction of elements during training.",
+  "softmax_scale": "default value set based on model dimensions: sqrt(head_dim)",
+  "causal": "A boolean flag that decides whether causal mask should be applied, e.g., auto-regressive modeling in Seq2Seq and transformer models",
+  "window_size": "(left, right) represents the sliding window size used in local self-attention mechanisms for Transformer-based sequence processing. If (-1,-1), no windowing is applied.",
+  "alibi_slopes=(nheads,) or (batch_size, nheads)": "A slope value added to attention scores as a form of bias term during multi-head attention mechanism computation",
+  "deterministic": "A boolean flag that decides whether deterministic implementation should be used for the backward pass in flash_attn function"
+}
+```
+

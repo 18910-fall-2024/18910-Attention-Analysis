@@ -1,0 +1,55 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.4
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the **JSON** outputs of extracted parameters, which finally relate `flash_attn_2_cuda`, especially for those hyperparameters determining input tensors' sizes or shapes:
+
+```
+{
+    "qkv_shape": "(batch_size, seqlen, 3) | batch size and sequence length in attention mechanism.",
+    
+    "_flash_flahtn_forward_window_size":[
+        (0),
+        (-1)
+],
+   # window-size used to construct the mask for local self-attention. 
+   
+ "windowSize_left" : [
+	(-int(window), - int(value))  ,
+     "-left, right in attention mechanism.",
+      ],
+    
+    "_flash_attn_forward_alibi_slope":[
+       (float(albi_value)),
+        "(slope value) | alpib slope used to compute the bias term for local self-attention."
+],
+ 
+   "batch_size" : [
+			(2),
+    	     "- batch size in attention mechanism.",
+      ],
+   
+  "_flash_attn_forward_seqlen":[
+       (int(value))
+	   ,"- sequence length in attentin mechanisim.",
+
+"_FlashAttnQKVPackedFunc_alibi_slopes":[
+    [float(albi_slope)]
+,"alpib slope used to compute the bias term for local self-attention.",
+],
+
+"windowSize_right":[
+     (-int(value), - int(value))
+ ," right value in window-size."
+],
+    
+"_FlashAttnQKVPackedFunc_window_size": [
+       (0, 1),
+	   " Window size of left and righ. ",
+]
+
+}
+```
+

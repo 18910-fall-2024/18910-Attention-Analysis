@@ -1,0 +1,23 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=9.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+  "batch_size": "the batch size of input data",
+  "seqlen": "the length of sequence in each sample, also used as the dimension of query and key tensors",
+  "headdim": "the dimension of each head in attention mechanism, determines the shape of Q, K, V tensors",
+  "nheads": "the number of attention heads, determines the size of Q, K, V tensors along the last dimension",
+  "causal": "a boolean indicating whether to apply causal attention mask for self-attention",
+  "window_size": "the size of sliding window in local attention mechanism (if applicable)",
+  "alibi_slopes": "the slopes for alibi attention bias (if applicable)",
+  "softmax_scale": "a scale used in softmax function to normalize the attention weights"
+}
+```
+
+These hyperparameters determine the sizes, dimensions, and shapes of tensors input to `flash_attn_2_cuda`, or those that affect the attention model structure in `flash_attn_2_cuda`. The boolean parameters like `causal` are ignored as they only decide return formats but do not participate in computation.
+

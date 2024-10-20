@@ -1,0 +1,35 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.9
+
+==================== Generated Output ====================
+Here is a JSON object containing the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "qkv_shape": "(batch_size, seqlen, 3, nheads, headdim)",
+  "dropout_p": "float. Dropout probability.",
+  "softmax_scale": "None or float. The scaling of QK^T before applying softmax.",
+  "causal": "bool. Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+  "window_size": "(left, right) If not (-1, -1), implements sliding window local attention.",
+  "alibi_slopes": "(nheads,) or (batch_size, nheads), fp32. A bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j."
+}
+```
+
+Here's a brief description for each parameter:
+
+- **qkv_shape**: The shape of input tensor `qkv` in function `_flash_attn_forward`. It determines the sizes, dimensions, or shapes of tensors input to `flash_attn_2_cuda`.
+  
+- **dropout_p**: A hyperparameter used in functions like `attention_pytorch`, `flash_attn_qkvpacked_func`, and others. It is a float representing dropout probability for training.
+
+- **softmax_scale**: The scaling factor applied before softmax operation, which can be found in function `_flash_attn_forward`. This parameter determines the attention model structure or weights of `flash_attn_2_cuda`.
+
+- **causal**: A boolean hyperparameter used to decide whether applying causal mask on input tensor. It is a flag that decides how much context window should be considered for each query.
+
+- **window_size**: The size of sliding window local attention, which can be found in function `_flash_attn_forward`. This parameter determines the sizes or shapes of tensors input to `flash_attn_2_cuda`.
+
+- **alibi_slopes**: A hyperparameter used to add bias on attention scores. It is a slope value that decides how much each query and key should contribute to final output.
+
+Note: The descriptions are based on my understanding from code snippets provided, if there's any ambiguity or misunderstanding please let me know!
+

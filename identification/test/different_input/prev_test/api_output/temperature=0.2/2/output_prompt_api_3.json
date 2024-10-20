@@ -1,0 +1,13 @@
+{
+    "batch_size": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] The number of sequences in a batch.",
+    "seqlen": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Maximum sequence length for the input data.",
+    "nheads": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Number of attention heads in a Transformer model.",
+    "headdim": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Dimensionality (size) of each head's key/query/value vectors.",
+    "dropout_p": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Dropout probability for the attention mechanism during training to prevent overfitting.",
+    "softmax_scale": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Scaling factor applied before computing the softmax of QK^T.",
+    "causal": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Boolean indicating whether to apply a causal mask (True for autoregressive models).",
+    "window_size": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Tuple indicating the left and right window size for local attention.",
+    "max_seqlen_q": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Maximum sequence length of the query sequences in a batch.",
+    "max_seqlen_k": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Maximum sequence length of the key sequences in a batch."
+}
+

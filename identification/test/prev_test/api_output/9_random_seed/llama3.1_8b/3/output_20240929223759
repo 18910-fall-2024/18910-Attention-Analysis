@@ -1,0 +1,15 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=30, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input sequences.", 
+"seqlen": "The sequence length (number of tokens) in each input sequence.",
+"Headdim": "The dimensionality of attention heads. This determines the number of attention units used to compute attention scores.",
+"Nheads": "The total number of attention heads, which is calculated as seqlen // headdim.",
+"Causal": "Whether causal masking should be applied during attention computation (True) or not (False).",
+"window_size": "A tuple representing the left and right context window sizes for local sliding window attention. If set to (-1,-1), it means infinite context window size.", 
+"deterministic": "Whether to use a deterministic implementation of the backward pass in FlashAttnQKVPackedFunc (True) or not (False).", 
+"return_attn_probs": "A boolean flag indicating whether to return attention probabilities during forward computation. This is for testing purposes only."}
+

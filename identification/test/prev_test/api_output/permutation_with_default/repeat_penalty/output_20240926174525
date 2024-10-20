@@ -1,0 +1,24 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.0
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the identified hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+    "batch_size": "batch size of input tensor to flash_attn_2_cuda, used for attention calculation",
+    "seqlen": "sequence length of input tensor to flash_attn_2_cuda, used for attention calculation",
+    "nheads": "number of attention heads, determines the size of attention model",
+    "headdim": "dimension of each attention head, determines the size of attention model",
+    "dropout_p": "dropout probability, used to prevent overfitting in attention calculation",
+    "softmax_scale": "scaling factor for softmax, used to prevent numerical instability in attention calculation",
+    "causal": "whether to apply causal attention mask, used to prevent information leakage in attention calculation",
+    "window_size": "sliding window size for local attention, determines the context size of attention model",
+    "alibi_slopes": "slope values for alibi attention, determines the bias of attention scores",
+    "deterministic": "whether to use deterministic implementation of backward pass, used for reproducibility in attention calculation",
+    "return_attn_probs": "whether to return attention probabilities, used for testing and debugging purposes"
+}
+```
+

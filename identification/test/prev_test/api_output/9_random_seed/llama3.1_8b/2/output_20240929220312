@@ -1,0 +1,16 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "batch_size": "The batch size of input tensor qkv, which determines the number of sequences processed together in a single forward pass.",
+    "seqlen": "The sequence length of each input sequence in the tensor qkv, determining how many positions are considered for attention computation.",
+    "headdim": "The dimensionality (i.e., size) of individual heads within multi-head self-attention layers used by Transformers. It influences both forward and backward computations through flash_attn_2_cuda",
+    "nheads": "Determines the number of parallel, independent attention mechanisms applied to different subspaces of input features.",
+    "causal": "A boolean flag indicating whether causal masking should be enforced in self-attention operations for autoregressive modeling purposes. This affects both forward and backward computations through flash_attn_2_cuda",
+    "window_size": "If set to a non-infinite value, it enables sliding window local attention by restricting the scope of each query's attentions within [i - left_window, i + right_window] positions.",
+    "alibi_slopes": "A bias term added to attention scores based on relative position between queries and keys. It can be used for various purposes like masking or weighting different regions in sequences."
+}
+

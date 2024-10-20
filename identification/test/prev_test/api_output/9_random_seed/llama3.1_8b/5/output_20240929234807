@@ -1,0 +1,19 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input tensor, used for calculating attention scores and output shape.", 
+"seqlen": "The sequence length of input tensor, used for calculating attention scores and output shape.",
+"Headdim": "The dimension of each head in the multi-head attention mechanism. Used to calculate QK^T scaling factor and softmax normalization factor.",
+"nheads": "The number of heads in the multi-head attention mechanism. Used to split QKV into multiple smaller tensors, one for each head.", 
+"deterministic": "Whether to use deterministic implementation of backward pass (slightly slower but uses more memory).", 
+"dropout_p": "Dropout probability used during training phase.",
+"softmax_scale": "The scaling factor applied before softmax normalization. If None, it defaults to 1/sqrt(Headdim) for each head.", 
+"causal": "Whether to apply causal attention mask (e.g., auto-regressive modeling).", 
+"window_size": "If not (-1,-1), implements sliding window local attention with left and right context sizes. If -1, it means infinite context window.",
+"alibi_slopes": "Bias of alibi slopes added to the attention score for each head.", 
+"return_attn_probs": "Whether to return attention probabilities (for testing only).", 
+"deterministic_backward_pass": "Determines whether to use deterministic implementation of backward pass."}
+

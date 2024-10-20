@@ -1,0 +1,24 @@
+mirostat=2, mirostat_eta=0.2, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the identified hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+  "batch_size": "The batch size of input sequence, used for flash_attn_qkvpacked_func and finally fed into flash_attn_2_cuda.",
+  "seqlen": "The length of input sequence, used for flash_attn_qkvpacked_func and finally fed into flash_attn_2_cuda.",
+  "nheads": "The number of attention heads, used to split the query Q, key K, value V into multiple smaller sets before performing self-attention in flash_attn_2_cuda.",
+  "headdim": "The dimension of each head, used for flash_attn_qkvpacked_func and finally fed into flash_attn_2_cuda. Also determines the size of output tensors from attention module.",
+  "softmax_scale": "The scaling factor for QK^T before applying softmax in flash_attn_2_cuda.",
+  "dropout_p": "The dropout probability used when training the model, used to randomly drop out a fraction of attention weights or other features in flash_attn_qkvpacked_func and finally fed into flash_attn_2_cuda.",
+  "causal": "A boolean flag indicating whether to apply causal attention mask for auto-regressive modeling. Used in flash_attn_qkvpacked_func and then fed into flash_attn_2_cuda.",
+  "window_size": "The size of sliding window used for local attention, used in flash_attn_qkvpacked_func and finally fed into flash_attn_2_cuda.",
+  "alibi_slopes": "The slope values used to compute alibi bias for attention scores, used in flash_attn_qkvpacked_func and then passed into flash_attn_2_cuda.",
+  "return_softmax": "A boolean flag indicating whether to return the softmax results after computing attention scores, used only during testing.",
+  "deterministic": "A boolean flag deciding whether to use deterministic implementation of backward pass for flash_attn_qkvpacked_func"
+}
+```
+

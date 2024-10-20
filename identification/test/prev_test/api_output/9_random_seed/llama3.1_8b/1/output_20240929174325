@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a list of **all** relevant hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+  "batch_size": "The batch size used in the input tensor, which determines the number of sequences processed simultaneously.",
+  "seqlen": "The sequence length (number of tokens) in each sequence, affecting the dimensionality and shape of QKV tensors",
+  "nheads": "Number of attention heads used in parallel for multi-head self-attention mechanism, impacting output dimensions",
+  "headdim": "Dimension per head in the Transformer model's linear transformation layers.",
+  "causal": "Whether to apply causal (auto-regressive) masking during forward pass and backward computation in `flash_attn_2_cuda` function call chain",
+  "window_size": "(left, right). If not (-1, -1), implements sliding window local attention. This impacts the context window size for each query token.",
+  "alibi_slopes": "A bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j in `flash_attn_2_cuda` function call chain",
+  "dropout_p": "Dropout probability used during training phase for regularization purposes"
+}
+```
+
+Note that I ignored boolean hyperparameters like `return_softmax`, which only decide return format but do nothing with the attention mechanism.
+

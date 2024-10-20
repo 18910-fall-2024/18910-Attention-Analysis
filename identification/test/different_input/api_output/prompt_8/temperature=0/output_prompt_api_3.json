@@ -1,0 +1,12 @@
+{
+    "batch_size": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] The number of sequences in a batch. It determines the size and shape of input tensors such as qkv.",
+    "seqlen": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Sequence length for each sequence in the batch. This parameter influences the dimensions of input tensors like cu_seqlens and max_seqlen.",
+    "nheads": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Number of attention heads used in multi-head self-attention. It affects the shape of input tensors qkv (batch_size, seqlen, 3, nheads, headdim).",
+    "headdim": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Dimensionality of each attention head. It influences the shape and size requirements for input tensors qkv (batch_size, seqlen, 3, nheads, headdim).",
+    "dropout_p": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Dropout probability applied during training to prevent overfitting. It affects the randomness and stability of attention scores.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Scaling factor for QK^T before applying softmax to normalize attention weights. It influences the scale and stability of computed scores.",
+    "causal": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Boolean indicating whether causal masking is applied during self-attention computation for auto-regressive modeling. It affects the shape and structure of attention scores.",
+    "window_size": "[flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Tuple indicating left and right window sizes used in sliding-window local self-attention. It influences the range of keys that each query attends to.",
+    "alibi_slopes": "[flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Slope values used in ALiBi (Attention with Linear Biases) mechanism for positional encoding. It affects the bias added to attention scores based on relative positions."
+}
+

@@ -1,0 +1,22 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.5, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+```json
+{
+    "dropout_p": "A hyperparameter used in the forward method of the FlashAttnFunction class. It represents the dropout probability during the attention mechanism, which is a value between 0 and 1 indicating the probability that each element is zeroed.",
+    "softmax_scale": "A hyperparameter used in the forward method of the FlashAttnFunction class. This scale factor multiplies the query keys before applying softmax to stabilize numerical computation. If not provided (None), it defaults to qkv.shape[-1] ** (-0.5).",
+    "causal": "A boolean hyperparameter used in the forward method of the FlashAttnFunction class, indicating whether a causal mask should be applied during attention calculation.",
+    "window_size": "A list or tuple containing two integers as hyperparameters used in the forward method of the FlashAttnFunction class. It specifies the window size for local attention, with the first element being the left context and the second being the right context (or vice versa).",
+    "alibi_slopes": "An optional hyperparameter used in the forward method of the FlashAttnFunction class. It represents a list or tensor containing slopes to be applied in ALiBi-style relative positional biases.",
+    "deterministic": "A boolean hyperparameter used in the forward method of the FlashAttnFunction class, indicating whether the attention mechanism should behave deterministically (no randomness) during inference.",
+    "return_softmax": "An optional boolean hyperparameter used in the forward method of the FlashAttnFunction class. If set to True and dropout_p is greater than 0, it returns the softmax values along with output tensors.",
+    "m": "A hyperparameter used in the _flash_attn_forward function (though not directly shown), which would determine an axis size or dimension length in tensor operations related to flash-attn.",
+    "n": "Another hyperparameter used in the _flash_attn_forward function, similar to m, determining another dimension length of tensors involved in flash-attn calculations.",
+    "d": "Derived from m and n (m/n), d represents a dimension or axis size that is calculated based on other dimensions, typically related to embedding sizes or feature dimensions in tensor operations.",
+    "v": "A hyperparameter used in the _flash_attn_forward function, determining another specific value or constant used for initializing tensors involved in flash-attn calculations."
+}
+```
+

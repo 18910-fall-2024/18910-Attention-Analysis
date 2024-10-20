@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=30, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input data.", 
+"seqlen": "The sequence length of input data.",
+"Headdim": "The head dimension, which is the number of attention heads in Transformer model.",
+"deterministic": "Whether to use deterministic implementation of backward pass for attention mechanism. This parameter does not affect forward pass and only used during training or inference with attention mechanism.", 
+"return_attn_probs": "A boolean hyperparameter that determines whether return attention probabilities when calling flash_attn_qkvpacked_func function, which is related to `flash_attn_2_cuda`.",
+"deterministic": "Whether to use deterministic implementation of backward pass for attention mechanism. This parameter does not affect forward pass and only used during training or inference with attention mechanism.", 
+"softmax_scale": "The scaling factor applied before softmax operation in attention mechanism.",
+"dropout_p": "Dropout probability, which is a hyperparameter that determines the proportion of elements to drop out when calling flash_attn_qkvpacked_func function. This parameter affects both forward and backward passes during training or inference with attention mechanism.", 
+"causal": "A boolean flag indicating whether apply causal mask in attention operation for auto-regressive modeling.",
+"window_size": "The window size, which is used to implement sliding window local attention when calling flash_attn_qkvpacked_func function. This parameter affects both forward and backward passes during training or inference with attention mechanism.", 
+"alibi_slopes": "A list of slopes applied as bias in alibi attention operation for each head."}
+

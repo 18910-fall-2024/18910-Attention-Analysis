@@ -1,0 +1,13 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input data.", 
+"seqlen": "The sequence length of input data.",
+"HeadDim": "The dimension of attention head. Used to determine the sizes, dimensions or shapes of tensors in flash_attn_2_cuda",
+"Nheads": "Number of attention heads used for multi-head self-attention mechanism in Transformer models.",
+"Causal": "Whether causal mask should be applied during attention calculation.", 
+"window_size": "The size of sliding window local attention. If not (-1, -1), implements sliding window local attention."}
+

@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=0.94, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+  "qkv": "Input tensor of shape (batch_size, seqlen, 3, nheads, headdim) to flash_attn_2_cuda. It contains the query, key, and value vectors for each attention head.",
+  "dropout_p": "Dropout probability used in flash_attn_2_cuda during training or inference with attention mechanism",
+  "softmax_scale": "Scaling factor of QK^T before applying softmax in flash_attn_2_cuda",
+  "causal": "Whether to apply causal attention mask (e.g., for auto-regressive modeling) in flash_attn_2_cuda",
+  "window_size": "(left, right). If not (-1, -1), implements sliding window local attention. It determines the context window size used by flash_attn_2_cuda during training or inference with attention mechanism.",
+  "alibi_slopes": "Bias of (-alibi_slope * |i - j|) added to the attention score of query i and key j in flash_attn_2_cuda",
+  "deterministic": "Whether to use deterministic implementation of backward pass, which is slightly slower and uses more memory. It determines whether to use a specific optimization for backpropagation during training with attention mechanism.",
+  "return_softmax": "Whether to return the softmax probabilities from flash_attn_2_cuda. This option is used only for testing purposes."
+}
+

@@ -1,0 +1,18 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=8.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a list of **all** hyperparameters related to `flash_attn_2_cuda` that I identified:
+
+```
+{
+    "batch_size": "The size of the batch in training or inference with attention mechanism.",
+    "seqlen": "The length of each sequence in input tensors for Transformer models.",
+    "headdim": "The dimensionality of each head (or sub-space) within a multi-head self-attention model, e.g., Transformers. This parameter controls how information from different positions is shared across the input sequences through attention mechanism.",
+    "nheads": "The number of attention heads in Transformer models to scale up the capacity for parallel computation and fusion of context at each position",
+    "causal": "Whether causal structure should be applied during training or inference with self-attention, especially for sequential data like time series."
+}
+```
+

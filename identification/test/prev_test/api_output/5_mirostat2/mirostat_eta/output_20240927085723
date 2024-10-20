@@ -1,0 +1,19 @@
+mirostat=2, mirostat_eta=0.7000000000000001, mirostat_tau=2.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a list of **all** related hyperparameters used for training or inference with attention mechanism, especially for Transformers:
+
+```python
+{
+    "batch_size": "The number of sequences in the batch. Used to determine the input tensor size.",
+    "seqlen": "Sequence length. Input sequence lengths must match up",
+    "headdim": "Size of each head (dimension). Determines attention model structure inside flash\_attn2\_cuda function",
+    "nheads": "Number of heads for multi-head self-attention. Affects number of elements in input tensor to `flash_attn_2_cuda`.",
+    "causal": "Whether causal mask should be applied during forward pass. Used for training or inference with attention mechanism, especially for Transformers.",
+    "window_size": "Sliding window sizes used for local attention (if applicable). Determines the size of context windows and hence input tensor to `flash_attn_2_cuda`"
+}
+```
+

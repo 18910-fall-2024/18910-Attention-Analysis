@@ -1,0 +1,21 @@
+mirostat=2, mirostat_eta=0.1, mirostat_tau=6.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the list of hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+    "qkv": "Input tensor containing Q, K, V values for attention mechanism in Transformer. qkv should be a tensor with shape (batch_size, sequence_length, 3, n_heads, head_dim) or equivalently stacked into one tensor.",
+    "dropout_p": "Dropout probability used during training to randomly drop out the output activations of neurons that use this layer as input for attention mechanism in Transformer.",
+    "softmax_scale": "Scaling factor applied before computing softmax function used for attention mechanism in Transformer. If not provided, it will be set to 1 / sqrt(head_dim).",
+    "causal": "Boolean flag indicating whether to apply causal mask (e.g., for auto-regressive modeling) during attention computation in Transformer.",
+    "window_size": "(left, right) tuple specifying the sliding window size used for local attention implementation. If (-1, -1), global attention is applied without any windowing.",
+    "alibi_slopes": "Bias slopes added to attention scores based on query and key indices (i.e., |i-j|). Can be provided as either a single float value per head or as a tensor with shape (batch_size, n_heads).",
+    "deterministic": "Boolean flag controlling whether the backward pass should be deterministic. This is useful for testing purposes to ensure reproducibility.",
+    "return_softmax": "Boolean flag indicating whether to return the softmax output of attention mechanism in addition to the main output."
+}
+```
+

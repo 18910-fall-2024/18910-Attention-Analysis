@@ -1,0 +1,16 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.5, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] The batch size of input tensors to `flash_attn_2_cuda`. It determines the number of sequences processed in parallel.",
+    "seqlen": "[time_fwd_bwd function call chain] Sequence length, which is the maximum sequence length for each tensor. This parameter defines how many tokens or elements are considered per sequence during attention computation.",
+    "headdim": "[time_fwd_bwd function call chain] Head dimension of QKV tensors in multi-head self-attention mechanism. It represents the size of individual head dimensions within a transformer model's heads, impacting memory and computational requirements for each attention operation.",
+    "nheads": "[time_fwd_bwd function call chain] Number of heads used in the MultiHead Attention layer. This parameter determines how many parallel instances of the basic self-attention mechanism are run to process input data more efficiently or capture different aspects of information.",
+    "causal": "[flash_attn_qkvpacked_func, _flash_attn_forward functions] A boolean flag indicating whether causal attention should be applied (True) for autoregressive models like language modeling. It affects the shape and content of tensors passed to `flash_attn_2_cuda` by applying a mask that prevents future tokens from influencing past ones.",
+    "dropout_p": "[time_fwd_bwd function call chain, _flash_attn_forward] Dropout probability used during training for regularization purposes in attention mechanism computations. This parameter influences the randomness and stability of model predictions but is not relevant to inference unless set explicitly.",
+    "softmax_scale": "_[FlashAttnQKVPackedFunc forward method] Scaling factor applied before computing softmax over Q*K^T, affecting numerical precision and performance optimization during self-attention computation."
+}
+

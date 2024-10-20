@@ -1,0 +1,19 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=30, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input sequences.", 
+"seqlen": "The length of each sequence, which determines the number of positions in a sequence that will be attended to.",
+"Headdim": "The dimensionality of attention heads. This parameter is used for training or inference with Transformers and affects the shape of tensors input to flash_attn_2_cuda.", 
+"nheads": "The number of parallel attention heads, which determines how many times we can reuse a set of weights in our model.",
+"deterministic": "A boolean indicating whether to use deterministic implementation of backward pass. This parameter is used for training or inference with Transformers and affects the shape of tensors input to flash_attn_2_cuda.", 
+"dropout_p": "The probability that an element will be zeroed during dropout, which determines how much we drop out in our model.",
+"deterministic": "A boolean indicating whether to use deterministic implementation of backward pass. This parameter is used for training or inference with Transformers and affects the shape of tensors input to flash_attn_2_cuda.", 
+"softmax_scale": "The scaling factor applied before softmax, which determines how much we scale up our attention scores.",
+"causal": "A boolean indicating whether causal mask should be applied during forward pass. This parameter is used for training or inference with Transformers and affects the shape of tensors input to flash_attn_2_cuda.", 
+"window_size": "The size of sliding window local attention, which determines how much we attend in our model.",
+"alibi_slopes": "A list of slopes applied during forward pass. This parameter is used for training or inference with Transformers and affects the shape of tensors input to flash_attn_2_cuda.", 
+"deterministic": "A boolean indicating whether to use deterministic implementation of backward pass. This parameter is used for training or inference with Transformers and affects the shape of tensors input to flash_attn_2_cuda."}
+

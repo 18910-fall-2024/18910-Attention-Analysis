@@ -1,0 +1,31 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=2.0
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the **identifies** of `flash_attn_cuda`'s hyperparameters as a Python dictionary.
+
+The final answer is:
+
+```
+{
+
+    "qkv_shape":"the input shape to flash_attention, which should be (batch_size.seqlen.3.nheads.headdim)",
+    
+        
+        ¡°softmax_scale¡±:"optional scaling of QK^T before applying softmax¡±, 
+       
+    	¡°window_sizes¡±:¡°(left,right). If not (-1,- 2), implements sliding window local attention ¡±,
+
+    "n_heads":"the number heads, used in flash_attn_ function and backward pass",
+    
+       ¡°dropout_p¡±:"Dropout probability. Should be set to zero during evaluation", 
+    
+     	¡°causal¡±:¡°(bool).Whether apply causal mask for auto-regressive modeling¡±
+
+}
+```
+
+Please note that there may not have many hyperparameters associated with `flash_attenction` in this code snippet, compared other deep learning models (E.g., DenseNet), but I am trying to do my best as requested.
+

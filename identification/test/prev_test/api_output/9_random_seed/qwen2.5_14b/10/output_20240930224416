@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.1, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] The batch size of input tensors for attention mechanism in Transformers.",
+    "seqlen": "[time_fwd_bwd function call chain] Sequence length, which determines the dimensionality along sequence axis (e.g., time steps) of input and output tensors in Transformer models.",
+    "headdim": "[time_fwd_bwd function call chain] The size or dimension of each attention head. It is a hyperparameter that affects both memory usage and computational complexity during training/inference with Transformers.",
+    "nheads": "[time_fwd_bwd function call chain] Number of heads in multi-head self-attention mechanism, which determines the number of parallel attention mechanisms operating on different subspaces (features) of input data. It is a hyperparameter that impacts model capacity and performance.",
+    "dropout_p": "[flash_attn_qkvpacked_func function definition] Dropout probability used during training to prevent overfitting by randomly setting some elements in tensors to zero, which helps with regularization. This parameter does not affect the inference phase where dropout should be set to 0 for deterministic output.",
+    "softmax_scale": "_[FlashAttnQKVPackedFunc.forward method] Scaling factor applied before computing softmax on attention scores (dot products between query and key vectors). It is used to stabilize numerical computation, especially when dealing with large values in dot product results. If not provided explicitly, it defaults to 1 / sqrt(headdim) where headdim refers to the dimension of each head.",
+    "causal": "[FlashAttnQKVPackedFunc.forward method] Boolean flag indicating whether causal attention is used (i.e., future positions cannot influence past ones). This parameter determines if a triangular mask should be applied during forward pass, affecting how queries attend over keys and values in the sequence. It does not control return format but influences computation.",
+    "window_size": "[FlashAttnQKVPackedFunc.forward method] Tuple indicating left (first element) and right (second element) context window sizes for local attention mechanism within a sliding window approach, which restricts each query to attend only over keys in its vicinity. This parameter is crucial when implementing models that require limited or localized interactions between sequence elements.",
+    "alibi_slopes": "[FlashAttnQKVPackedFunc.forward method] Slope values used for ALiBi (Attention with Linear Biases) mechanism, which adds a bias to attention scores based on relative position. This parameter helps in modeling long-range dependencies without increasing computational complexity."
+}
+

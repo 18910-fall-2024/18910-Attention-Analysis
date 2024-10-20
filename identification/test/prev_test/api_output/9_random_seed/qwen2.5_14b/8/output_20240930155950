@@ -1,0 +1,19 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] The number of sequences or samples in a batch.",
+    "seqlen": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] The length (or sequence length) of each sample within the batch, which is critical for defining the size and shape of input tensors such as Q, K, V.",
+    "headdim": "[time_fwd_brd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] The dimensionality (or width) of each head in multi-head attention mechanisms. It determines the shape and size of input tensors such as Q, K, V.",
+    "nheads": "[time_fwd_brd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] The number of heads used within a transformer layer's multi-head attention mechanism. This hyperparameter influences the shape and size of input tensors such as Q, K, V.",
+    "dropout_p": "[time_fwd_brd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] The probability used for dropout in the multi-head attention mechanism. It affects how much randomness is introduced during training to prevent overfitting and improve generalization.",
+    "softmax_scale": "[time_fwd_brd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] The scaling factor used for Q*K^T before applying softmax. It helps in stabilizing the computation of attention scores by normalizing them appropriately based on head dimensions.",
+    "causal": "[time_fwd_brd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] A boolean indicating whether to apply a causal mask, which is crucial for autoregressive models where each position can only attend to previous positions but not future ones.",
+    "window_size": "[time_fwd_brd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] A tuple indicating the left and right window size used in local attention mechanisms. This hyperparameter is essential for defining how far each position can attend to within a sequence.",
+    "alibi_slopes": "[time_fwd_brd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] A tensor or array representing the slopes used in ALiBi (Attention with Linear Biases) mechanism, which introduces biases to attention scores based on distances between positions.",
+    "return_softmax": "[time_fwd_brd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] A boolean indicating whether the function should return softmax probabilities along with output tensors. This is relevant for debugging and testing purposes."
+}
+

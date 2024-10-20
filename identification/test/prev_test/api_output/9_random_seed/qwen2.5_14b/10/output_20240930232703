@@ -1,0 +1,19 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.1, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] The number of sequences in a batch.",
+    "seqlen": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] The length or sequence length for each input sequence.",
+    "headdim": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] Dimension of the attention heads, also known as head dimension in Transformer models.",
+    "nheads": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] Number of parallel attention heads used by the model. This is derived from 'dim' and 'headdim'.",
+    "dropout_p": "[benchmarks.benchmark_flash_attention.time_f_b/time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] Dropout probability for attention mechanism, used during training to prevent overfitting.",
+    "softmax_scale": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] Scaling factor applied before computing the softmax of QK^T. If None is provided, it defaults to 1 / sqrt(headdim).",
+    "causal": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] Boolean indicating whether causal attention mask should be applied (True for autoregressive models like language modeling, False otherwise).",
+    "window_size": "[benchmarks.benchmark_flash_attention.time_f_b/time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] Tuple indicating the left and right window size for local attention. (-1,-1) means global context.",
+    "alibi_slopes": "[benchmarks.benchmark_flash_attention.time_f_b/time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] Slope values used in ALiBi (Attention with Linear Biases) mechanism to provide a bias term for each head.",
+    "dim": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] Total dimension of the input embeddings, which is derived from 'nheads' and 'headdim'."
+}
+

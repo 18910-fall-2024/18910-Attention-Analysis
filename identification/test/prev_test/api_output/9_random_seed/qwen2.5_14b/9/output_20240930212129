@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.5, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] The batch size of the input tensor, determining how many sequences are processed in parallel.",
+    "seqlen": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd] Sequence length or context window size for each sequence within a batch. This parameter defines the number of tokens per input sequence that participate in attention calculations.",
+    "headdim": "[time_fwd_brd/configurations and _flash_attn_forward/fwd] The dimensionality (or width) of individual heads in multi-head self-attention mechanism, which is crucial for determining model capacity within each head.",
+    "nheads": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/fwd and config] Number of attention heads used in the Transformer architecture. This hyperparameter defines how many parallel self-attention mechanisms are applied to input sequences, each with its own head dimension.",
+    "dropout_p": "[time_fwd_brd/FlashAtKVPackedFunc.apply/_flash_attn_forward/fwd] Dropout probability for dropping out elements during training to prevent overfitting and improve generalization. It is a regularization technique used in the attention mechanism of Transformers.",
+    "softmax_scale": "[_flash_attn_forward/fwd] Scaling factor applied before computing softmax on QK^T matrix, which helps stabilize numerical computations by reducing large values that could cause overflow issues during exponentiation operations.",
+    "causal": "[time_fwd_brd/FlashAtKVPackedFunc.apply/_flash_attn_forward/fwd and config] Boolean indicating whether to apply causal masking in attention calculations. This parameter is crucial for autoregressive models where future tokens should not influence past ones, ensuring that the model respects temporal order.",
+    "window_size": "[_flash_attn_forward/fwd] Tuple specifying left and right context window sizes (left_context_window, right_context_window) used to limit each query's attention range. This hyperparameter is essential for implementing local or sliding-window attentions in Transformers."
+}
+

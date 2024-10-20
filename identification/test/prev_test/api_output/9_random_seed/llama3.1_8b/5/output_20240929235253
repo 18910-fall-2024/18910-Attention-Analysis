@@ -1,0 +1,20 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input sequence for attention mechanism, used as an argument to `flash_attn_qkvpacked_func` and related functions.", 
+"seqlen": "The length of the input sequence for attention mechanism, used as an argument to `flash_attn_qkvpacked_func` and related functions.",
+"Headdim": "The dimensionality of each head in multi-head self-attention, used as an argument to `flash_attn_qkvpacked_func`, `time_fwd_bwd`, etc. It determines the size of tensors input to `flash_attn_2_cuda`.",
+"nheads": "Number of attention heads in Transformer model architecture, used as a variable calculated from Headdim and dim.",
+"causal": "Whether to apply causal attention mask for auto-regressive modeling, used as an argument to `attention_pytorch`, related functions like `flash_attn_qkvpacked_func`.", 
+"deterministic": "Whether to use deterministic implementation of backward pass in the attention mechanism, used as a parameter passed through function calls.",
+"softmax_scale": "Scaling factor applied before softmax operation for normalization, calculated and then used by several functions including `attention_pytorch`, related functions like `_flash_attn_forward`.", 
+"deterministic": "Whether to use deterministic implementation of backward pass in the attention mechanism, used as a parameter passed through function calls.",
+"window_size": "Size parameters defining sliding window local attention for query at position i will only attend to keys between [i - left_window_size[0], i + right_window_size[1]] inclusive.", 
+"dropout_p": "Dropout probability during training phase in the Transformer model architecture, used as an argument by several functions including `flash_attn_qkvpacked_func`, related functions like `_flash_attn_forward`.",
+"deterministic": "Whether to use deterministic implementation of backward pass in the attention mechanism, used as a parameter passed through function calls.",
+"return_softmax": "A boolean flag indicating whether return softmax output from forward pass for testing purposes.", 
+"dim": "The dimensionality of input sequence and model architecture, used as an argument by several functions including `time_fwd_bwd`, related variables like nheads."}
+

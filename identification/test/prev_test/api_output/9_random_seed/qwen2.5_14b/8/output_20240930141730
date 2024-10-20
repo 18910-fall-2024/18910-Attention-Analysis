@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Determines the number of sequences processed in parallel.",
+    "seqlen": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Represents the sequence length, which is crucial for determining the dimensions and shapes of input tensors such as Q (queries), K (keys), V (values).",
+    "nheads": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Number of attention heads, which impacts the dimensions and shapes of QKV tensors.",
+    "headdim": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fdw] Dimension size for each head in multi-head self-attention mechanism, affecting the shape and dimension of QKV tensors.",
+    "dropout_p": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fwd] Probability used to drop out elements during training for regularization purposes; does not affect tensor dimensions or shapes directly but is crucial in the attention mechanism.",
+    "softmax_scale": "[time_fwd_brdcast_foward/FlashAtKVPackedFunc.apply/_flash_attn_forward/flash_attn_2_cuda.fdw] Scaling factor applied to Q*K^T before softmax operation, impacting computation and not affecting tensor dimensions or shapes directly but is crucial in the attention mechanism.",
+    "causal": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fdw] Boolean indicating if causal (masked) self-attention should be used, affecting computation but not tensor dimensions or shapes directly.",
+    "window_size": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fdw] Tuple defining the local attention window size for sliding window mechanism; affects which tokens can attend to each other, impacting computation but not tensor dimensions or shapes directly.",
+    "alibi_slopes": "[time_fwd_bwd/flash_attn.flash_attn_interface.FlashAtKVPackedFunc.forward/_flash_attn_forward/flash_attn_2_cuda.fdw] Slope values used in ALiBi (Attention with Linear Biases) mechanism, impacting computation but not tensor dimensions or shapes directly."
+}
+

@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9092, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.2, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__] The dimension of the input embeddings in a Transformer model.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.test_block_parallel] Number of attention heads used by Multi-Head Attention (MHA).",
+    "head_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality of each head in the multi-head self-attention mechanism.",
+    "rotary_emb_dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.functools.partial] Dimension used for rotary positional embeddings. It must be divisible by 16 if using interleaved embedding.",
+    "seqlen": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention] Sequence length of the input sequence for attention computation.",
+    "batch_size": "[tests.modules.test_block_parallel.test_block_parallel] The number of sequences in a batch used during training or inference.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Scaling factor for the query-key dot product before applying softmax. Default is 1 / sqrt(head_dim).",
+    "causal": "[tests.modules.test_block_parallel.functools.partial, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Indicates whether to apply a causal mask in self-attention.",
+    "window_size": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] Tuple indicating the left and right window size for local attention. (-1,-1) means global context is used."
+}
+

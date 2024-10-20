@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"qkv": "Input tensor of shape (batch_size, seqlen, 3, nheads, headdim) containing query, key and value vectors.", 
+"dropout_p": "Dropout probability used for attention mechanism during training. Default to 0.0 when evaluating the model.",
+"softmax_scale": "Scaling factor applied before softmax function in attention mechanism. Defaults to sqrt(headdim)",
+"causal": "Boolean indicating whether causal attention mask should be applied (e.g., for auto-regressive modeling).",
+"window_size": "(left, right) tuple specifying sliding window local attention size.",
+"alibi_slopes": "Bias added to the attention score of query i and key j. Used in alibi attention mechanism.",
+"deterministic": "Boolean indicating whether deterministic implementation should be used for backward pass (slower but uses more memory).",
+"return_attn_probs": "Boolean specifying if outputting attention probabilities is desired (for testing purposes only)",
+"flops": "Calculates the number of floating-point operations required by forward and/or backward passes. Used to compute efficiency.",
+"bs_seqlen_vals": "(batch_size, seqlen) tuple containing batch size and sequence length values used for benchmarking different methods."}
+

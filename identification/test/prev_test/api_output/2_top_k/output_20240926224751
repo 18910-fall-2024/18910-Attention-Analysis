@@ -1,0 +1,22 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=300, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "batch_size": "The batch size of input tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward",
+  "seqlen": "Sequence length of input tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward. It determines the output shape of out (or selfAttention) when calling FlashAttnQKVPackedFunc.apply() or flash_attn_cuda.fwd(). The attention operation will only consider sequences up to this seqlen.",
+  "nheads": "Number of attention heads, used in _flash_attn_forward. This is the number of times we repeat self-attention on a particular position and then stitch them together along that dimension",
+  "headdim": "Dimension per head of QKV packed tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward. It determines output dimension when calling FlashAttnQKVPackedFunc.apply() or the last argument for attention operation in flash_attn_cuda.fwd(). Note that its square root is a hyperparameter to softmax_scale.",
+  "dropout_p": "Dropout probability, used in flash_attn_qkvpacked_func and _flash_attn_forward. This controls how much of output selfAttention tensor will be zeroed out (considered as 0) during training",
+  "softmax_scale": "Scaling factor for QK^T when applying softmax, used in _flash_attn_forward.",
+  "causal": "Whether to apply causal attention mask or not, used in flash_attn_qkvpacked_func and _flash_attn_forward. This is a binary hyperparameter that can be set True (for auto-regressive modeling) or False",
+  "window_size": "Sliding window size when implementing local attention (if input tensor has non-contiguous sequence indices), used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "alibi_slopes": "(nheads,) or (batch_size, nheads). The slopes for Alibi bias of selfAttention output tensor. It adds a scaling factor to attention weight based on the difference between query position and key position",
+}
+```
+

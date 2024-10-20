@@ -1,0 +1,9 @@
+{
+    "seqlen": "[benchmarks.benchmark_alibi.time_fwd_bwd.generate_cos_sin, benchmarks.benchmark_alibi.flash_rotary.flash_attn_func] The sequence length of the input tensor. It determines the size and shape of tensors such as query (q), key (k), value (v) in attention mechanism.",
+    "headdim": "[benchmarks.benchmark_alibi.time_fwd_bwd.generate_cos_sin, benchmarks.benchmark_alibi.flash_rotary.flash_attn_func] The dimensionality of each head within the multi-head self-attention layer. It affects the shape and size of tensors q, k, v in attention mechanism.",
+    "batch_size": "[benchmarks.benchmark_alibi.time_fwd_bwd.generate_cos_sin, benchmarks.benchmark_alibi.flash_rotary.flash_attn_func] The batch size used during training or inference with Transformers. Determines the first dimension (batch) of input tensors such as q, k, v in attention mechanism.",
+    "causal": "[benchmarks.benchmark_alibi.time_fwd_bwd.generate_cos_sin, benchmarks.benchmark_alibri.flash_rotary.flash_attn_func] A boolean indicating whether to apply causal masking for autoregressive models. It affects the shape and size of tensors by applying a mask that prevents future tokens from influencing past ones.",
+    "nheads": "[benchmarks.benchmark_alibi.time_fwd_bwd.generate_cos_sin, benchmarks.benchmark_alibri.flash_rotary.flash_attn_func] The number of attention heads in multi-head self-attention mechanism. It determines the third dimension (number of heads) and affects tensor shapes such as q, k, v.",
+    "dropout_p": "[benchmarks.benchmark_alibi.time_fwd_bwd.generate_cos_sin, benchmarks.benchmark_alibri.flash_rotary.flash_attn_func] The dropout probability used during training to prevent overfitting. It influences the randomness in attention mechanism but does not directly affect tensor sizes or shapes."
+}
+

@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=80, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "batch_size": "The batch size of input tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward",
+  "seqlen": "Sequence length of input tensor, used in flash_attn_qkvpacked_func and _flash_attn_forward. It determines the output shape of out (or Q * K^T) for flash_attn_2_cuda.",
+  "nheads": "The number of attention heads per layer. Used to determine the number of channels for each head in q, k, v",
+  "headdim": "Dimensionality of a single attention head. It determines the size and shape of out (or Q * K^T) for flash_attn_2_cuda.",
+  "causal": "A boolean flag indicating whether to apply causal mask on key values (K). Used in _flash_attn_forward",
+  "window_size": "(left, right), If not (-1, -1), implements sliding window local attention. Determines the size and shape of input tensor out for flash_attn_2_cuda.",
+  "alibi_slopes": "A bias to be added to the attention score based on the distance between query (i) and key positions. Used in _flash_atnn_forward",
+  "dropout_p": "The probability of dropout used during training, determines whether gradients are zeroed out for some output elements in flash_attn_2_cuda"
+}
+```
+
+Note: These hyperparameters determine the sizes, dimensions or shapes of tensors input to `flash_attn_2_cuda`, such as q (query), k (key) and v (value).
+

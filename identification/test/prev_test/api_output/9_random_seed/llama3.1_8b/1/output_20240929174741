@@ -1,0 +1,35 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a list of **hyperparameters** that are related to `flash_attn_2_cuda` and their descriptions:
+
+```
+{
+    "qkv_shape": "(batch_size, seqlen, 3, nheads, headdim)",
+    "dropout_p": "float. Dropout probability.",
+    "softmax_scale": "None or float. The scaling of QK^T before applying softmax.",
+    "causal": "bool. Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+    "window_size": "(left, right) If not (-1, -1), implements sliding window local attention.",
+    "alibi_slopes": "(nheads,) or (batch_size, nheads), fp32. A bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j.",
+}
+```
+
+Note that I have only included hyperparameters related to `flash_attn_2_cuda` in this list.
+
+Here's a brief description for each parameter:
+
+- **qkv_shape**: The shape of input tensor qkv, which should be (batch_size, seqlen, 3, nheads, headdim) as per the code snippet.
+  
+- **dropout_p**: A float value between [0.0, 1.0] that determines the dropout probability for attention scores during training.
+
+- **softmax_scale**: If None, it defaults to sqrt(headdim), which is a common scaling factor used in transformer models when computing softmax over QK^T. This hyperparameter can be set manually if needed.
+
+- **causal**: A boolean flag that determines whether causal masking should be applied during attention computation (e.g., for auto-regressive modeling).
+
+- **window_size**: If not (-1, -1), this tuple specifies the left and right context window sizes to implement sliding window local attention. The default is an infinite context window.
+
+- **alibi_slopes**: A bias of (-alibi_slope * |i - j|) can be added to each attention score during computation if alibi slopes are used in your model, which helps stabilize the training process by preventing gradients from exploding or vanishing too quickly.
+

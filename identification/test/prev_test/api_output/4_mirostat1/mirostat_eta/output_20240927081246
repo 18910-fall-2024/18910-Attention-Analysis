@@ -1,0 +1,22 @@
+mirostat=1, mirostat_eta=0.0, mirostat_tau=3.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a **JSON** containing the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "batch_size": "The batch size of input tensor qkv, which determines the number of sequences processed in parallel.",
+  "seqlen": "The sequence length of input tensor qkv, which determines the maximum context window for attention computation.",
+  "nheads": "The number of attention heads used in Transformer architecture.",
+  "headdim": "The dimensionality of each attention head, which affects the overall computational complexity and memory usage.",
+  "causal": "A boolean flag indicating whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+  "window_size": "A tuple specifying the left and right context window sizes for sliding window local attention. A value of (-1, -1) indicates an infinite context window.",
+  "alibi_slopes": "An array or tensor containing slope values used to compute alibi bias in attention scores."
+}
+```
+
+Note that I've only included hyperparameters related to `flash_attn_2_cuda` and ignored boolean flags like `return_softmax`.
+

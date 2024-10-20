@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.5, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] Determines the number of sequences processed in parallel. It affects the memory and computational requirements for processing a batch.",
+    "seqlen": "[time_fwd_bwd function call chain] Specifies the length or sequence length, which is crucial as it determines how many tokens are considered at once during attention computation.",
+    "headdim": "[time_fwd_bwd function call chain] Represents the dimension of each head in multi-head self-attention. It impacts memory requirements and computational complexity for processing sequences with transformers.",
+    "nheads": "[configurations within time_fwd_bwd loop] Number of heads used in the attention mechanism, which is derived from `dim` (model hidden size) divided by `headdim`. This parameter influences parallelism and model capacity.",
+    "dropout_p": "[flash_attn_qkvpacked_func function call chain] Dropout probability applied during training to prevent overfitting. It does not affect inference unless explicitly set for evaluation purposes.",
+    "softmax_scale": "[FlashAttnQKVPackedFunc forward method, _flash_attn_forward function] Scaling factor used in the softmax operation of attention scores; if None provided, defaults based on head dimension (1 / sqrt(headdim)). Affects numerical stability and performance during training or inference.",
+    "causal": "[time_fwd_bwd function call chain, FlashAttnQKVPackedFunc forward method] Boolean indicating whether to apply a causal mask for autoregressive models. It influences the attention pattern by restricting each token's visibility in previous tokens only.",
+    "window_size": "[FlashAttnQKVPackedFunc forward method, _flash_attn_forward function call chain] Tuple defining left and right window sizes for local sliding-window attention mechanism; -1 means no limit (global context). It controls the extent of contextual information considered by each token during self-attention.",
+    "alibi_slopes": "[FlashAttnQKVPackedFunc forward method, _flash_attn_forward function call chain] Slope values used in ALiBi bias mechanism to encourage longer-range dependencies. These are optional and affect how biases decay with distance between tokens."
+}
+

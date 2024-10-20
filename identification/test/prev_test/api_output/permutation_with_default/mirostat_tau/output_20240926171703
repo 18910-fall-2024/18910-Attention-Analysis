@@ -1,0 +1,25 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=6.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the identified hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+  "qkv_shape": "batch_size, seqlen, 3, nheads, headdim. The shape of input tensor QKV.",
+  "dropout_p": "float. Dropout probability during training.",
+  "softmax_scale": "float. Scaling factor for softmax.",
+  "causal": "bool. Whether to apply causal attention mask.",
+  "window_size": "int. Context window size for local attention.",
+  "alibi_slopes": "fp32 array of negative values. Slopes for alibi bias.",
+  "deterministic": "bool. Whether to use deterministic or non-deterministic implementation of backward pass.",
+  "return_attn_probs": "float. Whether to return attention probabilities during training.",
+  "nheads": "int. Number of attention heads in Transformer model.",
+  "headdim": "int. Dimension of each attention head in Transformer model."
+}
+```
+
+These hyperparameters are used for training or inference with attention mechanism, especially for Transformers, and determine the sizes, dimensions, or shapes of tensors input to `flash_attn_2_cuda`, or those determine the attention model structure in `flash_attn_2_cuda`.
+

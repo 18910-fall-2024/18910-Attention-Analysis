@@ -1,0 +1,22 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=7.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a list of **all** **hyperparameters** that are related to `flash_attn_2_cuda`, especially for those determining the input tensors' sizes, dimensions, and shapes.
+
+The output will be in JSON structure as requested.
+```
+{
+    "qkv": "QKV tensor with shape (batch_size, seqlen, 3, nheads, headdim)",
+    "dropout_p": "Dropout probability for attention",
+    "softmax_scale": "Scaling of QK^T before applying softmax",
+    "causal": "Whether to apply causal attention mask in `flash_attn_qkvpacked_func` and finally passed on to `flash_attn_2_cuda()`",
+    "window_size": "Window size (left, right) for sliding window local attention. Default is (-1, -1), meaning no windowing.",
+    "nheads": "Number of heads in Multi-Head Attention mechanism (`torch.nn.MultiheadAttention`)",
+    "headdim": "Dimension per head",
+    "dim": "Model dimension (not used directly but calculates nheads and headdim for `flash_attn_qkvpacked_func`) (2048)"
+}
+```
+

@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+```json
+{
+    "dropout_p": "The dropout probability used during training to drop out attention weights. It is a hyperparameter that controls the randomness of the model and helps prevent overfitting.",
+    "softmax_scale": "A scaling factor applied to the dot product in the softmax function, which can improve numerical stability. If not provided, it defaults to 1/sqrt(d_k), where d_k is the key dimension.",
+    "causal": "A boolean indicating whether the attention mechanism should be causal (i.e., only attending to past and current positions) or non-causal (allowing all positions).",
+    "window_size": "A tuple specifying the local window size for local self-attention. It determines the range of tokens each position attends to, which can significantly affect computational efficiency and model capacity.",
+    "alibi_slopes": "A list of slopes used in ALiBi (Attention with Linear Biases) mechanism, which biases attention weights based on distance without adding extra parameters. This is an optional hyperparameter for positional bias.",
+    "return_attn_probs": "A boolean indicating whether to return the raw attention probabilities along with the output tensor from the Flash Attention function. It is not a direct input shape or dimension parameter but affects the output structure."
+}
+```
+

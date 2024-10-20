@@ -1,0 +1,15 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.85, min_p=0.4
+
+==================== Generated Output ====================
+{"qkv": "Input tensor shape for attention mechanism, (batch_size, seqlen, 3, nheads, headdim)", 
+"dropout_p": "Dropout probability used in attention mechanism", 
+"softmax_scale": "Scaling factor of QK^T before applying softmax in attention mechanism",
+"causal": "Whether to apply causal attention mask for auto-regressive modeling",
+"window_size": "(left, right) If not (-1, -1), implements sliding window local attention. Query at position i will only attend to keys between [i - window_size[0], i + window_size[1]] inclusive.",
+"alibi_slopes": "Bias of (-alibi_slope * |i - j|) added to the attention score of query i and key j",
+"deterministic": "Whether to use deterministic implementation of backward pass in flash_attn_qkvpacked_func", 
+"return_softmax": "Return softmax probabilities for testing purposes"}
+

@@ -1,0 +1,23 @@
+mirostat=1, mirostat_eta=0.1, mirostat_tau=2.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the JSON output with the identified hyperparameters:
+
+```json
+{
+  "qkv": "The input tensor to flash_attn_2_cuda, a 5D tensor (batch_size, seqlen, 3, nheads, headdim) containing Q, K, and V values.",
+  "dropout_p": "Dropout probability applied to attention scores in flash_attn_2_cuda.",
+  "softmax_scale": "Scaling factor for softmax normalization in flash_attn_2_cuda.",
+  "causal": "Boolean indicating whether to apply causal attention mask in flash_attn_2_cuda.",
+  "window_size": "Tuple of integers specifying the left and right context window sizes for local attention in flash_attn_2_cuda.",
+  "alibi_slopes": "Optional tensor containing alibi slopes for each head, used in flash_attn_2_cuda.",
+  "deterministic": "Boolean indicating whether to use deterministic implementation of backward pass in flash_attn_2_cuda.",
+  "return_softmax": "Boolean indicating whether to return attention probabilities and softmax logsumexp values in flash_attn_2_cuda."
+}
+```
+
+Note that I have only included the hyperparameters that are directly used in `flash_attn_qkvpacked_func` or its supporting functions, which ultimately call `flash_attn_2_cuda`.
+

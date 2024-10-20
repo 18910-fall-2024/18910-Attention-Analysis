@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.1, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] The batch size of input tensors for attention mechanism, determining the number of sequences processed in parallel.",
+    "seqlen": "[time_fwd_bwd function call chain] Sequence length or context window size of each sequence within a batch. It determines how many tokens are considered at once during self-attention computation.",
+    "headdim": "[time_fwd_bwd function call chain] The dimensionality (size) of the attention heads, which is crucial for determining model capacity and computational complexity in Transformers.",
+    "nheads": "[flash_attn_qkvpacked_func function definition] Number of parallel attention heads. This hyperparameter affects both memory requirements and computation time during training or inference with Transformer models.",
+    "dropout_p": "[time_fwd_bwd function call chain, flash_attn_qkvpacked_func function definition] Dropout probability used to randomly drop out (set to zero) a fraction of the values in QKV tensors during forward pass. It helps prevent overfitting and improves generalization ability.",
+    "softmax_scale": "[flash_attn_qkvpacked_func function definition] Scaling factor applied before computing softmax for attention scores, which can improve numerical stability or performance optimization depending on its value (default is 1 / sqrt(headdim)).",
+    "causal": "[time_fwd_bwd function call chain, flash_attn_qkvpacked_func function definition] Boolean indicating whether to apply causal masking in the self-attention mechanism. This parameter restricts each position's attention only to previous positions.",
+    "window_size": "[flash_attn_qkvpacked_func function definition] Tuple defining a sliding window for local attention (left and right context size). It limits the range of keys that can be attended by queries, reducing computational complexity in very long sequences."
+}
+

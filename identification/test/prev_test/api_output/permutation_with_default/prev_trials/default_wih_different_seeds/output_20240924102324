@@ -1,0 +1,25 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=90, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters that determine or influence the arguments passed and inputs to `flash_attn_2_cuda` based on your starting point code:
+
+```json
+{
+    "batch_size": "The number of input sequences in each batch, which determines the shape of output tensors",
+    "nheads": "The number of attention heads, which influences the structure of output tensors and the number of arguments passed to flash_attn_2_cuda",
+    "seqlen": "The length of input sequences, which determines the shape of output tensors and the size of input tensors passed to flash_attn_2_cuda",
+    "dropout_p": "The dropout probability, which influences the structure of output tensors and the number of arguments passed to flash_attn_2_cuda",
+    "softmax_scale": "A scaling factor for softmax outputs, which determines the shape and scale of output tensors passed to flash_attn_2_cuda",
+    "causal": "A boolean flag indicating whether causal masking is used in attention computations, which influences the structure of output tensors and the number of arguments passed to flash_attn_2_cuda",
+    "window_size": "The size of windowed attention, which determines the shape and size of output tensors passed to flash_attn_2_cuda",
+    "alibi_slopes": "A set of slopes for alibi attention weights, which influences the structure of output tensors and the number of arguments passed to flash_attn_2_cuda",
+    "deterministic": "A boolean flag indicating whether the function should run in deterministic mode, which influences the number of arguments passed to flash_attn_2_cuda",
+    "return_softmax": "A boolean flag indicating whether softmax outputs should be returned by the function, which influences the structure of output tensors and the number of arguments passed to flash_attn_2_cuda"
+}
+```
+
+Please note that some hyperparameters may have been inferred based on typical usage in Transformer models, but their exact behavior or influence might still depend on specific implementation details.
+

@@ -1,0 +1,51 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=1.0
+
+==================== Generated Output ====================
+Here is a list of **hyperparameters** related to `flash_attn_2_cuda`:
+
+```
+{
+    "qkv_shape": "(batch_size, seqlen, 3, nheads, headdim)",
+    "dropout_p": "float. Dropout probability.",
+    "softmax_scale": "None or float. The scaling of QK^T before applying softmax.",
+    "causal": "bool. Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+    "window_size": "(left, right) If not (-1, -1), implements sliding window local attention.",
+    "alibi_slopes": "(nheads,) or (batch_size, nheads), fp32. A bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j."
+}
+```
+
+Here's a brief description for each parameter:
+
+- **qkv_shape**: The shape of input tensor `qkv` in function `_flash_attn_forward`. It determines the sizes, dimensions, or shapes of tensors input to `flash_attn_2_cuda`.
+  
+  - Function: `_flash_attn_forward`
+  - Role/Purpose: Determines the size and dimensionality of input tensor
+
+- **dropout_p**: The dropout probability used in function `attention_pytorch` for training. It determines how much information is dropped during training.
+
+  - Function: `attention_pytorch`
+  - Role/Purpose: Controls amount of data loss during training
+
+- **softmax_scale**: The scaling factor applied to QK^T before softmax operation in functions `_flash_attn_forward`, and `FlashAttnQKVPackedFunc.apply`. It determines the attention model structure.
+
+  - Function: Both `_flash_attn_forward` and `FlashAttnQKVPackedFunc.apply`
+  - Role/Purpose: Controls scaling of QK^T before softmax operation
+
+- **causal**: A boolean indicating whether to apply causal mask in functions `attention_pytorch`, `_flash_attn_forward`. It determines the attention model structure.
+
+  - Function: Both `attention_pytorch` and `_flash_attn_forward`
+  - Role/Purpose: Controls application of causal mask during training or inference
+
+- **window_size**: A tuple indicating whether to implement sliding window local attention in functions `_flash_attn_forward`, `FlashAttnQKVPackedFunc.apply`. It determines the size of context windows.
+
+  - Function: Both `_flash_atnn_forward` and `FlashAttnQKVPackedFunc.apply`
+  - Role/Purpose: Controls size of context windows during training or inference
+
+- **alibi_slopes**: A tuple indicating whether to add bias to attention scores in functions `_flash_attn_forward`, `FlashAttnQKVPackedFunc.apply`. It determines the attention model structure.
+
+  - Function: Both `_flash_atnn_forward` and `FlashAttnQKVPackedFunc.apply`
+  - Role/Purpose: Controls addition of bias during training or inference
+

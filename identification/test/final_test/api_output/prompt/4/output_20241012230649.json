@@ -1,0 +1,21 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9104, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.8, min_p=0.4
+prompt=prompt_api_4
+
+==================== Generated Output ====================
+{
+    "dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__] The dimension of the model's hidden states.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.test_block_parallel] Number of attention heads in each Transformer layer. This hyperparameter is crucial for determining how information flows within and between layers during self-attention operations.",
+    "head_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality (size) of the output from one head of multi-head attention, calculated as `embed_dim / num_heads`",
+    "rotary_emb_dim": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Dimension for rotary position embeddings. This hyperparameter is used to apply sinusoidal positional encodings in a rotated manner, which helps capture long-range dependencies.",
+    "seqlen": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention] Sequence length of the input sequence. This hyperparameter is crucial for determining how many tokens are processed in a single batch and affects computational efficiency and memory usage.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Scaling factor applied to the dot product of query-key pairs before computing attention scores. This hyperparameter can help stabilize gradients during training by scaling down large values in the QK^T matrix.",
+    "causal": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Boolean flag indicating whether to apply a causal mask. This hyperparameter is used for autoregressive models where each token can only attend to previous tokens in the sequence.",
+    "window_size": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Tuple indicating left and right window size for local attention. This hyperparameter is used when implementing sliding window or local attention mechanisms where each token can only attend to a limited range of tokens.",
+    "rotary_interleaved": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Boolean flag indicating whether rotary embeddings are interleaved. This hyperparameter affects how sinusoidal positional encodings are applied to the query and key vectors.",
+    "alibi_slopes": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Slope values for ALiBi (Attention with Linear Biases) mechanism. This hyperparameter is used when applying linear biases to the attention scores.",
+    "num_splits": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache] Number of splits along sequence dimension for key and value tensors during computation."
+}
+

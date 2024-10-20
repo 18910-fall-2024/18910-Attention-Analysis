@@ -1,0 +1,25 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+```json
+{
+  "qkv": "Input tensor of shape [batch_size, sequence_length, num_heads * (key_dim + query_dim + value_dim)], which is the concatenation of query, key, and value tensors.",
+  "dropout_p": "The dropout probability for attention mechanism. This determines the rate at which elements are dropped during inference.",
+  "softmax_scale": "A hyperparameter used to scale the softmax output in the attention mechanism.",
+  "causal": "A boolean indicating whether the input tensor is causal, meaning that it represents a sequence of data where each element only depends on previous elements.",
+  "window_size": "The size of the window for which attention is computed. If [0, 0], this is equivalent to global attention.",
+  "alibi_slopes": "A list of slopes for the alibi activation function used in the attention mechanism.",
+  "deterministic": "A boolean indicating whether the attention mechanism should be deterministic or not.",
+  "return_attn_probs": "A boolean indicating whether the output should include the attention probabilities or just the final output.",
+  "return_softmax": "A boolean indicating whether to return softmax (if dropout_p > 0) along with output or only output",
+  "ctx.dropout_p": "The saved dropout probability for later use in backward pass.",
+  "ctx.softmax_scale": "The saved softmax scale for later use in backward pass.",
+  "ctx.causal": "A boolean indicating whether the input tensor is causal, which is used in backward pass.",
+  "ctx.window_size": "The size of the window for which attention is computed, used in backward pass.",
+  "ctx.alibi_slopes": "A list of slopes for the alibi activation function used in the attention mechanism, used in backward pass."
+}
+```
+

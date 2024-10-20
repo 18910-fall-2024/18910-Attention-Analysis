@@ -1,0 +1,21 @@
+mirostat=2, mirostat_eta=0.1, mirostat_tau=7.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is a JSON object that contains the hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+  "batch_size": "Input batch size, typically set as an argument when calling flash_attn_qkvpacked_func or attention_pytorch.",
+  "seqlen": "Sequence length of input tensor. Typically used in conjunction with batch_size for calculating sequence_parallel-related hyperparameters such as window_size and alibi_slopes.",
+  "nheads": "Number of self-attention heads, determined by model dimension (dim) divided into head_dim. Defaults to dim // headdim when qkv is packed into one tensor via flash_attn_qkvpacked_func or attention_pytorch.",
+  "headdim": "Dimension per self-attention head in case batch_size and seqlen are not set together with nheads, allows flexibility over traditional QKV split (batch_size, seqlen, headdims)",
+}
+```
+
+Additionally I identify `dim` which determines the size of attention heads but it's actually a parameter used for computing `nheels`.
+
+I did ignore boolean hyperparameters like `causal`, and also parameters that do not relate to tensor sizes or dimensions as requested.
+

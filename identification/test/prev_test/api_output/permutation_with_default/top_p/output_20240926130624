@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.6000000000000001, min_p=0.0
+
+==================== Generated Output ====================
+Here is the list of hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+  "batch_size": "The batch size of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "seqlen": "The sequence length of input data, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "nheads": "The number of attention heads, calculated as dim // headdim in time_f_bwd.",
+  "headdim": "The dimension of each attention head, used to calculate nheads in time_f_bwd.",
+  "dim": "The total dimension of input data, used to calculate nheads in time_f_bwd.",
+  "dropout_p": "The dropout probability, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "softmax_scale": "The scaling factor for softmax, calculated as headdim ** (-0.5) in flash_attn_qkvpacked_func.",
+  "causal": "A boolean indicating whether to apply causal attention mask, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "window_size": "A tuple of left and right window sizes for sliding window local attention, used in flash_attn_qkvpacked_func and _flash_attn_forward.",
+  "alibi_slopes": "The slopes for alibi bias, used in flash_attn_qkvpacked_func and _flash_attn_forward."
+}
+```
+

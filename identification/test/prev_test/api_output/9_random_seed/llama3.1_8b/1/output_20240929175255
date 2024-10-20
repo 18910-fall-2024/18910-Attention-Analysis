@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a JSON object containing the extracted hyperparameters:
+
+```
+{
+  "batch_size": "The batch size of input data, which determines the number of sequences to process in parallel.",
+  "seqlen": "The sequence length (or maximum context window) for each query and key pair.",
+  "headdim": "The dimensionality of attention heads used in the Transformer model. This value is typically set as a power-of-2 integer, such as 64 or 128.",
+  "nheads": "The number of parallel attention mechanisms (or 'attention heads') to apply simultaneously.",
+  "causal": "A boolean flag indicating whether causal masking should be applied during self-attention computation. This prevents the model from attending to future positions in a sequence, which is useful for auto-regressive tasks like language modeling or text generation.",
+  "window_size": "The size of sliding window used for local attention (if enabled). A value of (-1, -1) indicates no local attention is applied.",
+  "alibi_slopes": "A bias term to be added to the attention scores based on the relative positions between query and key elements. This can help improve model performance by introducing a non-linear relationship in the attention computation.",
+  "deterministic": "A boolean flag indicating whether to use deterministic or random initialization for internal computations (not directly related to hyperparameters).",
+  "return_attn_probs": "An optional output flag that allows returning the computed attention probabilities along with the final output. This is primarily used during testing and debugging, as it can be computationally expensive.",
+  "softmax_scale": "The scaling factor applied before computing softmax normalization in self-attention computation."
+}
+```
+

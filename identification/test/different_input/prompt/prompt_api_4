@@ -1,0 +1,491 @@
+The following is a function call chain starting from the code file listed below. The code base is an implementation of the deployment of Transformer.
+
+Identify all **hyperparameters** along the call chain and extract those are **related to the arguments of `flash_attn_2_cuda`** (the end of the call chain).
+- Focus on **hyperparameters** that are related to **attention score computation** during **attention mechanism**, especially for **Transformers**.
+- Identify hyperparameters that **affect the model's architecture, behavior, and prediction quality**, especially those related to **attention score**.
+- Identify **hyperparameters** determining the **sizes, dimensions, and shapes** of tensors input to `flash_attn_2_cuda`
+- **Ignore** hyperparameters that are **solely used to optimize computational efficiency** and **do not impact the model's output**, such as parameters related to **memory management, caching mechanisms, or computational acceleration**.
+- **Keep** all hyperparameters that will influence **attention model's output performance**.
+- Ignore the boolean hyperparameters that only decide return format of a function but do nothing with the attention mechanism.
+
+
+**Function call chain**:
+`benchmarks.benchmark_alibi/benchmarks.benchmark_alibi.time_fwd_bwd -> benchmarks.benchmark_alibi.time_fwd_bwd/benchmarks.benchmark_alibi.flash_rotary -> benchmarks.benchmark_alibi.flash_rotary/flash_attn.flash_attn_interface.flash_attn_func -> flash_attn.flash_attn_interface.flash_attn_func/flash_attn.flash_attn_interface.FlashAttnFunc.apply -> flash_attn.flash_attn_interface.FlashAttnFunc.apply/flash_attn.flash_attn_interface.FlashAttnFunc.forward -> flash_attn.flash_attn_interface.FlashAttnFunc.forward/flash_attn.flash_attn_interface._flash_attn_forward -> flash_attn.flash_attn_interface._flash_attn_forward/flash_attn_2_cuda.fwd`
+
+Each function/variable is formatted as: the part before "/" indicates the scope of the function/variable being called, and the part after "/" indicates where the function originates from.
+
+
+**Code in the scope of starting point**:
+
+`benchmarks.benchmark_alibi`:
+```python
+# Copyright (c) 2024, Sanghun Cho, Tri Dao.
+
+import pickle
+import math
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+from einops import rearrange, repeat
+from flash_attn.layers.rotary import apply_rotary_emb
+
+from flash_attn.utils.benchmark import benchmark_all, benchmark_forward, benchmark_backward
+from flash_attn.utils.benchmark import benchmark_fwd_bwd, benchmark_combined
+
+from flash_attn import flash_attn_qkvpacked_func, flash_attn_func
+
+try:
+    import xformers.ops as xops
+except ImportError:
+    xops = None
+
+
+def generate_cos_sin(seqlen, rotary_dim, device, dtype):
+    assert rotary_dim % 2 == 0
+    angle = torch.rand(seqlen * 2, rotary_dim // 2, device=device) * 2 * math.pi
+    cos = torch.cos(angle).to(dtype=dtype)
+    sin = torch.sin(angle).to(dtype=dtype)
+    return cos, sin
+
+
+def flash_rotary(q, k, v, cos, sin, causal=False):
+    # corrected by @tridao comments
+    q = apply_rotary_emb(
+        q, cos, sin, seqlen_offsets=0, interleaved=False, inplace=True
+    )
+    k = apply_rotary_emb(
+        k, cos, sin, seqlen_offsets=0, interleaved=False, inplace=True
+    )
+
+    return flash_attn_func(q, k, v, causal=causal)
+
+
+def attn_bias_from_alibi_slopes(
+    slopes, seqlen_q, seqlen_k, query_padding_mask=None, key_padding_mask=None, causal=False
+):
+    batch, nheads = slopes.shape
+    device = slopes.device
+    slopes = rearrange(slopes, "b h -> b h 1 1")
+    if causal:
+        return torch.arange(-seqlen_k + 1, 1, device=device, dtype=torch.float32) * slopes
+    else:
+        row_idx = rearrange(torch.arange(seqlen_q, device=device, dtype=torch.long), "s -> s 1")
+        col_idx = torch.arange(seqlen_k, device=device, dtype=torch.long)
+        sk = (
+            seqlen_k
+            if key_padding_mask is None
+            else rearrange(key_padding_mask.sum(-1), "b -> b 1 1 1")
+        )
+        sq = (
+            seqlen_q
+            if query_padding_mask is None
+            else rearrange(query_padding_mask.sum(-1), "b -> b 1 1 1")
+        )
+        relative_pos = torch.abs(row_idx + sk - sq - col_idx)
+        return -slopes * relative_pos.to(dtype=slopes.dtype)
+
+
+def flops(batch, seqlen, headdim, nheads, causal, mode="fwd"):
+    assert mode in ["fwd", "bwd", "fwd_bwd"]
+    f = 4 * batch * seqlen**2 * nheads * headdim // (2 if causal else 1)
+    return f if mode == "fwd" else (2.5 * f if mode == "bwd" else 3.5 * f)
+
+
+def efficiency(flop, time):
+    return (flop / time / 10**12) if not math.isnan(time) else 0.0
+
+
+def attention_pytorch(q, k, v, dropout_p=0.0, causal=True, attn_bias=None):
+    """
+    Arguments:
+        q, k, v: (batch_size, seqlen, nheads, head_dim)
+        dropout_p: float
+        attn_bias: (batch_size, nheads, seqlen, seqlen) or (1, nheads, seqlen, seqlen)
+    Output:
+        output: (batch_size, seqlen, nheads, head_dim)
+    """
+    batch_size, seqlen, nheads, d = q.shape
+    q = rearrange(q, 'b t h d -> (b h) t d')
+    k = rearrange(k, 'b s h d -> (b h) d s')
+    softmax_scale = 1.0 / math.sqrt(d)
+    # Preallocate attn_weights for `baddbmm`
+    if attn_bias is not None:
+        scores = rearrange(attn_bias, 'b h t s -> (b h) t s')
+    else:
+        scores = torch.empty(batch_size * nheads, seqlen, seqlen, dtype=q.dtype, device=q.device)
+    scores = rearrange(torch.baddbmm(scores, q, k, beta=1.0, alpha=softmax_scale),
+                       '(b h) t s -> b h t s', h=nheads)
+    if causal:
+        # "triu_tril_cuda_template" not implemented for 'BFloat16'
+        # So we have to construct the mask in float
+        causal_mask = torch.triu(torch.full((seqlen, seqlen), -10000.0, device=scores.device), 1)
+        # TD [2022-09-30]: Adding is faster than masked_fill_ (idk why, just better kernel I guess)
+        scores = scores + causal_mask.to(dtype=scores.dtype)
+    attention = torch.softmax(scores, dim=-1)
+    attention_drop = F.dropout(attention, dropout_p)
+    output = torch.einsum('bhts,bshd->bthd', attention_drop , v)
+    return output.to(dtype=q.dtype)
+
+
+def time_fwd_bwd(func, *args, **kwargs):
+    time_f, time_b = benchmark_fwd_bwd(func, *args, **kwargs)
+    return time_f[1].mean, time_b[1].mean
+
+
+repeats = 30
+device = 'cuda'
+dtype = torch.float16
+
+bs_seqlen_vals = [(32, 512), (16, 1024), (8, 2048), (4, 4096), (2, 8192), (1, 16384)]
+causal_vals = [False, True]
+headdim_vals = [64, 128]
+dim = 2048
+dropout_p = 0.0
+
+methods = (["fa2_alibi", "torch"]
+           + (["xformers"] if xops is not None else [])
+           + ["sdpa"]
+           + ["fa2_baseline"]
+           + ["fa2_rotary"])
+
+time_f = {}
+time_b = {}
+time_f_b = {}
+speed_f = {}
+speed_b = {}
+speed_f_b = {}
+for causal in causal_vals:
+    for headdim in headdim_vals:
+        for batch_size, seqlen in bs_seqlen_vals:
+            config = (causal, headdim, batch_size, seqlen)
+            nheads = dim // headdim
+            q, k, v = [torch.randn(batch_size, seqlen, nheads, headdim, device=device, dtype=dtype,
+                                    requires_grad=True) for _ in range(3)]
+            # alibi_slopes = torch.rand(batch_size, nheads, device=device, dtype=torch.float32) * 0.3
+            alibi_slopes = torch.rand(1, nheads, device=device, dtype=torch.float32) * 0.3
+            attn_bias = attn_bias_from_alibi_slopes(alibi_slopes, seqlen, seqlen, causal=causal).to(dtype)
+            attn_bias = repeat(attn_bias, "1 ... -> b ...", b=batch_size)
+            f, b = time_fwd_bwd(
+                flash_attn_func,
+                q, k, v,
+                dropout_p,
+                causal=causal,
+                # alibi_slopes=alibi_slopes,
+                alibi_slopes=None,
+                repeats=repeats,
+                verbose=False
+            )
+            time_f[config, "fa2_baseline"] = f
+            time_b[config, "fa2_baseline"] = b
+
+            q = q.detach().requires_grad_(True)
+            k = k.detach().requires_grad_(True)
+            v = v.detach().requires_grad_(True)
+            f, b = time_fwd_bwd(
+                flash_attn_func,
+                q, k, v,
+                dropout_p,
+                causal=causal,
+                alibi_slopes=rearrange(alibi_slopes, "1 h -> h"),
+                # alibi_slopes=None,
+                repeats=repeats,
+                verbose=False
+            )
+            time_f[config, "fa2_alibi"] = f
+            time_b[config, "fa2_alibi"] = b
+
+            try:
+                q = q.detach().requires_grad_(True)
+                k = k.detach().requires_grad_(True)
+                v = v.detach().requires_grad_(True)
+                f, b = time_fwd_bwd(
+                    attention_pytorch,
+                    q, k, v,
+                    dropout_p,
+                    causal=causal,
+                    attn_bias=attn_bias,
+                    repeats=repeats,
+                    verbose=False
+                )
+            except:  # Skip if OOM
+                f, b = float('nan'), float('nan')
+            time_f[config, "torch"] = f
+            time_b[config, "torch"] = b
+
+            # F.sdpa doesn't currently (torch 2.1) dispatch to flash-attn but just to be safe
+            with torch.backends.cuda.sdp_kernel(enable_flash=False):
+                q_pt = q.detach().requires_grad_(True).transpose(1, 2)
+                k_pt = k.detach().requires_grad_(True).transpose(1, 2)
+                v_pt = v.detach().requires_grad_(True).transpose(1, 2)
+                f, b = time_fwd_bwd(
+                    F.scaled_dot_product_attention,
+                    q_pt, k_pt, v_pt,
+                    attn_mask=attn_bias,
+                    dropout_p=dropout_p,
+                    is_causal=causal,
+                    repeats=repeats,
+                    verbose=False
+                )
+                time_f[config, "sdpa"] = f
+                time_b[config, "sdpa"] = b
+
+            if xops is not None:
+                q = q.detach().requires_grad_(True)
+                k = k.detach().requires_grad_(True)
+                v = v.detach().requires_grad_(True)
+                if causal:
+                    attn_bias_xops = xops.LowerTriangularMask().add_bias(attn_bias.expand(-1, -1, seqlen, -1).to(dtype=q.dtype))
+                    # NotImplementedError: No operator found for `memory_efficient_attention_backward` with inputs:
+                    # `flshattB@v2.3.6` is not supported because:
+                    #     attn_bias type is <class 'xformers.ops.fmha.attn_bias.LowerTriangularMaskWithTensorBias'>
+                    # `cutlassB` is not supported because:
+                    #     attn_bias type is <class 'xformers.ops.fmha.attn_bias.LowerTriangularMaskWithTensorBias'>
+                    attn_bias_xops = attn_bias_xops.materialize((batch_size, nheads, seqlen, seqlen), dtype=q.dtype, device=device)
+                else:
+                    attn_bias_xops = attn_bias.to(dtype=q.dtype)
+                f, b = time_fwd_bwd(
+                    xops.memory_efficient_attention,
+                    q, k, v,
+                    attn_bias_xops,
+                    dropout_p,
+                    repeats=repeats,
+                    verbose=False
+                )
+                time_f[config, "xformers"] = f
+                time_b[config, "xformers"] = b
+
+            q = q.detach().requires_grad_(True)
+            k = k.detach().requires_grad_(True)
+            v = v.detach().requires_grad_(True)
+            cos, sin = generate_cos_sin(seqlen, headdim, device, dtype)
+            f, b = time_fwd_bwd(
+                flash_rotary,
+                q, k, v,
+                cos, sin,
+                causal,
+                repeats=repeats,
+                verbose=False
+            )
+            time_f[config, "fa2_rotary"] = f
+            time_b[config, "fa2_rotary"] = b
+
+            print(f"### causal={causal}, headdim={headdim}, batch_size={batch_size}, seqlen={seqlen} ###")
+            csv_output = ""
+            csv_output += f"{causal},{headdim},{batch_size},{seqlen},"
+            for method in methods:
+                time_f_b[config, method] = time_f[config, method] + time_b[config, method]
+                speed_f[config, method] = efficiency(
+                    flops(batch_size, seqlen, headdim, nheads, causal, mode="fwd"),
+                    time_f[config, method]
+                )
+                speed_b[config, method] = efficiency(
+                    flops(batch_size, seqlen, headdim, nheads, causal, mode="bwd"),
+                    time_b[config, method]
+                )
+                speed_f_b[config, method] = efficiency(
+                    flops(batch_size, seqlen, headdim, nheads, causal, mode="fwd_bwd"),
+                    time_f_b[config, method]
+                )
+                print(
+                    f"{method} fwd: {speed_f[config, method]:.2f} TFLOPs/s, "
+                    f"bwd: {speed_b[config, method]:.2f} TFLOPs/s, "
+                    f"fwd + bwd: {speed_f_b[config, method]:.2f} TFLOPs/s"
+                )
+                csv_output += f"{speed_f[config, method]:.2f},{speed_b[config, method]:.2f},{speed_f_b[config, method]:.2f},"
+            print(csv_output)
+
+```
+
+
+
+**Other functions in the call chain**:
+
+`flash_attn.flash_attn_interface.flash_attn_func`:
+```python
+def flash_attn_func(
+    q,
+    k,
+    v,
+    dropout_p=0.0,
+    softmax_scale=None,
+    causal=False,
+    window_size=(-1, -1),  # -1 means infinite context window
+    alibi_slopes=None,
+    deterministic=False,
+    return_attn_probs=False,
+):
+    """dropout_p should be set to 0.0 during evaluation
+    Supports multi-query and grouped-query attention (MQA/GQA) by passing in KV with fewer heads
+    than Q. Note that the number of heads in Q must be divisible by the number of heads in KV.
+    For example, if Q has 6 heads and K, V have 2 heads, head 0, 1, 2 of Q will attention to head
+    0 of K, V, and head 3, 4, 5 of Q will attention to head 1 of K, V.
+
+    If causal=True, the causal mask is aligned to the bottom right corner of the attention matrix.
+    For example, if seqlen_q = 2 and seqlen_k = 5, the causal mask (1 = keep, 0 = masked out) is:
+        1 1 1 1 0
+        1 1 1 1 1
+    If seqlen_q = 5 and seqlen_k = 2, the causal mask is:
+        0 0
+        0 0
+        0 0
+        1 0
+        1 1
+    If the row of the mask is all zero, the output will be zero.
+
+    If window_size != (-1, -1), implements sliding window local attention. Query at position i
+    will only attend to keys between
+    [i + seqlen_k - seqlen_q - window_size[0], i + seqlen_k - seqlen_q + window_size[1]] inclusive.
+
+    Arguments:
+        q: (batch_size, seqlen, nheads, headdim)
+        k: (batch_size, seqlen, nheads_k, headdim)
+        v: (batch_size, seqlen, nheads_k, headdim)
+        dropout_p: float. Dropout probability.
+        softmax_scale: float. The scaling of QK^T before applying softmax.
+            Default to 1 / sqrt(headdim).
+        causal: bool. Whether to apply causal attention mask (e.g., for auto-regressive modeling).
+        window_size: (left, right). If not (-1, -1), implements sliding window local attention.
+        alibi_slopes: (nheads,) or (batch_size, nheads), fp32. A bias of
+            (-alibi_slope * |i + seqlen_k - seqlen_q - j|)
+            is added to the attention score of query i and key j.
+        deterministic: bool. Whether to use the deterministic implementation of the backward pass,
+            which is slightly slower and uses more memory. The forward pass is always deterministic.
+        return_attn_probs: bool. Whether to return the attention probabilities. This option is for
+           testing only. The returned probabilities are not guaranteed to be correct
+           (they might not have the right scaling).
+    Return:
+        out: (batch_size, seqlen, nheads, headdim).
+        softmax_lse [optional, if return_attn_probs=True]: (batch_size, nheads, seqlen). The
+            logsumexp of each row of the matrix QK^T * scaling (e.g., log of the softmax
+            normalization factor).
+        S_dmask [optional, if return_attn_probs=True]: (batch_size, nheads, seqlen, seqlen).
+            The output of softmax (possibly with different scaling). It also encodes the dropout
+            pattern (negative means that location was dropped, nonnegative means it was kept).
+    """
+    return FlashAttnFunc.apply(
+        q,
+        k,
+        v,
+        dropout_p,
+        softmax_scale,
+        causal,
+        window_size,
+        alibi_slopes,
+        deterministic,
+        return_attn_probs,
+    )
+```
+
+`flash_attn.flash_attn_interface.FlashAttnFunc`:
+```python
+class FlashAttnFunc(torch.autograd.Function):
+    @staticmethod
+    def forward(
+        ctx,
+        q,
+        k,
+        v,
+        dropout_p,
+        softmax_scale,
+        causal,
+        window_size,
+        alibi_slopes,
+        deterministic,
+        return_softmax,
+    ):
+        if softmax_scale is None:
+            softmax_scale = q.shape[-1] ** (-0.5)
+        out, q, k, v, out_padded, softmax_lse, S_dmask, rng_state = _flash_attn_forward(
+            q,
+            k,
+            v,
+            dropout_p,
+            softmax_scale,
+            causal=causal,
+            window_size=window_size,
+            alibi_slopes=alibi_slopes,
+            return_softmax=return_softmax and dropout_p > 0,
+        )
+        ctx.save_for_backward(q, k, v, out_padded, softmax_lse, rng_state)
+        ctx.dropout_p = dropout_p
+        ctx.softmax_scale = softmax_scale
+        ctx.causal = causal
+        ctx.window_size = window_size
+        ctx.alibi_slopes = alibi_slopes
+        ctx.deterministic = deterministic
+        return out if not return_softmax else (out, softmax_lse, S_dmask)
+
+    @staticmethod
+    def backward(ctx, dout, *args):
+        q, k, v, out, softmax_lse, rng_state = ctx.saved_tensors
+        dq, dk, dv = torch.empty_like(q), torch.empty_like(k), torch.empty_like(v)
+        _flash_attn_backward(
+            dout,
+            q,
+            k,
+            v,
+            out,
+            softmax_lse,
+            dq,
+            dk,
+            dv,
+            ctx.dropout_p,
+            ctx.softmax_scale,
+            ctx.causal,
+            ctx.window_size,
+            ctx.alibi_slopes,
+            ctx.deterministic,
+            rng_state=rng_state,
+        )
+        dq = dq[..., : dout.shape[-1]]  # We could have padded the head dimension
+        dk = dk[..., : dout.shape[-1]]
+        dv = dv[..., : dout.shape[-1]]
+        return dq, dk, dv, None, None, None, None, None, None, None
+```
+
+`flash_attn.flash_attn_interface._flash_attn_forward`:
+```python
+def _flash_attn_forward(
+    q, k, v, dropout_p, softmax_scale, causal, window_size, alibi_slopes, return_softmax
+):
+    maybe_contiguous = lambda x: x.contiguous() if x.stride(-1) != 1 else x
+    q, k, v = [maybe_contiguous(x) for x in (q, k, v)]
+    out, q, k, v, out_padded, softmax_lse, S_dmask, rng_state = flash_attn_cuda.fwd(
+        q,
+        k,
+        v,
+        None,
+        alibi_slopes,
+        dropout_p,
+        softmax_scale,
+        causal,
+        window_size[0],
+        window_size[1],
+        return_softmax,
+        None,
+    )
+    return out, q, k, v, out_padded, softmax_lse, S_dmask, rng_state
+```
+
+Based on your knowledge of Transformer, identify all **hyperparameters** in the code snippets that finally related to `flash_attn_2_cuda`, especially for those hyperparameters determining the input tensors' **sizes, dimensions, and shapes**.
+Focus on **hyperparameters** that are related to **attention score computation** during **training or inference** with **attention mechanism**, especially for **Transformers**.
+You should:
+- Identify hyperparameters that **affect the model's architecture, behavior, and prediction quality**, especially those related to **attention score**.
+- Identify **hyperparameters** determining the **sizes, dimensions, and shapes** of tensors input to `flash_attn_2_cuda`, or those determine the attention model structure in `flash_attn_2_cuda`.
+- **Ignore** hyperparameters that are **solely used to optimize computational efficiency** and do not impact the model's output, such as parameters related to **memory management, caching mechanisms, or computational acceleration**.
+- **Keep** all hyperparameters that will influence **attention model's output performance**.
+- Ignore the boolean hyperparameters that only decide return format of a function but do nothing with the attention mechanism.
+
+Provide a brief description of each parameter you identified, including
+- **Scope** in which the parameter is used. Show the scope in the following format: Join the path to where it is from directory to function using ".".
+  If a parameter appears in multiple functions, use ", " to separate different scope paths. E.g., if parameter `a` appears in `func1` in `flash_attn/file1.py` and `func2` in `flash_attn/file2.py`, its scope should be written as: `flash_attn.file1.func1, flash_attn.file2.func2`
+- The role or purpose of the parameter
+
+Only output a **JSON**. Set the keys to hyperparameters you identified and values to corresponding scopes and descriptions. Put all your output in the JSON structure with the following format:
+```json
+{
+    "hyperparameter1":"[scope1] description1",
+    "hyperparameter2":"[scope2] description2"
+}
+```

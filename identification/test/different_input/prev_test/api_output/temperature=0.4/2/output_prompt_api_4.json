@@ -1,0 +1,10 @@
+{
+    "seqlen": "[benchmarks.benchmark_alibi.time_fwd_bwd.generate_cos_sin, benchmarks.benchmark_alibi.flash_rotary.flash_attn_func] The sequence length of the input tensor. It determines the size and shape of tensors related to attention mechanism.",
+    "rotary_dim": "[benchmarks.benchmark_alibi.time_fwd_bwd.generate_cos_sin] Dimensionality for rotary positional embeddings applied in transformers, affecting how position information is incorporated into queries (q) and keys (k).",
+    "batch_size": "[benchmarks.benchmark_alibi.time_fwd_bwd.flash_attn_func] The number of sequences processed simultaneously. It determines the batch size dimension of input tensors.",
+    "nheads": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, benchmarks.benchmark_alibi.time_fwd_bdw.flash_rotary.flash_attn_func] Number of attention heads in multi-head self-attention mechanism; it affects tensor dimensions and shapes for Q (queries), K (keys), V (values).",
+    "headdim": "[benchmarks.benchmark_alibri.time_fwbwd.flashattnfunc, benchmarks.benchamark_alibi.flaash_rotary.flash_attn_func] Dimension of each head in multi-head self-attention mechanism; it affects tensor dimensions and shapes for Q (queries), K (keys), V (values).",
+    "causal": "[flash_attn.flash_attn_interface.FlashAttnFunc.forward, benchmarks.benchmark_alibi.time_fwd_bwd.flash_rotary.flash_attn_func] Indicates whether the attention is causal or not; it affects how future positions are considered in self-attention computations.",
+    "dropout_p": "[benchmarks.benchmark_alibri.time_fwbwd.flashattnfunc, flash_attn.flash_attn_interface.FlashAttnFunc.forward] Probability of dropping out elements during training to prevent overfitting and improve model generalization; it affects the dropout mechanism used in attention layers."
+}
+

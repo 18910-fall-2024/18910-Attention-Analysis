@@ -1,0 +1,14 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.8, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input sequence for attention mechanism.", 
+"seqlen": "The length of input sequence for attention mechanism.", 
+"Headdim": "The dimensionality of each head in the multi-head self-attention module.",
+"nheads": "The number of heads in the multi-head self-attention module.",
+"causal": "Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+"window_size": "If not (-1, -1), implements sliding window local attention. Query at position i will only attend to keys between [i - window_size[0], i + window_size[1]] inclusive.",
+"alibi_slopes": "A bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j."}
+

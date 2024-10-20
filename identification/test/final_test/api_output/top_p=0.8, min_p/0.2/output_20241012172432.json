@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9092, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.2, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.8, min_p=0.2
+
+==================== Generated Output ====================
+{
+    "dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__] The dimension of the input embeddings or hidden states in a Transformer model.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.test_block_parallel] Number of attention heads used by Multi-Head Attention (MHA) mechanism. It determines how many parallel self-attention mechanisms are applied to the input embeddings or hidden states in a Transformer model.",
+    "head_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality of each head within multi-head attention, calculated as embed_dim divided by num_heads.",
+    "rotary_emb_dim": "[flash_attn.modules.mha.MHA.__init__, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Dimension for rotary position embeddings used in the Transformer model. It influences how positional information is embedded and applied to queries (Q) and keys (K).",
+    "seqlen": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA._apply_rotary_update_kvcache_attention] Sequence length of input sequences for which the attention mechanism processes. It determines how long each sequence is in terms of tokens or time steps.",
+    "batch_size": "[tests.modules.test_block_parallel.test_block_parallel] Number of samples (sequences) processed simultaneously through a batch during training, inference, etc., influencing parallelism and memory usage.",
+    "softmax_scale": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Scaling factor applied to the dot product before computing softmax in attention mechanisms. It helps stabilize numerical computations during training or inference of Transformers by scaling down large values and preventing overflow.",
+    "window_size": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Tuple defining the left and right window sizes for local attention mechanisms. It controls how far back in time or sequence a query can attend to when computing context vectors.",
+    "rotary_interleaved": "[flash_attn.flash_attn_interface.flash_attn_with_kvcache, flash_attn.modules.mha.MHA.__init__] Boolean indicating whether rotary position embeddings are interleaved. It affects how positional information is applied across different dimensions of the query and key tensors."
+}
+

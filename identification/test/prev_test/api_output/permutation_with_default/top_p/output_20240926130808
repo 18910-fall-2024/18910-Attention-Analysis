@@ -1,0 +1,24 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.8, min_p=0.0
+
+==================== Generated Output ====================
+Here are the identified hyperparameters related to `flash_attn_2_cuda`:
+
+```json
+{
+    "qkv": "Input tensor of shape (batch_size, seqlen, 3, nheads, headdim) for attention mechanism in Transformers",
+    "dropout_p": "Dropout probability for attention mechanism in Transformers, used during training to prevent overfitting",
+    "softmax_scale": "Scaling factor for softmax function in attention mechanism, default is 1 / sqrt(headdim)",
+    "causal": "Flag indicating whether to apply causal attention mask (e.g., for auto-regressive modeling) in attention mechanism",
+    "window_size": "Sliding window size for local attention, if not (-1, -1), implements sliding window local attention",
+    "alibi_slopes": "Bias of (-alibi_slope * |i - j|) added to attention score of query i and key j for alibi attention mechanism",
+    "nheads": "Number of attention heads in Transformer model",
+    "headdim": "Dimension of each attention head in Transformer model",
+    "dim": "Total dimension of input tensor in Transformer model, used to calculate number of attention heads (nheads = dim / headdim)",
+    "batch_size": "Batch size for attention mechanism in Transformers, affects the size of input tensor (qkv)",
+    "seqlen": "Sequence length for attention mechanism in Transformers, affects the size of input tensor (qkv)"
+}
+```
+

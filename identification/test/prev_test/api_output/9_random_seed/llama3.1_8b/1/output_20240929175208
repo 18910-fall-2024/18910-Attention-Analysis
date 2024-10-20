@@ -1,0 +1,25 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a **JSON** with the list of **hyperparameters** related to `flash_attn_2_cuda`:
+
+```
+{
+  "qkv": "Input tensor shape, (batch_size, seqlen, 3, nheads, headdim).",
+  "dropout_p": "Dropout probability for attention mechanism.",
+  "softmax_scale": "Scaling factor for softmax function in attention calculation. Default to sqrt(headdim) if not provided.",
+  "causal": "Whether to apply causal attention mask (e.g., for auto-regressive modeling)",
+  "window_size": "(left, right). If not (-1, -1), implements sliding window local attention",
+  "alibi_slopes": "Bias of (-alibi_slope * |i - j|) added to the attention score of query i and key j.",
+  "deterministic": "Whether to use deterministic implementation of backward pass (slower but uses more memory)",
+  "return_attn_probs": "Whether to return attention probabilities. This option is for testing only."
+}
+```
+
+Note that `flash_attn_qkvpacked_func` function in the code snippet takes an input tensor shape as a parameter, which determines the size and dimension of tensors passed into `flash_attn_2_cuda`. Other parameters are related to attention mechanism calculation within `flash_attn_2_cuda`.
+
+Let me know if you need any further assistance.
+

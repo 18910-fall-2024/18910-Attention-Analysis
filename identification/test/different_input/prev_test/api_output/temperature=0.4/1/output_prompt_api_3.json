@@ -1,0 +1,14 @@
+{
+    "batch_size": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] The number of sequences in a batch.",
+    "seqlen": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Sequence length for each sequence in the batch. Determines the size and shape of input tensors like qkv (query-key-value tensor).",
+    "nheads": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Number of attention heads used in multi-head self-attention mechanism.",
+    "headdim": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Dimensionality (size) of each head's key and value vectors. Determines the shape of input tensors like qkv.",
+    "dropout_p": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Dropout probability used during training to prevent overfitting by randomly setting some activations to zero.",
+    "max_seqlen_q": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Maximum sequence length in the batch for queries. Determines padding and memory allocation.",
+    "max_seqlen_k": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Maximum sequence length in the batch for keys. Determines padding and memory allocation.",
+    "softmax_scale": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward, flash_attn.flash_attn_interface._flash_attn_varlen_forward] Scaling factor applied to the dot product of query and key vectors before computing softmax. Default value is 1/sqrt(headdim).",
+    "causal": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Boolean indicating whether to apply causal masking in attention mechanism (used for auto-regressive models like language modeling where future tokens cannot influence past ones).",
+    "window_size": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Tuple indicating the size of sliding window used in local attention mechanism. (-1,-1) means no limit (full context is considered).",
+    "alibi_slopes": "[benchmarks.benchmark_causal.time_fwd_bwd, flash_attn.flash_attn_interface.FlashAttnVarlenQKVPackedFunc.forward] Slope values for ALiBi bias applied to attention scores. Helps in modeling long-range dependencies."
+}
+

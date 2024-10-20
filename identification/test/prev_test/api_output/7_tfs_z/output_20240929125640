@@ -1,0 +1,33 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=1.0, seed=0, tfs_z=0.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+Here is a list of **all** hyperparameters related to `flash_attn_2_cuda`:
+
+```
+{
+    "qkv_shape": "(batch_size, seqlen, 3, nheads, headdim)",
+    "dropout_p": "float. Dropout probability.",
+    "softmax_scale": "None or float. The scaling of QK^T before applying softmax.",
+    "causal": "bool. Whether to apply causal attention mask (e.g., for auto-regressive modeling).",
+    "window_size": "(left, right) If not (-1, -1), implements sliding window local attention.",
+    "alibi_slopes": "(nheads,) or (batch_size, nheads), fp32. A bias of (-alibi_slope * |i - j|) is added to the attention score of query i and key j."
+}
+```
+
+Here's a brief description for each parameter:
+
+- **qkv_shape**: The shape of input tensor `qkv` in function `_flash_attn_forward`. It determines the sizes, dimensions, or shapes of tensors input to `flash_attn_2_cuda`.
+  
+- **dropout_p**: Used as an argument in functions like `attention_pytorch`, and is used for training with attention mechanism. The dropout probability.
+
+- **softmax_scale**: A scaling factor applied before softmax operation in function `_flash_attn_forward`. It determines the output of softmax (possibly with different scaling).
+
+- **causal**: Whether to apply causal attention mask, which decides whether to use auto-regressive modeling or not. Used as an argument in functions like `attention_pytorch`.
+
+- **window_size**: If set to (-1,-1), it means infinite context window; otherwise, implements sliding window local attention.
+
+- **alibi_slopes**: A bias of (-alibi_slope * |i - j|) is added to the attention score. It determines how much each position's contribution will be reduced based on its distance from another position in function `_flash_attn_forward`.
+

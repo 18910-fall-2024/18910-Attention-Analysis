@@ -1,0 +1,21 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=200, top_p=0.8, min_p=0.0
+
+==================== Generated Output ====================
+Here are the **hyperparameters** related to `flash_attn_2_cuda` and their descriptions:
+
+```
+{
+  "batch_size": "The number of sequences in a batch, used as an input shape for flash_attn_qkvpacked_func.",
+  "seqlen": "The length of each sequence (e.g., sentence or document), also used as an input shape for flash_attn_qkvpacked_func and determines the size of output tensors from _flash_attn_forward().",
+  "nheads": "Number of attention heads, which is calculated based on headdim in flops() function.",
+  "headdim": "The dimensionality of each head (i.e., feature dim), used to calculate nheads and determine the size of output tensors from _flash_attn_forward().",
+  "dropout_p": "Dropout probability for training, which affects attention scores and input shapes in flash_attn_qkvpacked_func.",
+  "causal": "Boolean flag indicating whether causal attention mask should be applied (e.g., auto-regressive modeling), used to determine the structure of output tensors from _flash_attn_forward().",
+  "window_size": "(left, right) tuple representing a sliding window for local attention, which affects input shapes and sizes in flash_attn_qkvpacked_func.",
+  "alibi_slopes": "Bias slopes (fp32 array) used to calculate alibi scores during forward pass of flash_attn_qkvpacked_func."
+}
+```
+

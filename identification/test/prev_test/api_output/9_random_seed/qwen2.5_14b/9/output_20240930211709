@@ -1,0 +1,15 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.5, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain, config loop] The number of sequences processed in parallel. Determines the batch dimension size for input tensors.",
+    "seqlen": "[time_fwd_bwd function call chain, config loop] Sequence length or context window size per sequence. Defines the seqlen dimensions of QKV and output tensors.",
+    "headdim": "[time_fwd_bwd function call chain, config loop] Dimensionality (size) of each attention head in multi-head self-attention mechanism. Affects tensor shapes for Q, K, V matrices.",
+    "nheads": "[_flash_attn_forward function] Number of heads used in the MultiHeadAttention layer; calculated as dim divided by headdim inside config loop. Determines number of parallel computations and dimensions across attention heads.",
+    "dropout_p": "[time_fwd_bwd function call chain, flash_attn_qkvpacked_func arguments] Dropout probability for training to prevent overfitting during self-attention computation. Affects backward pass gradients but does not change tensor sizes or shapes directly.",
+    "softmax_scale": "_flash_attn_forward (calculated if None) Scaling factor applied before softmax operation in attention mechanism; typically 1/sqrt(headdim). Does not affect input tensors' dimensions, only scaling of QK^T matrix elements for numerical stability and efficiency."
+}
+

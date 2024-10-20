@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.9
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are a list of **all** relevant parameters (as hyperparameters) and their purpose:
+
+Please note that some function calls may not have been included in the provided code snippets, but I assume they would also be similar.
+
+The final output is as follows:
+ 
+ ```json
+{
+    "qkv": {
+        "*description*":"Q,K,V tensor input to flash_attn_2_cuda; q,k,v tensors are for QKV attention mechanism. This determines sizes of the query key and value matrices.",
+	"dropout_p":{"batch_size,sequence_length,batch-size-dependent dropout_probabilities (used in training or inference)"},"softmax_scale": "*description*":"The scaling factor used to normalize softmax distribution before applying it on flash_attn_2_cuda; scale_factor for QK.T matrix",
+        "causal"{**¡±Whether causal attention mask is applied when executing `flash-atnn-1 cuda` (`None`= No Mask, True= Auto-regressive Modeling)"},"window_size":"sliding window local attentions size used in execution of flash_attn_2_cuda (left,right)",
+    }
+}
+```
+Please let me know if there are any issues.
+

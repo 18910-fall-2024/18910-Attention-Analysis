@@ -1,0 +1,23 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=2048, repeat_last_n=64, repeat_penalty=1.1
+temperature=0.8, seed=80, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are the hyperparameters that influence the structure or inputs of the model, as well as those within the starting point scope:
+
+```json
+{
+  "batch_size": "Determines the size of the input tensor for batched attention",
+  "nheads": "Number of attention heads in the multi-head attention mechanism",
+  "seqlen": "Sequence length of the input sequence (both for query and key)",
+  "dropout_p": "Probability of dropping out certain locations during self-attention",
+  "softmax_scale": "Scaling factor applied to the softmax output, defaults to qkv.shape[-1]**(-0.5)",
+  "causal": "Whether causal masking is applied during attention",
+  "window_size": "Window size for local window attention (if used)",
+  "alibi_slopes": "Slopes for alibi attention (if used), typically used in combination with window_size",
+  "deterministic": "Whether the model should operate in deterministic mode (e.g., no random number generation)",
+  "return_attn_probs": "Whether to return the softmax output probabilities instead of only the output"
+}
+```
+

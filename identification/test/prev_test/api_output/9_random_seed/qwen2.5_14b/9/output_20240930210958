@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.5, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd/flash_attn_qkvpacked_func, flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward/_flash_attn_forward] Determines the batch size of input tensors to `flash_attn_2_cuda`. It is a dimension in the shape (batch_size, seqlen, 3, nheads, headdim) for qkv tensor.",
+    "seqlen": "[time_fwd_bwd/flash_attn_qkvpacked_func, flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward/_flash_attn_forward] Determines the sequence length of input tensors to `flash_attn_2_cuda`. It is a dimension in the shape (batch_size, seqlen, 3, nheads, headdim) for qkv tensor.",
+    "nheads": "[time_fwd_bwd/flash_attn_qkvpacked_func] Number of attention heads. Calculated as `dim // headdim` and used to determine dimensions in the shape (batch_size, seqlen, 3, nheads, headdim) for qkv tensor.",
+    "headdim": "[time_fwd_bwd/flash_attn_qkvpacked_func] Dimension of each attention head. Used to calculate softmax_scale if not provided and determines dimensionality along with `nheads` in the shape (batch_size, seqlen, 3, nheads, headdim) for qkv tensor.",
+    "dropout_p": "[time_fwd_bwd/flash_attn_qkvpacked_func] Dropout probability used during training to randomly drop elements from attention weights. It is passed directly as an argument to `flash_attn_2_cuda` function calls and does not affect inference when set to 0.0.",
+    "softmax_scale": "[time_fwd_bwd/flash_attn_qkvpacked_func, flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward/_flash_attn_forward] Scaling factor applied before computing the softmax of attention scores. If not provided (None), it is calculated as `1 / sqrt(headdim)`.",
+    "causal": "[time_fwd_bwd/flash_attn_qkvpacked_func, flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward/_flash_attn_forward] Indicates whether to apply a causal mask on the attention matrix. This is used in autoregressive models where each token can only attend to previous tokens.",
+    "window_size": "[time_fwd_bwd/flash_attn_qkvpacked_func, flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward/_flash_attn_forward] A tuple (left_window_size, right_window_size) indicating the local attention window size. If set to (-1,-1), it means global context.",
+    "alibi_slopes": "[time_fwd_bwd/flash_attn_qkvpacked_func] Slope values for ALiBi bias mechanism used in some transformer models with relative position biases."
+}
+

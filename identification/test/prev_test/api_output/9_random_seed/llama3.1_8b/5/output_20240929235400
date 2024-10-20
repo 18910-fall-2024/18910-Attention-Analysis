@@ -1,0 +1,13 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{"batch_size": "The batch size of input tensor qkv.", 
+"seqlen": "The sequence length of input tensor qkv.",
+"HeadDim": "The dimension of each head in the multi-head attention mechanism. Used to calculate softmax scale and alibi slopes.",
+"nheads": "The number of heads in the multi-head attention mechanism.",
+"causal": "A boolean indicating whether causal attention mask should be applied during inference or training with auto-regressive modeling.", 
+"deterministic": "A boolean controlling the implementation used for backward pass, which can affect memory usage and speed. This is only relevant when calculating gradients of loss function using backpropagation."}
+

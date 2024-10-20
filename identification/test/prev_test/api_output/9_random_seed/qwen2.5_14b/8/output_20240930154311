@@ -1,0 +1,19 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[time_fwd_bwd function call chain] The number of sequences in a batch used for training or inference.",
+    "seqlen": "[time_fwd_bwd function call chain] Length of the sequence (number of tokens) processed by each instance in the batch during attention computation.",
+    "headdim": "[time_fwd_bwd function call chain] Dimensionality of individual heads within multi-head self-attention mechanism. This is crucial for determining Q, K, and V tensor shapes as well as output dimensions.",
+    "nheads": "[time_fwd_bwd function call chain] Number of attention heads in the model. It affects how many parallel computations occur during training or inference processes involving multiple queries per sequence instance.",
+    "dropout_p": "[flash_attn_qkvpacked_func, FlashAttnQKVPackedFunc.forward functions] Probability for dropout mechanism applied to output tensor after softmax computation but before scaling down by attention scores in the forward pass of transformer models. It is crucial during training phases and helps prevent overfitting.",
+    "softmax_scale": "[FlashAttnQKVPackedFunc.forward, _flash_attn_forward functions] Scaling factor used when computing scaled dot-product attention (SDPA). This hyperparameter influences how much scaling occurs on the product between query vectors Q and key vectors K before applying softmax normalization. It is typically set to 1/sqrt(headdim) if not provided.",
+    "causal": "[time_fwd_bwd function call chain, FlashAttnQKVPackedFunc.forward functions] Boolean flag indicating whether causal masking should be applied during attention computation (True for autoregressive models). This parameter determines the shape and structure of mask tensors used in SDPA to enforce causality constraints.",
+    "window_size": "[FlashAttnQKVPackedFunc.forward, _flash_attn_forward functions] Tuple defining left and right context window sizes (-1 means no limit) within which queries attend keys during sliding-window local attention. This hyperparameter influences the effective receptive field of each query in terms of key positions.",
+    "alibi_slopes": "[FlashAttnQKVPackedFunc.forward function call chain] Slope values used to create bias for ALiBi (Attention with Linear Biases) mechanism, which helps mitigate positional dependency issues by adding a linearly increasing penalty based on distance between tokens. This hyperparameter is critical in determining the shape and content of attention biases.",
+    "return_softmax": "[FlashAttnQKVPackedFunc.forward function call chain] Boolean flag indicating whether to return softmax probabilities alongside output tensors during forward pass computation, useful for debugging or analysis purposes."
+}
+

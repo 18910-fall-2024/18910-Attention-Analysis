@@ -1,0 +1,53 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.7000000000000002
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=512
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here are all **relevant** `flash_attn_2_cuda` related hyperparameters that I could identify based on your knowledge of Transformer and the provided code snippets:
+
+```
+[
+  {
+    "qkv": "{batch_size, seqlen}, (input sequence length along axis=1)", 
+          "(Input feature size for QKV to input flash attention model.)",
+       },
+  
+   { ¡°window_size¡± : ¡°[left_context_window,right_content_window]¡±,    
+        ¡±(Context window sizes used in the sliding windows local Attention)¡±
+
+      },
+
+  {
+    "dropout_p": "{float, dropout probability}", 
+            "(Dropout ratio for output of self-attention mechanism.)",
+       },
+
+
+     {
+
+         ¡°softmax_scale¡±:"{1.0/sqrt(head_dim)}","{(Scaling factor to be applied after applying QK^T before softmax) "
+
+               },
+
+   {¡°alibi_slopes¡±:"({float, alib_slope},or batch_size*{ float array of nheads})," "(Algorithms for attention masking.)"},
+
+       {
+
+           ¡°deterministic": "{bool,"(Determining whether backward pass uses deterministic implementation)"
+
+                },
+     {
+        "return_softmax" :"{ bool }", 
+               (¡°Whether return softmax output or not¡±)¡±
+
+            },
+
+      {"n_heads¡±:"{(int, number of self-attention heads)}¡±, "(Number-of Self attention subtasks.)"},
+
+       {¡°head_dim¡±: ¡°(dim/num_head) ,(the dimension in each head)¡±} 
+
+  ]
+```
+All the hyperparameters above are related to `flash_attn_2_cuda`.
+

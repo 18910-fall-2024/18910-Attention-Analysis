@@ -1,0 +1,18 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=1.0, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "batch_size": "[code snippet starting point] The batch size used for creating input tensors to `flash_attn_2_cuda`. It determines the number of sequences processed in parallel.",
+    "seqlen": "[code snippet starting point] Sequence length, which is the length or time dimension of each sequence. This parameter affects both the memory and computational requirements when calling `flash_attn_2_cuda`.",
+    "headdim": "[code snippet starting point] The head dimension used in multi-head attention mechanism for Transformers. It specifies the size of individual heads within an attention layer, influencing tensor shapes passed to `flash_attn_2_cuda`. ",
+    "nheads": "[code snippet starting point] Number of attention heads in a Transformer model's self-attention layers. This hyperparameter determines how many parallel attention mechanisms operate on input sequences and affects dimensions of tensors used by `flash_attn_2_cuda`.",
+    "causal": "[function call chain: flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward] Indicates whether the model should use causal (masked) self-attention, which restricts attention to past positions only. This parameter influences how input tensors are processed by `flash_attn_2_cuda`.",
+    "dropout_p": "[function call chain: flash_attn.flash_attn_interface.FlashAttnQKVPackedFunc.forward] Dropout probability used during training for regularization and preventing overfitting, but set to 0.0 during inference or evaluation phases of the model's attention mechanism.",
+    "softmax_scale": "[function call chain: flash_attn.flash_attn_interface._flash_attn_forward] Scaling factor applied before computing softmax in self-attention operations; if not provided, it defaults based on `headdim` and affects tensor shapes passed to `flash_attn_2_cuda`. ",
+    "window_size[0], window_size[1]": "[function call chain: flash_attn.flash_attn_interface._flash_attn_forward] Specifies the left (first element) and right (second element) context windows for sliding local attention. This parameter influences how much of a sequence's past or future is considered in self-attention operations, affecting tensor shapes passed to `flash_attn_2_cuda`. ",
+    "alibi_slopes": "[function call chain: flash_attn.flash_attn_interface._flash_attn_forward] Slope values used for ALiBi (Attention with Linear Biases) mechanism that adds a bias term based on the distance between query and key positions. This parameter can influence how attention scores are calculated, impacting tensor shapes passed to `flash_attn_2_cuda`."
+}
+

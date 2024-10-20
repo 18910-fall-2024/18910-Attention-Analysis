@@ -1,0 +1,26 @@
+mirostat=1, mirostat_eta=1.0, mirostat_tau=3.0
+num_ctx=4608, repeat_last_n=64, repeat_penalty=1.2
+temperature=0.8, seed=0, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.0
+
+==================== Generated Output ====================
+Here is the list of hyperparameters that are related to `flash_attn_2_cuda` along with their descriptions:
+
+```json
+{
+    "nheads":                ¡°Number of attention heads in Transformer model. Used as a dimension for tensor QKV.",
+    "headdim":               ¡°The number of units (dimensions) per head used by transformers. Controls the overall capacity of Transformer¡¯s self-attention mechanism.¡±,
+    "dropout_p":             ¡°Dropout probability during training to prevent overfitting, especially when using Transformers with attention mechanisms like Flash Attention.¡±,
+    "softmax_scale":         ¡°Scaling factor for softmax normalization in attention scores computed within FlashAttnQKVPackedFunc's forward pass. Can be provided by users or inferred automatically from the input dimensions."",
+    "causal":                ¡°Whether to apply causal mask on self-attention matrix during inference, often used with autoregressive models like Transformers.¡±,
+    "window_size":           ¡°A parameter controlling a sliding window size in local attention of Flash Attention model. If set correctly, can save significant computation and memory needed for large input sequences."",
+    "alibi_slopes":          ¡°Bias added to calculate alibiscores desired when doing self-attention here is still forecast ¨C convert the semi-negated log mean with probability obtained using 1 / p attention plus True.¡±,
+   
+}
+```
+
+These hyperparameters are derived from various functions provided in your code:
+
+* The `flash_attn_qkvpacked_func` function that calls FlashAttnQKVPackedFunc¡¯s apply method.
+The `FlashAttnQKVPackedFunc.apply()` call gets activated to the arguments of ¡°qkv", "dropout_p" and other related parameters which have stopped at this position.
+

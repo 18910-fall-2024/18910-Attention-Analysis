@@ -1,0 +1,17 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=4608, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.9, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.9, min_p=0.4
+
+==================== Generated Output ====================
+{ 
+    "batch_size": "The batch size of input sequences, used for calculating attention scores.",
+    "seqlen": "The length of each sequence in the input tensor, used to calculate attention scores and padding.",
+    "nheads": "Number of attention heads, determines the structure of multi-head self-attention mechanism",
+    "headdim": "Dimension of each head in the multi-head self-attention mechanism, affects the size of QKV tensors",
+    "causal": "Whether to apply causal attention mask for auto-regressive modeling.",
+    "window_size": "Size of sliding window local attention, determines how many context positions are considered at a time.",
+    "alibi_slopes": "Bias added to attention scores based on the distance between query and key indices",
+    "dropout_p": "Dropout probability used in flash_attn_qkvpacked_func for training or inference with attention mechanism."
+}
+

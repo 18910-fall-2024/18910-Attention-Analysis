@@ -1,0 +1,16 @@
+mirostat=0, mirostat_eta=0.1, mirostat_tau=5.0
+num_ctx=9092, num_keep=5, repeat_last_n=128, repeat_penalty=1.2
+temperature=0.2, seed=-1, tfs_z=1.0, num_predict=-1
+top_k=40, top_p=0.8, min_p=0.4
+
+==================== Generated Output ====================
+{
+    "dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__] The dimension of the embedding or hidden layer in Transformer models.",
+    "num_heads": "[flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.test_block_parallel] Number of attention heads used by Multi-Head Attention (MHA) mechanism. This parameter determines how many parallel self-attention mechanisms are applied to different subspaces of the input data, and it is crucial for determining the dimensions of Q, K, V matrices.",
+    "head_dim": "[flash_attn.modules.mha.MHA.__init__] The dimensionality of each attention head in MHA. It's calculated as `embed_dim / num_heads` within the class initialization method.",
+    "rotary_emb_dim": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.modules.mha.MHA.__init__, tests.modules.test_block_parallel.functools.partial] Dimensionality of rotary embeddings used in attention mechanism. It is typically half or a quarter of head dimension for interleaved embedding and determines the size of positional encoding applied to Q/K.",
+    "seqlen": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Sequence length (length of input sequence) used in attention mechanism. It affects the dimensions of tensors such as query, key and value matrices.",
+    "batch_size": "[flash_attn.modules.mha.MHA.allocate_inference_cache, tests.modules.test_block_parallel.test_block_parallel] Batch size for inference or testing purposes when dealing with Transformer models' self-attention mechanisms.",
+    "max_seqlen": "[tests.modules.test_block_parallel.test_block_parallel, flash_attn.flash_attn_interface.flash_attn_with_kvcache] Maximum sequence length used in attention mechanism. It is crucial for determining the dimensions of cache tensors and managing memory during inference or training with variable-length sequences."
+}
+
